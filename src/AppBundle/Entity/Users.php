@@ -157,5 +157,4 @@ class Users implements UserInterface
     {
         $this->lname = $lname;
     }
-
 }
