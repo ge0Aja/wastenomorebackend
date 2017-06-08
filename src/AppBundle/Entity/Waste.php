@@ -18,6 +18,26 @@ use Doctrine\ORM\Mapping as ORM;
 class Waste
 {
     /**
+     * @ORM\Column(type="string")
+     */
+    private $reason;
+
+    /**
+     * @return mixed
+     */
+    public function getReason()
+    {
+        return $this->reason;
+    }
+
+    /**
+     * @param mixed $reason
+     */
+    public function setReason($reason)
+    {
+        $this->reason = $reason;
+    }
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
