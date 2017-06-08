@@ -151,6 +151,7 @@ class Company
      */
     private $totalAnnualSales;
 
+
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Branch", mappedBy="Company", cascade={"persist"})
      */

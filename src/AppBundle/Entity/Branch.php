@@ -125,4 +125,25 @@ class Branch
         $this->Company = $Company;
     }
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Waste", mappedBy="branch", cascade={"persist"})
+     */
+    private $waste;
+
+    /**
+     * @return mixed
+     */
+    public function getWaste()
+    {
+        return $this->waste;
+    }
+
+    /**
+     * @param mixed $waste
+     */
+    public function setWaste($waste)
+    {
+        $this->waste = $waste;
+    }
+
 }

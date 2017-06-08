@@ -52,14 +52,6 @@ class CompanyType
     }
 
     /**
-     * @param mixed $Company
-     */
-    public function setCompany($Company)
-    {
-        $this->Company = $Company;
-    }
-
-    /**
      * @return mixed
      */
     public function getId()
