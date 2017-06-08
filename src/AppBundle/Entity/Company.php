@@ -172,4 +172,47 @@ class Company
     {
         $this->Branch = $Branch;
     }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CompanyTypeAttribute", inversedBy="Company")
+     */
+    private $company_type_attribute;
+
+    /**
+     * @return mixed
+     */
+    public function getCompanyTypeAttribute()
+    {
+        return $this->company_type_attribute;
+    }
+
+    /**
+     * @param mixed $company_type_attribute
+     */
+    public function setCompanyTypeAttribute($company_type_attribute)
+    {
+        $this->company_type_attribute = $company_type_attribute;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompanyTypeAttributeSubAttribute()
+    {
+        return $this->company_type_attribute_sub_attribute;
+    }
+
+    /**
+     * @param mixed $company_type_attribute_sub_attribute
+     */
+    public function setCompanyTypeAttributeSubAttribute($company_type_attribute_sub_attribute)
+    {
+        $this->company_type_attribute_sub_attribute = $company_type_attribute_sub_attribute;
+    }
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CompanyTypeAttributeSubAttribute", inversedBy="Company")
+     */
+    private $company_type_attribute_sub_attribute;
 }

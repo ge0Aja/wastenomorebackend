@@ -29,6 +29,7 @@ class CompanyType
     public function __construct()
     {
         $this->Company = new ArrayCollection();
+        $this->company_type_attribute = new ArrayCollection();
     }
 
 
@@ -82,4 +83,26 @@ class CompanyType
     {
         $this->typeName = $typeName;
     }
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CompanyTypeAttribute", mappedBy="company_type", cascade={"persist"})
+     */
+    private $company_type_attribute;
+
+    /**
+     * @return ArrayCollection|CompanyTypeAttribute[]
+     */
+    public function getCompanyTypeAttribute()
+    {
+        return $this->company_type_attribute;
+    }
+
+    /**
+     * @param mixed $company_type_attribute
+     */
+    public function setCompanyTypeAttribute($company_type_attribute)
+    {
+        $this->company_type_attribute = $company_type_attribute;
+    }
+
 }
