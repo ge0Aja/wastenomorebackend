@@ -1,0 +1,146 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: root
+ * Date: 6/8/17
+ * Time: 12:43 PM
+ */
+
+namespace AppBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="company")
+ */
+class Company
+{
+
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $type;
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateOfEstablishment()
+    {
+        return $this->dateOfEstablishment;
+    }
+
+    /**
+     * @param mixed $dateOfEstablishment
+     */
+    public function setDateOfEstablishment($dateOfEstablishment)
+    {
+        $this->dateOfEstablishment = $dateOfEstablishment;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMainBranchLocation()
+    {
+        return $this->mainBranchLocation;
+    }
+
+    /**
+     * @param mixed $mainBranchLocation
+     */
+    public function setMainBranchLocation($mainBranchLocation)
+    {
+        $this->mainBranchLocation = $mainBranchLocation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalAnnualSales()
+    {
+        return $this->totalAnnualSales;
+    }
+
+    /**
+     * @param mixed $totalAnnualSales
+     */
+    public function setTotalAnnualSales($totalAnnualSales)
+    {
+        $this->totalAnnualSales = $totalAnnualSales;
+    }
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $dateOfEstablishment;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $mainBranchLocation;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $totalAnnualSales;
+}
