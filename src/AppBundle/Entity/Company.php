@@ -7,6 +7,7 @@
  */
 
 namespace AppBundle\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,6 +16,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Company
 {
+
+
+    public function __construct()
+    {
+        $this->Branch = new ArrayCollection();
+    }
 
     /**
      * @ORM\Id
@@ -143,4 +150,26 @@ class Company
      * @ORM\Column(type="string")
      */
     private $totalAnnualSales;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Branch", mappedBy="Company", cascade={"persist"})
+     */
+    private $Branch;
+
+    /**
+     * @return ArrayCollection|Branch[]
+     */
+    public function getBranch()
+    {
+        return $this->Branch;
+    }
+
+    /**
+     * @param mixed $Branch
+     */
+    public function setBranch($Branch)
+    {
+        $this->Branch = $Branch;
+    }
 }
