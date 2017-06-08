@@ -26,6 +26,7 @@ class Users implements UserInterface
 
     public function eraseCredentials()
     {
+
     }
     public function getSalt()
     {
