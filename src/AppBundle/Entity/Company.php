@@ -45,7 +45,7 @@ class Company
     private $name;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CompanyType", inversedBy="Company")
      */
     private $type;
 
