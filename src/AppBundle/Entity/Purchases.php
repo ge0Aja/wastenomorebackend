@@ -140,7 +140,7 @@ class Purchases
     {
         $this->date = $date;
     }
-s
+
     /**
      * @ORM\Column(type="date")
      */

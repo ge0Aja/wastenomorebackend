@@ -29,7 +29,7 @@ class Branch
      * @ORM\Column(type="string")
      */
     private  $location;
-s
+
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Purchases",mappedBy="branch",cascade={"persist"})
      */
