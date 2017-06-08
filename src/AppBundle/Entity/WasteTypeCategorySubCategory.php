@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,6 +29,30 @@ class WasteTypeCategorySubCategory
      * @ORM\Column(type="string")
      */
     private $name;
+
+    /**
+     * WasteTypeCategorySubCategory constructor.
+     */
+    public function __construct()
+    {
+        $this->purchases = new ArrayCollection();
+    }
+
+    /**
+     * @return ArrayCollection|Purchases[]
+     */
+    public function getPurchases()
+    {
+        return $this->purchases;
+    }
+
+    /**
+     * @param mixed $purchases
+     */
+    public function setPurchases($purchases)
+    {
+        $this->purchases = $purchases;
+    }
 
     /**
      * @return mixed
@@ -103,4 +128,9 @@ class WasteTypeCategorySubCategory
     {
         $this->waste = $waste;
     }
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Purchases",mappedBy="type",cascade={"persist"})
+     */
+    private $purchases;
 }

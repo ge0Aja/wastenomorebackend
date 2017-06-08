@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +31,11 @@ class Branch
     private  $location;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Purchases",mappedBy="branch",cascade={"persist"})
+     */
+    private $purchases;
+
+    /**
      * @ORM\Column(type="string")
      */
     private $staff_count;
@@ -38,6 +44,14 @@ class Branch
      * @ORM\Column(type="string")
      */
     private $opening_date;
+
+    /**
+     * Branch constructor.
+     */
+    public function __construct()
+    {
+        $this->purchases = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -108,6 +122,22 @@ class Branch
      */
 
     private $Company;
+
+    /**
+     * @return ArrayCollection|Purchases[]
+     */
+    public function getPurchases()
+    {
+        return $this->purchases;
+    }
+
+    /**
+     * @param mixed $purchases
+     */
+    public function setPurchases($purchases)
+    {
+        $this->purchases = $purchases;
+    }
 
     /**
      * @return mixed
