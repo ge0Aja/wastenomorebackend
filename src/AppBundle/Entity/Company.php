@@ -21,6 +21,7 @@ class Company
     public function __construct()
     {
         $this->Branch = new ArrayCollection();
+        $this->company_attributes_and_subattributes = new ArrayCollection();
     }
 
     /**
@@ -174,45 +175,15 @@ class Company
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CompanyTypeAttribute", inversedBy="Company")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CompanyAttributesAndSubAttributes", mappedBy="company", cascade={"persist"})
      */
-    private $company_type_attribute;
+    private $company_attributes_and_subattributes;
 
     /**
-     * @return mixed
+     * @return ArrayCollection|CompanyAttributesAndSubAttributes[]
      */
-    public function getCompanyTypeAttribute()
+    public function getCompanyAttributesAndSubattributes()
     {
-        return $this->company_type_attribute;
+        return $this->company_attributes_and_subattributes;
     }
-
-    /**
-     * @param mixed $company_type_attribute
-     */
-    public function setCompanyTypeAttribute($company_type_attribute)
-    {
-        $this->company_type_attribute = $company_type_attribute;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCompanyTypeAttributeSubAttribute()
-    {
-        return $this->company_type_attribute_sub_attribute;
-    }
-
-    /**
-     * @param mixed $company_type_attribute_sub_attribute
-     */
-    public function setCompanyTypeAttributeSubAttribute($company_type_attribute_sub_attribute)
-    {
-        $this->company_type_attribute_sub_attribute = $company_type_attribute_sub_attribute;
-    }
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CompanyTypeAttributeSubAttribute", inversedBy="Company")
-     */
-    private $company_type_attribute_sub_attribute;
 }

@@ -42,6 +42,7 @@ class CompanyTypeAttribute
     public function __construct()
     {
         $this->sub_attribute = new ArrayCollection();
+        $this->company_attributes_and_subattributes = new ArrayCollection();
     }
 
     /**
@@ -115,16 +116,17 @@ class CompanyTypeAttribute
 
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Company", mappedBy="company_type_attribute", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CompanyAttributesAndSubAttributes", mappedBy="attribute", cascade={"persist"})
      */
-    private $Company;
+    private $company_attributes_and_subattributes;
 
     /**
-     * @return ArrayCollection|Company[]
+     * @return ArrayCollection|CompanyAttributesAndSubAttributes[]
      */
-    public function getCompany()
+    public function getCompanyAttributesAndSubattributes()
     {
-        return $this->Company;
+        return $this->company_attributes_and_subattributes;
     }
+
 
 }
