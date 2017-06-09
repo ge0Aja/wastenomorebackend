@@ -18,6 +18,27 @@ use Doctrine\ORM\Mapping as ORM;
 class Waste
 {
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CollectingCompany",inversedBy="wastes")
+     */
+    private $collectingCompany;
+
+    /**
+     * @return mixed
+     */
+    public function getCollectingCompany()
+    {
+        return $this->collectingCompany;
+    }
+
+    /**
+     * @param mixed $collectingCompany
+     */
+    public function setCollectingCompany($collectingCompany)
+    {
+        $this->collectingCompany = $collectingCompany;
+    }
+
+    /**
      * @ORM\Column(type="string")
      */
     private $reason;
