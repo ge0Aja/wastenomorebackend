@@ -121,6 +121,7 @@ class User implements UserInterface
      * is created.
      *
      * @return (Role|string)[] The user roles
+     * @ORM\Column(type="string")
      */
 
     private $role;
