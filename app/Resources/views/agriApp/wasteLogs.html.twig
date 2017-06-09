@@ -18,7 +18,7 @@
         </thead>
         <tbody>
             {% for wasteLog in wasteLogs %}
-                <tr>
+{#                <tr>
                     <td>{{ wasteLog.id }}</td>
                     <td>{{ wasteLog.wasteType.name }}</td>
                     <td>{{ wasteLog.wasteTypeCategory.name }}</td>
@@ -33,7 +33,7 @@
                                 class="btn-group-xs btn bg-danger pull-right"><b><i
                                         class="fa fa-times"></i></b></button>
                     </td>
-                </tr>
+                </tr>#}
             {% endfor %}
         </tbody>
     </table>
