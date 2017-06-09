@@ -14,7 +14,7 @@
         <th>Date</th>
         <th>Quantity</th>
         <th>Reason</th>
-        {#<th> </th>#}
+        <th></th>
         </thead>
         <tbody>
             {% for wasteLog in wasteLogs %}
@@ -69,6 +69,7 @@
                 {"data": "wasteDate"},
                 {"data": "quantity"},
                 {"data": "reason"}
+
             ],
             order: [],
             "pageLength": 15,
@@ -84,10 +85,12 @@
                     "targets": [1, 2, 3, 4, 5, 6],
                     "orderable": false
                 },
-//                {
-//                    "targets":[9],
-//                    "orderable":false
-//                }
+                {
+                    "targets":[9],
+                    "data": null,
+                    "defaultContent":'<button type="button" data-toggle="modal" class="btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>',
+                    "orderable":false
+                }
                 ]
         });
         table.columns().every(function () {
@@ -117,6 +120,15 @@
 </script>
 
 <script>
+
+    $('#wasteLogs tbody').on( 'click', 'button', function () {
+        var table = $('#wasteLogs').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+       // console.log(data.id);
+        deleterow(data.id);
+    });
+
+
    function deleterow(e) {
        var table = $('#wasteLogs').DataTable();
        if (confirm('Are you sure you want to delete this?')) {
