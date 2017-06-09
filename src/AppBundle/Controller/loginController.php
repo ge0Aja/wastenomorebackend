@@ -10,38 +10,28 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class loginController extends Controller
 {
     /**
      * @Route("/login", name="login")
      */
-    public function login()
+    public function loginAction(Request $request, AuthenticationUtils $authUtils)
     {
-        $authenticationUtils = $this->get('security.authentication_utils');
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-        if($error)
-        {
-            $text='<div class="alert alert-danger alert-dismissible">';
-            $text.= '<button class="close" data-dismiss="alert">&times;</button>';
-            $text.= '<strong><i class="icon fa fa-ban"></i>Invalid Credentials</strong>';
-            $text.= '</div>';
-            return $this->render('agriApp/login.html.twig', array(
-                    'last_username' => $lastUsername,
-                    'error' => $error,
-                    'text' => $text,
-                )
-            );
-        }
-        $text = '';// $this->render_flashed_alert();
+        // get the login error if there is one
+        $error = $authUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authUtils->getLastUsername();
+
         return $this->render('agriApp/login.html.twig', array(
-                'last_username' => $lastUsername,
-                'error' => $error,
-                'text' => $text,
-            )
-        );
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ));
     }
+
 
     /**
      * @Route("/")
