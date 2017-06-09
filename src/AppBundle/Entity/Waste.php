@@ -39,7 +39,7 @@ class Waste
     }
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Reason", inversedBy="waste")
      */
     private $reason;
 
@@ -229,4 +229,5 @@ class Waste
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Branch", inversedBy="waste")
      */
     private $branch;
+
 }
