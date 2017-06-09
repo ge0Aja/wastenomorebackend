@@ -1,0 +1,88 @@
+{{ include(':agriApp:base_head.html.twig') }}
+<div class="box-body">
+
+    <table id="wasteLogs" class="display table table-striped table-bordered" style="width: 100%;">
+        <h1>Wastes</h1>
+        <thead>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Category</th>
+        <th>SubCategory</th>
+        <th>Unit</th>
+        <th>Branch</th>
+        <th>Date</th>
+        <th>Quantity</th>
+        <th>Reason</th>
+        </thead>
+        <tbody>
+            {% for wasteLog in wasteLogs %}
+                <tr>
+                    <td>{{ wasteLog.id }}</td>
+                    <td>{{ wasteLog.wasteType }}</td>
+                    <td>{{ wasteLog.wasteTypeCategory }}</td>
+                    <td>{{ wasteLog.wasteTypeSubcategory }}</td>
+                    <td>{{ wasteLog.unit }}</td>
+                    <td>{{ wasteLog.branch }}</td>
+                    <td>{{ wasteLog.wasteDate }}</td>
+                    <td>{{ wasteLog.quantity }}</td>
+                    <td>{{ wasteLog.reason }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+<script>
+    $(document).ready(function () {
+
+        var tHead = $('#wasteLogs thead th');
+        tHead.not(":eq(0)").each(function () {
+            var title = $(this).text();
+            //console.log(title);
+            $(this).html('<input type="text" placeholder=' + title + '>');
+        });
+
+        var table = $('#wasteLogs').DataTable({
+            order: [],
+            "pageLength": 15,
+            "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
+            columnDefs: [{
+                id: "DT_RowId",
+                "targets": [0],
+                "orderable": false,
+                "searchable": false,
+                "visible": false
+            },
+                {
+                    "targets": [1, 2, 3, 4, 5, 6],
+                    "orderable": false
+                }]
+        });
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+
+            $('select', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    console.log(this.value);
+                    if (this.value === "") {
+                        that.search('').draw();
+                    }
+                    else that.search("^" + this.value + "$", true, false).draw();
+                }
+            });
+
+        });
+    });
+
+
+</script>
+
+{{ include(':agriApp:base_foot.html.twig') }}

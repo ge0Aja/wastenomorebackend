@@ -25,31 +25,33 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
+
+            <li><a href="/home"><i class="fa fa-home"></i> <span class="pull-right-container"> Home</span></a></li>
+
             <li class="active treeview">
                 <a href="#">
-                    <i class="fa fa-stethoscope"></i>
-                    <span class="pull-right-container"> Clinical
-            </span>
+                    <i class="fa fa-building-o"></i>
+                    <span class="pull-right-container"> Company</span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/patients"><i class="fa fa-users"></i> Patients</a></li>
-                    <li><a href="/search"><i class="fa fa-search"></i> Search </a></li>
+                    <li><a href="{{ path('CompanyRecords') }}"><i class="fa fa-users"></i> Records</a></li>
+                    <li><a href="{{ path('CompanyTypes') }}"><i class="fa fa-search"></i> Types </a></li>
+                    <li><a href="{{ path('CompanyAttributes') }}"><i class="fa fa-search"></i> Attributes </a></li>
+                    <li><a href="{{ path('CompanySubAttributes') }}"><i class="fa fa-search"></i> SubAttributes </a></li>
                 </ul>
             </li>
 
             <li class="active treeview">
                 <a href="#">
-                    <i class="fa fa fa-credit-card"></i>
-                    <span class="pull-right-container">Licensure
-            </span>
+                    <i class="fa fa-trash-o"></i>
+                    <span class="pull-right-container">Waste</span>
                 </a>
                 <ul class="treeview-menu">
-                    {% if app.user.role == 'ROLE_ADMIN' %}
-                        <li><a href="/licenseGenerator"><i class="fa fa-credit-card"></i> Generate License </a></li>
-                    {% else %}
-                        <li><a href="/licensePage"><i class="fa fa fa-certificate"></i> License Status</a></li>
-                        <li><a href="/renewPage"><i class="fa fa fa-dollar"></i> Renew License </a></li>
-                    {% endif %}
+
+                        <li><a href="{{ path('wasteLogs') }}"><i class="fa fa-credit-card"></i> Logs </a></li>
+                        <li><a href="{{ path('wasteLogs') }}"><i class="fa fa fa-certificate"></i> Types</a></li>
+                        <li><a href="{{ path('wasteLogs') }}"><i class="fa fa fa-dollar"></i> Categories</a></li>
+                        <li><a href="{{ path('wasteLogs') }}"><i class="fa fa fa-dollar"></i> SubCategories</a></li>
                 </ul>
             </li>
 
