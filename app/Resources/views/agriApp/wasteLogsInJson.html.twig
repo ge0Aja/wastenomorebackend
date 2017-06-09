@@ -1,19 +1,44 @@
+{% set wasteLogArrayLength = wasteLogs |length %}
+{% set counter = 0 %}
+
+
+
 {
+{#"draw": 1,#}
+{#"recordsTotal": {{ wasteLogArrayLength }},#}
+{#"recordsFiltered": 15,#}
 
 "data":[
 
 {% for wasteLog in wasteLogs %}
-    {
-    "id": "{{ wasteLog.id }}",
-    "wasteType": "{{ wasteLog.wasteType.name}}",
-    "wasteTypeCategory": "{{ wasteLog.wasteTypeCategory.name}}",
-    "wasteTypeSubcategory": "{{ wasteLog.wasteTypeSubcategory.name}}",
-    "unit": "{{ wasteLog.unit.name}}",
-    "branch": "{{ wasteLog.branch }}",
-    "wasteDate": "{{ wasteLog.wasteDate|date('d-m-Y') }}",
-    "quantity": "{{ wasteLog.quantity}}",
-    "reason": "{{ wasteLog.reason }}",
-    },
+
+    {%  if counter == wasteLogArrayLength-1 %}
+        {
+        "id": "{{ wasteLog.id }}",
+        "wasteType": "{{ wasteLog.wasteType.name}}",
+        "wasteTypeCategory": "{{ wasteLog.wasteTypeCategory.name}}",
+        "wasteTypeSubcategory": "{{ wasteLog.wasteTypeSubcategory.name}}",
+        "unit": "{{ wasteLog.unit.name}}",
+        "branch": "{{ wasteLog.branch }}",
+        "wasteDate": "{{ wasteLog.wasteDate|date('d-m-Y') }}",
+        "quantity": "{{ wasteLog.quantity}}",
+        "reason": "{{ wasteLog.reason }}",
+        }
+    {%  else %}
+        {
+        "id": "{{ wasteLog.id }}",
+        "wasteType": "{{ wasteLog.wasteType.name}}",
+        "wasteTypeCategory": "{{ wasteLog.wasteTypeCategory.name}}",
+        "wasteTypeSubcategory": "{{ wasteLog.wasteTypeSubcategory.name}}",
+        "unit": "{{ wasteLog.unit.name}}",
+        "branch": "{{ wasteLog.branch }}",
+        "wasteDate": "{{ wasteLog.wasteDate|date('d-m-Y') }}",
+        "quantity": "{{ wasteLog.quantity}}",
+        "reason": "{{ wasteLog.reason }}",
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
 {% endfor %}
 
 ]
