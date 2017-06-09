@@ -27,4 +27,18 @@ class WasteController extends Controller
         $wasteLogs = $em->getRepository('AppBundle:Waste')->findAll();
         return $this->render("agriApp/wasteLogsInJson.html.twig", ['wasteLogs' => $wasteLogs]);
     }
+
+
+    /**
+     * @Route("/deleteWasteLog/{id}", name="delete")
+     */
+    public function DeleteLogAction($id){
+        $em = $this->getDoctrine()->getManager();
+        $wasteLog = $em->getRepository('AppBundle:Waste')->find($id);
+        $em->remove($wasteLog);
+        $em->flush();
+
+        return new Response('Success') ;
+    }
+
 }
