@@ -1,12 +1,8 @@
 {{ form_start(form) }}
-    {{ form_row(form.fname) }}
-    {{ form_row(form.lname) }}
-    {{ form_row(form.role) }}
-<br>
     {{ form_row(form.username) }}
-<br>
-    {{ form_row(form.password.first) }}
-    {{ form_row(form.password.second) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.plainPassword.first) }}
+    {{ form_row(form.plainPassword.second) }}
 
 <button type="submit">Register!</button>
 {{ form_end(form) }}
