@@ -122,9 +122,30 @@ class User implements UserInterface
      *
      * @return (Role|string)[] The user roles
      */
+
+    private $role;
+
+    /**
+     * @return mixed
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param mixed $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+
+
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        return [$this->getRole()];
     }
 
     /**
