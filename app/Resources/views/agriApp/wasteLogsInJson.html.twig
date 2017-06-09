@@ -1,0 +1,21 @@
+{
+
+"data":[
+
+{% for wasteLog in wasteLogs %}
+    {
+    "id": "{{ wasteLog.id }}",
+    "wasteType": "{{ wasteLog.wasteType.name}}",
+    "wasteTypeCategory": "{{ wasteLog.wasteTypeCategory.name}}",
+    "wasteTypeSubcategory": "{{ wasteLog.wasteTypeSubcategory.name}}",
+    "unit": "{{ wasteLog.unit.name}}",
+    "branch": "{{ wasteLog.branch }}",
+    "wasteDate": "{{ wasteLog.wasteDate|date('d-m-Y') }}",
+    "quantity": "{{ wasteLog.quantity}}",
+    "reason": "{{ wasteLog.reason }}",
+    "years": "{{ years |round }}"
+    },
+{% endfor %}
+
+]
+}
