@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +35,14 @@ class CompanyTypeAttributeSubAttribute
      */
 
     private $company_type_attribute;
+
+    /**
+     * CompanyTypeAttributeSubAttribute constructor.
+     */
+    public function __construct()
+    {
+        $this->company_attributes_and_subattributes = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -95,5 +104,18 @@ class CompanyTypeAttributeSubAttribute
     public function getCompany()
     {
         return $this->Company;
+    }
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CompanyTypeAttributeSubAttribute", mappedBy="company_attributes_and_subattributes", cascade={"persist"})
+     */
+    private $company_attributes_and_subattributes;
+
+    /**
+     * @return ArrayCollection|CompanyAttributesAndSubAttributes[]
+     */
+    public function getCompanyAttributesAndSubattributes()
+    {
+        return $this->company_attributes_and_subattributes;
     }
 }
