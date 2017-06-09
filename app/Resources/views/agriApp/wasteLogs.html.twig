@@ -14,7 +14,7 @@
         <th>Date</th>
         <th>Quantity</th>
         <th>Reason</th>
-        <th> </th>
+        {#<th> </th>#}
         </thead>
         <tbody>
             {% for wasteLog in wasteLogs %}
@@ -84,10 +84,10 @@
                     "targets": [1, 2, 3, 4, 5, 6],
                     "orderable": false
                 },
-                {
-                    "targets":[9],
-                    "orderable":false
-                }
+//                {
+//                    "targets":[9],
+//                    "orderable":false
+//                }
                 ]
         });
         table.columns().every(function () {
