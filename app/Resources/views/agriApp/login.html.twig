@@ -89,23 +89,26 @@
     <div class="login-box-body">
         <p class="login-box-msg">Sign in to start your session</p>
         {% if error %}
-            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div class="alert-danger"><p>{{ error.messageKey|trans(error.messageData, 'security') }}</p></div>
         {% endif %}
 
-        <form action="{{ path('login') }}" method="post">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="_username" value="{{ last_username }}" />
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="_password" />
-
-            {#
-                If you want to control the URL the user
-                is redirected to on success (more details below)
-                <input type="hidden" name="_target_path" value="/account" />
-            #}
-
-            <button type="submit">login</button>
+        <form action="{{path('login')}}" method="post">
+            <div class="form-group has-feedback">
+                <input type="text" id="username" class="form-control" placeholder="Username" name="_username"
+                       value="{{ last_username }}" required oninvalid="this.setCustomValidity('Enter your Username')">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" placeholder="Password" name="_password" id="password"
+                       required oninvalid="this.setCustomValidity('Enter your password')">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Log In</button>
+                </div>
+                <!-- /.col -->
+            </div>
         </form>
 
     </div>
