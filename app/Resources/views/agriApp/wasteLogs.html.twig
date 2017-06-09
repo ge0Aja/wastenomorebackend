@@ -29,7 +29,7 @@
                     <td>{{ wasteLog.quantity }}</td>
                     <td>{{ wasteLog.reason }}</td>
                     <td><button type="button" data-toggle="modal"
-                                data-target="#deleteTreat"
+                                data-target="#deleteTreat" onclick="deleterow({{ wasteLog.id }})"
                                 class="btn-group-xs btn bg-danger pull-right"><b><i
                                         class="fa fa-times"></i></b></button>
                     </td>
@@ -50,6 +50,16 @@
         });
 
         var table = $('#wasteLogs').DataTable({
+
+            "deferRender": true,
+
+            "ajax" :
+                {
+                  "url": "/renderWasteLogs",
+                    "type": "GET"
+                },
+
+
             order: [],
             "pageLength": 15,
             "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
@@ -94,7 +104,22 @@
         });
     });
 
+</script>
 
+<script>
+   function deleterow(e) {
+       var table = $('#wasteLogs').DataTable();
+       if (confirm('Are you sure you want to delete this?')) {
+           $.ajax({
+               url: '/deleteWasteLog/'+e,
+               type: 'POST',
+               success: function (data) {
+                   //alert('success');
+                   table.ajax.reload(null,false);
+               }
+           });
+       }
+   }
 </script>
 
 {{ include(':agriApp:base_foot.html.twig') }}
