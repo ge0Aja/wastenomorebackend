@@ -14,6 +14,17 @@ class WasteController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $wasteLogs = $em->getRepository('AppBundle:Waste')->findAll();
-        return $this->render('agriApp/wasteLogs.html.twig',['wasteLogs' => $wasteLogs]);
+//        return $this->render('agriApp/wasteLogs.html.twig',['wasteLogs' => $wasteLogs]);
+        return $this->render('agriApp/wasteLogsInJson.html.twig',['wasteLogs' => $wasteLogs]);
+    }
+
+    /**
+     * @Route("/renderWasteLogs",name="renderWasteLogs")
+     */
+    public function renderWasteLogs()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $wasteLogs = $em->getRepository('AppBundle:Waste')->findAll();
+        return $this->render("agriApp/wasteLogsInJson.html.twig", ['wasteLogs' => $wasteLogs]);
     }
 }
