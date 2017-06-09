@@ -30,5 +30,5 @@ security:
               always_use_default_target_path: true
             logout:     true
     encoders:
-      AppBundle\Entity\Users:
+      AppBundle\Entity\User:
         algorithm: bcrypt
