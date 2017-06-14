@@ -2,8 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use Doctrine\DBAL\DBALException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class CompanyController extends Controller
 {
@@ -13,28 +16,35 @@ class CompanyController extends Controller
      */
     public function getCompanyRecords()
     {
-        return $this->render('agriApp/companyRecords.html.twig');
+       /* return $this->render('agriApp/companyRecords.html.twig');*/
+
+        $em = $this->getDoctrine()->getManager();
+        $companyRecords = $em->getRepository('AppBundle:Company')->findAll();
+        return $this->render("agriApp/Company/companyRecordsInJson.html.twig", ['companyRecords' => $companyRecords]);
     }
+
+
     /**
-     * @Route("/CompanyTypes",name="CompanyTypes")
+     * @Route("/Companies",name="CompanyRecordsPage")
      */
-    public function getCompanyTypes()
+    public function CompanyRecords()
     {
-
+        return $this->render('agriApp/Company/companyRecords.html.twig');
     }
+
     /**
-     * @Route("/CompanyAttributes",name="CompanyAttributes")
+     * @Route("/deleteCompany/{id}", name="deleteCompany")
      */
-    public function CompanyAttributes()
-    {
+    public function DeleteLogAction($id){
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $companyRecord = $em->getRepository('AppBundle:Company')->find($id);
+            $em->remove($companyRecord);
+            $em->flush();
 
+            return new JsonResponse(array('status' => 'success'));
+        } catch (DBALException $e) {
+            return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t delete record'));
+        }
     }
-    /**
-     * @Route("/CompanySubAttributes",name="CompanySubAttributes")
-     */
-    public function CompanySubAttributes()
-    {
-
-    }
-
 }
