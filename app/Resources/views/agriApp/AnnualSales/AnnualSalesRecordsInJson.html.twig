@@ -12,13 +12,13 @@
     {%  if counter == AnnualSalesRecordsArrayLength-1 %}
         {
         "id": "{{ AnnualSalesRecord.id }}",
-        "range": "{{ AnnualSalesRecord.range}}"
+        "range": "{{ AnnualSalesRecord.salesRange}}"
 
         }
     {%  else %}
         {
         "id": "{{ AnnualSalesRecord.id }}",
-        "range": "{{ AnnualSalesRecord.range}}"
+        "range": "{{ AnnualSalesRecord.salesRange}}"
         },
     {% endif %}
 

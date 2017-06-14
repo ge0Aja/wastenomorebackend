@@ -1,8 +1,11 @@
 {{ include(':agriApp:base_head.html.twig') }}
 <div class="container-fluid">
 
-    <table id="annualSalesRecords" style="width: 100%" class="display table table-striped table-bordered">
+    <table id="annualSalesRecords"  style="width: 100%" class="display table table-striped table-bordered">
         <h1>Annual Sales Ranges</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addCompanyAnnualSales"
+                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Company Annual Sales</b></button>
+        </h2>
         <thead>
         <th>ID</th>
         <th>Range</th>
@@ -14,6 +17,75 @@
     </table>
 
 </div>
+
+
+<div id="addCompanyAnnualSales" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add Range</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="addCompanyAnnualSalesForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="range">Range</label>
+                                <input type="text" class="form-control" id="range"
+                                       name="range"
+                                       placeholder="Enter Range">
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+<div id="editCompanyAnnualSales" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add Range</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="editCompanyAnnualSalesForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="range">Range</label>
+                                <input type="text" class="form-control" id="rangeEdit"
+                                       name="range"
+                                       placeholder="Enter Range">
+                                <input type="hidden" id="rangeEditID" name="id">
+
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button id="editBtn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+
 
 <script>
 
@@ -32,7 +104,7 @@
 
             "ajax" :
                 {
-                    "url": "/AnnualSalesRecords",
+                    "url": "{{ path('AnnualSalesRecords') }}",
                     "type": "GET"
                 },
 
@@ -58,7 +130,7 @@
                 {
                     "targets":[2],
                     "data": null,
-                    "defaultContent":'<button type="button" data-toggle="modal" class="btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>',
+                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editCompanyAnnualSales" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
                     "orderable":false
                 }
             ]
@@ -91,13 +163,26 @@
 </script>
 
 <script>
-    $('#annualSalesRecords tbody').on( 'click', 'button', function () {
+    $('#annualSalesRecords tbody').on( 'click', '.deleteBut', function () {
         var table = $('#annualSalesRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
         deleterow(data.id);
     });
+    $('#annualSalesRecords tbody').on( 'click', '.editBut', function () {
+        var table = $('#annualSalesRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+//        console.log($.parseHTML(data.range)[0].data);
+        editRow(data.id,$.parseHTML(data.range)[0].data);
+    });
 
+    function editRow(e,f)
+    {
+        var table = $('#annualSalesRecords').DataTable();
+//        editCompanyAnnualSalesForm
+        $("#rangeEdit").val(f);
+        $("#rangeEditID").val(e);
 
+    }
     function deleterow(e) {
         var table = $('#annualSalesRecords').DataTable();
         if (confirm('Are you sure you want to delete this?')) {
@@ -114,6 +199,53 @@
             });
         }
     }
+
+
+
+</script>
+<script>
+    $(document).on("submit", "#addCompanyAnnualSalesForm", function (e) {
+
+        e.preventDefault();
+
+        var data_array = $('#addCompanyAnnualSalesForm').serialize();
+
+        $.ajax({
+            url: '{{ path('addAnnualSales') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+
+                $("#addCompanyAnnualSales").modal("hide");
+                $("#range").val("");
+                var table = $('#annualSalesRecords').DataTable();
+                table.ajax.reload(null, false);
+
+            }
+        });
+    });
+
+    $(document).on("submit", "#editCompanyAnnualSalesForm", function (e)
+    {
+        e.preventDefault();
+
+        var data_array = $('#editCompanyAnnualSalesForm').serialize();
+
+        $.ajax({
+            url: '{{ path('editAnnualSales') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+
+                $("#editCompanyAnnualSalesx`").modal("hide");
+                $("#range").val("");
+                var table = $('#annualSalesRecords').DataTable();
+                table.ajax.reload(null, false);
+
+            }
+        });
+
+    });
 
 </script>
 {{ include(':agriApp:base_foot.html.twig') }}
