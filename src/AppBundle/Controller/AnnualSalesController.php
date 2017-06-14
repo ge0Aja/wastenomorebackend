@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AnnualSalesController extends Controller
 {
@@ -61,7 +62,7 @@ class AnnualSalesController extends Controller
         }
         $range_val = $request->request->get('range');
 
-        $annualsalerecord->setRange($range_val);
+        $annualsalerecord->setSalesRange($range_val);
 
         $em->persist($annualsalerecord);
         $em->flush();
@@ -69,7 +70,7 @@ class AnnualSalesController extends Controller
     }
 
     /**
-     * @Route("/AnnualSales",name="AnnualSalesRecordsPage")
+     * @Route("/annualSales",name="annualSales")
      */
     public function AnnualSalesRecords()
     {
@@ -92,5 +93,45 @@ class AnnualSalesController extends Controller
         } catch (DBALException $e) {
             return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t delete record'));
         }
+    }
+
+    /**
+     * @Route("/addAnnualSales",name="addAnnualSales")
+     */
+    public function addAnnualSales(Request $request)
+    {
+
+        if ($request->getMethod() === 'POST') {
+            if ($request->request) {
+                $em = $this->getDoctrine()->getManager();
+                $annualSalesRangesRecord = new AnnualSalesRanges();
+                $annualSalesRangesRecord->setSalesRange($request->request->get('range'));
+                $em->persist($annualSalesRangesRecord);
+                $em->flush();
+                return new Response('Range Added Successfully');
+            }
+        }
+
+        return new Response(dump($request));
+
+    }
+
+    /**
+     * @Route("/editAnnualSales",name="editAnnualSales")
+     */
+    public function editAnnualSales(Request $request)
+    {
+        if ($request->getMethod() === 'POST') {
+            if ($request->request) {
+                $em = $this->getDoctrine()->getManager();
+                $annualSalesRangesRecord = $em->getRepository('AppBundle:AnnualSalesRanges')->find($request->request->get('id'));
+                $annualSalesRangesRecord->setSalesRange($request->request->get('range'));
+                $em->persist($annualSalesRangesRecord);
+                $em->flush();
+                return new Response('Range Updated Successfully');
+            }
+        }
+
+        return new Response(dump($request));
     }
 }
