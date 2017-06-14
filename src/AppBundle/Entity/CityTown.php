@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: root
- * Date: 6/9/17
- * Time: 2:41 PM
+ * User: zero
+ * Date: 6/12/17
+ * Time: 1:12 PM
  */
 
 namespace AppBundle\Entity;
@@ -14,9 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="collecting_company")
+ * @ORM\Table(name="city_town")
  */
-class CollectingCompany
+class CityTown
 {
     /**
      * @ORM\Id
@@ -25,10 +25,19 @@ class CollectingCompany
      */
     private $id;
 
+
     /**
      * @ORM\Column(type="string")
      */
     private $name;
+
+    /**
+     * CityTown constructor.
+     */
+    public function __construct()
+    {
+        $this->branch_location = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -63,45 +72,39 @@ class CollectingCompany
     }
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Waste",mappedBy="collectingCompany",cascade={"persist"})
-     */
-    private $wastes;
-
-
-    public function __construct()
-    {
-        $this->wastes= new ArrayCollection();
-    }
-
-    /**
-     * @return ArrayCollection|Waste[]
-     */
-    public function getWastes()
-    {
-        return $this->wastes;
-    }
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\District", inversedBy="collecting_company")
-     */
-    private $location;
-
-    /**
      * @return mixed
      */
-    public function getLocation()
+    public function getDistrict()
     {
-        return $this->location;
+        return $this->district;
     }
 
     /**
-     * @param mixed $location
+     * @param mixed $district
      */
-    public function setLocation($location)
+    public function setDistrict($district)
     {
-        $this->location = $location;
+        $this->district = $district;
     }
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\District", inversedBy="city_twon")
+     */
+    private $district;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Branch", mappedBy="location", cascade={"persist"})
+     */
+    private $branch_location;
+
+    /**
+     * @return ArrayCollection|Branch[]
+     */
+    public function getBranchLocation()
+    {
+        return $this->branch_location;
+    }
 
 }

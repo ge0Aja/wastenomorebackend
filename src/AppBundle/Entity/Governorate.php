@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: root
- * Date: 6/9/17
- * Time: 2:41 PM
+ * User: zero
+ * Date: 6/12/17
+ * Time: 1:05 PM
  */
 
 namespace AppBundle\Entity;
@@ -14,10 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="collecting_company")
+ * @ORM\Table(name="governorates")
  */
-class CollectingCompany
+class Governorate
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -29,6 +30,14 @@ class CollectingCompany
      * @ORM\Column(type="string")
      */
     private $name;
+
+    /**
+     * Governorate constructor.
+     */
+    public function __construct()
+    {
+        $this->district = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -63,45 +72,18 @@ class CollectingCompany
     }
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Waste",mappedBy="collectingCompany",cascade={"persist"})
+     * @return ArrayCollection|District[]
      */
-    private $wastes;
-
-
-    public function __construct()
+    public function getDistrict()
     {
-        $this->wastes= new ArrayCollection();
-    }
-
-    /**
-     * @return ArrayCollection|Waste[]
-     */
-    public function getWastes()
-    {
-        return $this->wastes;
+        return $this->district;
     }
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\District", inversedBy="collecting_company")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\District", mappedBy="governorate", cascade={"persist"})
      */
-    private $location;
-
-    /**
-     * @return mixed
-     */
-    public function getLocation()
-    {
-        return $this->location;
-    }
-
-    /**
-     * @param mixed $location
-     */
-    public function setLocation($location)
-    {
-        $this->location = $location;
-    }
+    private $district;
 
 
 }

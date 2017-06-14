@@ -108,22 +108,6 @@ class Company
     /**
      * @return mixed
      */
-    public function getMainBranchLocation()
-    {
-        return $this->mainBranchLocation;
-    }
-
-    /**
-     * @param mixed $mainBranchLocation
-     */
-    public function setMainBranchLocation($mainBranchLocation)
-    {
-        $this->mainBranchLocation = $mainBranchLocation;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getTotalAnnualSales()
     {
         return $this->totalAnnualSales;
@@ -143,12 +127,28 @@ class Company
     private $dateOfEstablishment;
 
     /**
-     * @ORM\Column(type="string")
+     * @return mixed
      */
-    private $mainBranchLocation;
+    public function getMainBranch()
+    {
+        return $this->mainBranch;
+    }
 
     /**
-     * @ORM\Column(type="string")
+     * @param mixed $mainBranch
+     */
+    public function setMainBranch($mainBranch)
+    {
+        $this->mainBranch = $mainBranch;
+    }
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Branch",inversedBy="Company")
+     */
+    private $mainBranch;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AnnualSalesRanges", inversedBy="company")
      */
     private $totalAnnualSales;
 

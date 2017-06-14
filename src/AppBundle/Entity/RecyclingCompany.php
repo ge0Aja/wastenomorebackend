@@ -1,22 +1,21 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: root
- * Date: 6/9/17
- * Time: 2:41 PM
+ * User: zero
+ * Date: 6/12/17
+ * Time: 1:42 PM
  */
 
 namespace AppBundle\Entity;
 
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="collecting_company")
+ * @ORM\Table(name="recycling_company")
  */
-class CollectingCompany
+class RecyclingCompany
 {
     /**
      * @ORM\Id
@@ -63,27 +62,50 @@ class CollectingCompany
     }
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Waste",mappedBy="collectingCompany",cascade={"persist"})
+     * @return mixed
      */
-    private $wastes;
-
-
-    public function __construct()
+    public function getMaterial()
     {
-        $this->wastes= new ArrayCollection();
+        return $this->material;
     }
 
     /**
-     * @return ArrayCollection|Waste[]
+     * @param mixed $material
      */
-    public function getWastes()
+    public function setMaterial($material)
     {
-        return $this->wastes;
+        $this->material = $material;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPickupService()
+    {
+        return $this->pickup_service;
+    }
+
+    /**
+     * @param mixed $pickup_service
+     */
+    public function setPickupService($pickup_service)
+    {
+        $this->pickup_service = $pickup_service;
+    }
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $material;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $pickup_service;
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\District", inversedBy="collecting_company")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\District", inversedBy="recycling_company")
      */
     private $location;
 
@@ -102,6 +124,4 @@ class CollectingCompany
     {
         $this->location = $location;
     }
-
-
 }

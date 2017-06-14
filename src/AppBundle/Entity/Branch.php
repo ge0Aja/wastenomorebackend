@@ -26,7 +26,7 @@ class Branch
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CityTown", inversedBy="branch_location")
      */
     private  $location;
 
@@ -36,12 +36,12 @@ class Branch
     private $purchases;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
     private $staff_count;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="date")
      */
     private $opening_date;
 
