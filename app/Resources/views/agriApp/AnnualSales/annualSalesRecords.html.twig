@@ -58,7 +58,7 @@
                 <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>
-                    <h3 class="box-title">Add Range</h3>
+                    <h3 class="box-title">Edit Range</h3>
                 </div>
                 <div class="modal-body">
                     <form id="editCompanyAnnualSalesForm" role="form" action="">
@@ -81,6 +81,39 @@
                 </div>
             </div>
             <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+<div id="delCompanyAnnualSales" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Confirm Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="delCompanySales" role="form"
+                          action=""
+                          method="">
+                        <div class="box-body">
+                            <p class="text-black">Are you sure you want to delete this
+                                Instance??</p>
+                            <div class="box-footer">
+                                <button type="submit" class="pull-right btn btn-primary">Yes
+                                </button>
+                                <button type="button" class="pull-left btn btn-primary"
+                                        data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">No</span></button>
+                            </div>
+                            <input type="hidden" id="delSales" name="delSalesID">
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -130,7 +163,7 @@
                 {
                     "targets":[2],
                     "data": null,
-                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editCompanyAnnualSales" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
+                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delCompanyAnnualSales" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editCompanyAnnualSales" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
                     "orderable":false
                 }
             ]
@@ -166,7 +199,8 @@
     $('#annualSalesRecords tbody').on( 'click', '.deleteBut', function () {
         var table = $('#annualSalesRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
-        deleterow(data.id);
+        $("#delSales").val(data.id);
+//        deleterow(data.id);
     });
     $('#annualSalesRecords tbody').on( 'click', '.editBut', function () {
         var table = $('#annualSalesRecords').DataTable();
@@ -237,11 +271,32 @@
             type: "POST",
             success: function (data) {
 
-                $("#editCompanyAnnualSalesx`").modal("hide");
+                $("#editCompanyAnnualSales").modal("hide");
                 $("#range").val("");
                 var table = $('#annualSalesRecords').DataTable();
                 table.ajax.reload(null, false);
 
+            }
+        });
+
+    });
+
+    $(document).on("submit", "#delCompanySales", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#delCompanySales').serialize();
+//        console.log(data_array);
+        $.ajax({
+            url: '{{ path('deleteAnnualSaleRange') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+
+                $("#delCompanyAnnualSales").modal("hide");
+                $("#delSales").val("");
+                var table = $('#annualSalesRecords').DataTable();
+                table.ajax.reload(null, false);
             }
         });
 
