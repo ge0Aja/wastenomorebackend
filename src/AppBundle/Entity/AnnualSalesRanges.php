@@ -28,7 +28,7 @@ class AnnualSalesRanges
     /**
      * @ORM\Column(type="string")
      */
-    private $range;
+    private $salesRange;
 
     /**
      * AnnualSalesRanges constructor.
@@ -61,17 +61,17 @@ class AnnualSalesRanges
     /**
      * @return mixed
      */
-    public function getRange()
+    public function getSalesRange()
     {
-        return $this->range;
+        return $this->salesRange;
     }
 
     /**
-     * @param mixed $range
+     * @param mixed $salesRange
      */
-    public function setRange($range)
+    public function setSalesRange($salesRange)
     {
-        $this->range = $range;
+        $this->salesRange = $salesRange;
     }
 
     /**
