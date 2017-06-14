@@ -30,6 +30,20 @@
 
             <li class="active treeview">
                 <a href="#">
+                    <i class="fa fa-trash-o"></i>
+                    <span class="pull-right-container">Administration</span>
+                </a>
+                <ul class="treeview-menu">
+
+                    <li><a href="{{ path('annualSales') }}"><i class="fa fa-credit-card"></i> Annual Sales </a></li>
+                    <li><a href="{{ path('wasteLogs') }}"><i class="fa fa fa-certificate"></i> Types</a></li>
+                    <li><a href="{{ path('wasteLogs') }}"><i class="fa fa fa-dollar"></i> Categories</a></li>
+                    <li><a href="{{ path('wasteLogs') }}"><i class="fa fa fa-dollar"></i> SubCategories</a></li>
+                </ul>
+            </li>
+
+            <li class="active treeview">
+                <a href="#">
                     <i class="fa fa-building-o"></i>
                     <span class="pull-right-container"> Company</span>
                 </a>
@@ -54,6 +68,7 @@
                         <li><a href="{{ path('wasteLogs') }}"><i class="fa fa fa-dollar"></i> SubCategories</a></li>
                 </ul>
             </li>
+
 
 
             {#            <li class="treeview">
