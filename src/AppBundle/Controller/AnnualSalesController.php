@@ -80,12 +80,12 @@ class AnnualSalesController extends Controller
 
 
     /**
-     * @Route("/deleteAnnualSaleRange/{id}", name="deleteAnnualSaleRange")
+     * @Route("/deleteAnnualSaleRange", name="deleteAnnualSaleRange")
      */
-    public function DeleteLogAction($id){
+    public function DeleteLogAction(Request $request){
         try {
             $em = $this->getDoctrine()->getManager();
-            $AnnualSalesRecord = $em->getRepository('AppBundle:AnnualSalesRanges')->find($id);
+            $AnnualSalesRecord = $em->getRepository('AppBundle:AnnualSalesRanges')->find($request->request->get('delSalesID'));
             $em->remove($AnnualSalesRecord);
             $em->flush();
 
