@@ -1,0 +1,29 @@
+{% set ReasonRecordsArrayLength = ReasonRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for ReasonRecord in ReasonRecords %}
+
+    {%  if counter == ReasonRecordsArrayLength-1 %}
+        {
+        "id": "{{ ReasonRecord.id }}",
+        "reason": "{{ ReasonRecord.reason}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ ReasonRecord.id }}",
+        "reason": "{{ ReasonRecord.reason}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

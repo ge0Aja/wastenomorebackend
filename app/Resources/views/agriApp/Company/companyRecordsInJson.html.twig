@@ -1,0 +1,36 @@
+{% set companyRecordsArrayLength = companyRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for companyRecord in companyRecords %}
+
+    {%  if counter == companyRecordsArrayLength-1 %}
+        {
+        "id": "{{ companyRecord.id }}",
+        "companyName": "{{ companyRecord.name}}",
+        "companyType": "{{ companyRecord.type.typeName}}",
+        "EstablishmentDate": "{{ companyRecord.dateOfEstablishment |date('d-M-Y') }}",
+        "mainBranchLocation": "{{ companyRecord.mainBranch.location.name}}",
+        "totalAnnualSales": "{{ companyRecord.totalAnnualSales.range }}"
+        }
+    {%  else %}
+        {
+        "id": "{{ companyRecord.id }}",
+        "companyName": "{{ companyRecord.name}}",
+        "companyType": "{{ companyRecord.type.typeName}}",
+        "EstablishmentDate": "{{ companyRecord.dateOfEstablishment |date('d-M-Y') }}",
+        "mainBranchLocation": "{{ companyRecord.mainBranch.location.name}}",
+        "totalAnnualSales": "{{ companyRecord.totalAnnualSales.range }}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

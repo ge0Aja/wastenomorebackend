@@ -1,0 +1,29 @@
+{% set companyTypeRecordsArrayLength = companyTypeRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for companyTypeRecord in companyTypeRecords %}
+
+    {%  if counter == companyTypeRecordsArrayLength-1 %}
+        {
+        "id": "{{ companyTypeRecord.id }}",
+        "typeName": "{{ companyTypeRecord.typeName}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ companyTypeRecord.id }}",
+        "typeName": "{{ companyTypeRecord.typeName}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

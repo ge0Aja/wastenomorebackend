@@ -1,0 +1,33 @@
+{% set CityRecordsArrayLength = CityRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for CityRecord in CityRecords %}
+
+    {%  if counter == CityRecordsArrayLength-1 %}
+        {
+        "id": "{{ CityRecord.id }}",
+        "name": "{{ CityRecord.name}}",
+        "district_name": "{{ CityRecord.district.name}}",
+        "governorate_name": "{{ CityRecord.district.governorate.name}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ CityRecord.id }}",
+        "name": "{{ CityRecord.name}}",
+        "district_name": "{{ CityRecord.district.name}}",
+        "governorate_name": "{{ CityRecord.district.governorate.name}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

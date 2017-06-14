@@ -1,0 +1,31 @@
+{% set CollectingCompanyRecordsArrayLength = CollectingCompanyRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for CollectingCompanyRecord in CollectingCompanyRecords %}
+
+    {%  if counter == CollectingCompanyRecordsArrayLength-1 %}
+        {
+        "id": "{{ CollectingCompanyRecord.id }}",
+        "name": "{{ CollectingCompanyRecord.name}}",
+        "district_name": "{{ CollectingCompanyRecord.location.name}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ CollectingCompanyRecord.id }}",
+        "name": "{{ CollectingCompanyRecord.name}}",
+        "district_name": "{{ CollectingCompanyRecord.location.name}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

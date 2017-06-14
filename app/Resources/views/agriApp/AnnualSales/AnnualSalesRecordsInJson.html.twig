@@ -1,0 +1,29 @@
+{% set AnnualSalesRecordsArrayLength = AnnualSalesRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for AnnualSalesRecord in AnnualSalesRecords %}
+
+    {%  if counter == AnnualSalesRecordsArrayLength-1 %}
+        {
+        "id": "{{ AnnualSalesRecord.id }}",
+        "range": "{{ AnnualSalesRecord.range}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ AnnualSalesRecord.id }}",
+        "range": "{{ AnnualSalesRecord.range}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

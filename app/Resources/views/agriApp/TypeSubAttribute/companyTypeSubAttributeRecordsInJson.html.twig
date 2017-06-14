@@ -1,0 +1,31 @@
+{% set companyTypeSubAttributeRecordsArrayLength = companyTypeSubAttributeRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for companyTypeSubAttributeRecord in companyTypeSubAttributeRecords %}
+
+    {%  if counter == companyTypeSubAttributeRecordsArrayLength-1 %}
+        {
+        "id": "{{ companyTypeSubAttributeRecord.id }}",
+        "attributetype": "{{ companyTypeSubAttributeRecord.companyTypeAttribute.name}}",
+        "subattributeName": "{{ companyTypeSubAttributeRecord.name}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ companyTypeSubAttributeRecord.id }}",
+        "attributetype": "{{ companyTypeSubAttributeRecord.companyTypeAttribute.name}}",
+        "subattributeName": "{{ companyTypeSubAttributeRecord.name}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

@@ -1,0 +1,29 @@
+{% set UnitRecordsArrayLength = UnitRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for UnitRecord in UnitRecords %}
+
+    {%  if counter == UnitRecordsArrayLength-1 %}
+        {
+        "id": "{{ UnitRecord.id }}",
+        "unit": "{{ UnitRecord.name}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ UnitRecord.id }}",
+        "unit": "{{ UnitRecord.name}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

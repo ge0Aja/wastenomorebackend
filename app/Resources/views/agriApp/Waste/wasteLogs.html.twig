@@ -17,24 +17,6 @@
         <th></th>
         </thead>
         <tbody>
-            {% for wasteLog in wasteLogs %}
-{#                <tr>
-                    <td>{{ wasteLog.id }}</td>
-                    <td>{{ wasteLog.wasteType.name }}</td>
-                    <td>{{ wasteLog.wasteTypeCategory.name }}</td>
-                    <td>{{ wasteLog.wasteTypeSubcategory.name }}</td>
-                    <td>{{ wasteLog.unit.name }}</td>
-                    <td>{{ wasteLog.branch }}</td>
-                    <td>{{ wasteLog.wasteDate|date('d-m-Y')}}</td>
-                    <td>{{ wasteLog.quantity }}</td>
-                    <td>{{ wasteLog.reason }}</td>
-                    <td><button type="button" data-toggle="modal"
-                                data-target="#deleteTreat" onclick="deleterow({{ wasteLog.id }})"
-                                class="btn-group-xs btn bg-danger pull-right"><b><i
-                                        class="fa fa-times"></i></b></button>
-                    </td>
-                </tr>#}
-            {% endfor %}
         </tbody>
     </table>
 
@@ -45,8 +27,8 @@
         var tHead = $('#wasteLogs thead th');
         tHead.not(":eq(0),:eq(9)").each(function () {
             var title = $(this).text();
-            //console.log(title);
-            $(this).html('<input style="width:100%" type="text" placeholder=' + title + '>');
+            console.log(title);
+            $(this).html('<input style="width:100%" type="text" placeholder=' + "\"" + title + "\"" + '>');
         });
 
         var table = $('#wasteLogs').DataTable({
@@ -136,8 +118,11 @@
                url: '/deleteWasteLog/'+e,
                type: 'POST',
                success: function (data) {
-                   //alert('success');
-                   table.ajax.reload(null,false);
+                   if(data.status == 'success') {
+                       table.ajax.reload(null, false);
+                   }if(data.status == 'error'){
+                       //display the message
+                   }
                }
            });
        }

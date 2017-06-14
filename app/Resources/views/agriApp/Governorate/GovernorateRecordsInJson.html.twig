@@ -1,0 +1,28 @@
+{% set GovernorateRecordsArrayLength = GovernorateRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for GovernorateRecord in GovernorateRecords %}
+
+    {%  if counter == GovernorateRecordsArrayLength-1 %}
+        {
+        "id": "{{ GovernorateRecord.id }}",
+        "name": "{{ GovernorateRecord.name}}"
+        }
+    {%  else %}
+        {
+        "id": "{{ GovernorateRecord.id }}",
+        "name": "{{ GovernorateRecord.name}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

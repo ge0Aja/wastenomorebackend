@@ -1,0 +1,121 @@
+{{ include(':agriApp:base_head.html.twig') }}
+<div class="container-fluid">
+
+    <table id="collectingCompanyRecords" style="width: 100%" class="display table table-striped table-bordered">
+        <h1>Garbage Collection Companies</h1>
+        <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Location</th>
+        <th></th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        var tHead = $('#collectingCompanyRecords thead th');
+        tHead.not(":eq(0),:eq(3)").each(function () {
+            var title = $(this).text();
+            //console.log(title);
+            $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
+        });
+
+        var table = $('#collectingCompanyRecords').DataTable({
+
+            "deferRender": true,
+
+            "ajax" :
+                {
+                    "url": "/CollectingCompanyRecords",
+                    "type": "GET"
+                },
+
+            "columns": [
+                {"data": "id"},
+                {"data": "name"},
+                {"data": "district_name"}
+
+            ],
+            order: [],
+            "pageLength": 15,
+            "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
+            columnDefs: [{
+                id: "DT_RowId",
+                "targets": [0],
+                "orderable": false,
+                "searchable": false,
+                "visible": false
+            },
+                {
+                    "targets": [1, 2],
+                    "orderable": false
+                },
+                {
+                    "targets":[3],
+                    "data": null,
+                    "defaultContent":'<button type="button" data-toggle="modal" class="btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>',
+                    "orderable":false
+                }
+            ]
+        });
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+
+            $('select', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    console.log(this.value);
+                    if (this.value === "") {
+                        that.search('').draw();
+                    }
+                    else that.search("^" + this.value + "$", true, false).draw();
+                }
+            });
+
+        });
+    });
+
+
+</script>
+
+<script>
+    $('#collectingCompanyRecords tbody').on( 'click', 'button', function () {
+        var table = $('#collectingCompanyRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        deleterow(data.id);
+    });
+
+
+    function deleterow(e) {
+        var table = $('#collectingCompanyRecords').DataTable();
+        if (confirm('Are you sure you want to delete this?')) {
+            $.ajax({
+                url: '/deleteCollectingCompany/'+e,
+                type: 'POST',
+                success: function (data) {
+                    if(data.status == 'success') {
+                        table.ajax.reload(null, false);
+                    }if(data.status == 'error'){
+                        //display the message
+                    }
+                }
+            });
+        }
+    }
+
+</script>
+{{ include(':agriApp:base_foot.html.twig') }}

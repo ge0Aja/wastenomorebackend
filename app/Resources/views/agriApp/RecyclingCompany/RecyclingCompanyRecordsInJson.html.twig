@@ -1,0 +1,35 @@
+{% set RecyclingCompanyRecordsArrayLength = RecyclingCompanyRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for RecyclingCompanyRecord in RecyclingCompanyRecords %}
+
+    {%  if counter == RecyclingCompanyRecordsArrayLength-1 %}
+        {
+        "id": "{{ RecyclingCompanyRecord.id }}",
+        "name": "{{ RecyclingCompanyRecord.name}}",
+        "district_name": "{{ RecyclingCompanyRecord.location.name}}",
+        "material": "{{ RecyclingCompanyRecord.material}}",
+        "pickup_service": "{{ RecyclingCompanyRecord.pickup_service}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ RecyclingCompanyRecord.id }}",
+        "name": "{{ RecyclingCompanyRecord.name}}",
+        "district_name": "{{ RecyclingCompanyRecord.location.name}}",
+        "material": "{{ RecyclingCompanyRecord.material}}",
+        "pickup_service": "{{ RecyclingCompanyRecord.pickup_service}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

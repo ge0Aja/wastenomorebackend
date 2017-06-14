@@ -1,0 +1,39 @@
+<div class="container-fluid">
+    <form id="AnnualSalesRecord">
+        <table width="100%">
+            <tr>
+                <td>
+                    <label id="lbl_range">Range:</label>
+                </td>
+                <td>
+                    {% if range is defined %}
+                        <input type="hidden" id="record_id" value="{{ range.id }}">
+                        <input type="text" id="range" class="form-control" placeholder="e.g. 10K - 20K" value="{{ range.val }}">
+                    {% else %}
+                        <input type="text" id="range" class="form-control" placeholder="e.g. 10K - 20K">
+                    {% endinf %}
+                </td>
+            </tr>
+        </table>
+        <br />
+        <input type="submit" id="btn_submit" class="btn-sm btn-default" value="Submit" onclick="submit_form(this)">
+    </form>
+</div>
+
+
+<script>
+
+   function submit_form(element){
+
+       var data_array = $('form').serialize();
+
+       $.ajax({
+           url: '/AddEditAnnualSale',
+           data: data_array,
+           type: "POST",
+           success: function (data) {
+               alert(data);
+           }
+       });
+   }
+</script>

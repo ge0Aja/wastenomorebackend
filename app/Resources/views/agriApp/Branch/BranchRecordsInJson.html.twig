@@ -1,0 +1,38 @@
+{% set BranchRecordsArrayLength = BranchRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for BranchRecord in BranchRecords %}
+
+    {%  if counter == BranchRecordsArrayLength-1 %}
+        {
+        "id": "{{ BranchRecord.id }}",
+        "company_name": "{{ BranchRecord.company.name}}",
+        "staff_count": "{{ BranchRecord.staff_count}}",
+        "opening_date": "{{ BranchRecord.opening_date |date('d-M-Y') }}",
+        "city_location": "{{ BranchRecord.location.name}}",
+        "district_location": "{{ BranchRecord.location.district.name}}",
+        "governorate_location": "{{ BranchRecord.location.district.governorate.name}}"
+        }
+    {%  else %}
+        {
+        "id": "{{ BranchRecord.id }}",
+        "company_name": "{{ BranchRecord.company.name}}",
+        "staff_count": "{{ BranchRecord.staff_count}}",
+        "opening_date": "{{ BranchRecord.opening_date |date('d-M-Y') }}",
+        "city_location": "{{ BranchRecord.location.name}}",
+        "district_location": "{{ BranchRecord.location.district.name}}",
+        "governorate_location": "{{ BranchRecord.location.district.governorate.name}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}
