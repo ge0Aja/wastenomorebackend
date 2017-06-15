@@ -2,10 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Reason;
 use Doctrine\DBAL\DBALException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ReasonController extends Controller
 {
@@ -13,8 +16,6 @@ class ReasonController extends Controller
     {
         return $this->render('', array('name' => $name));
     }
-
-
 
 
     /**
@@ -39,20 +40,69 @@ class ReasonController extends Controller
     }
 
 
+    /**
+     * @Route("/addReason",name="addReason")
+     */
+    public function addReasons(Request $request)
+    {
+        if ($request->getMethod() === 'POST') {
+            if ($request->request) {
+
+                try {
+                    $em = $this->getDoctrine()->getManager();
+                    $reasonsRecord = new Reason();
+                    $reasonsRecord->setReason($request->request->get('txt_reason_add'));
+                    $em->persist($reasonsRecord);
+                    $em->flush();
+                    return new JsonResponse(array('status' => 'success'));
+                } catch (DBALException $e) {
+                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add reason'));
+                }
+            }
+        }
+
+        return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add reason'));
+    }
+
 
     /**
-     * @Route("/deleteReason/{id}", name="deleteReason")
+     * @Route("/deleteReason", name="deleteReason")
      */
-    public function DeleteLogAction($id){
+    public function DeleteLogAction(Request $request){
         try {
             $em = $this->getDoctrine()->getManager();
-            $ReasonRecord = $em->getRepository('AppBundle:Reason')->find($id);
-            $em->remove($ReasonRecord);
+            $ReasonsRecord = $em->getRepository('AppBundle:Reason')->find($request->request->get('h_reasonID_del'));
+            $em->remove($ReasonsRecord);
             $em->flush();
 
             return new JsonResponse(array('status' => 'success'));
         } catch (DBALException $e) {
             return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t delete record'));
         }
+    }
+
+
+    /**
+     * @Route("/editReason", name="editReason")
+     */
+    public function editReasons(Request $request)
+    {
+        if ($request->getMethod() === 'POST') {
+            if ($request->request) {
+
+                try {
+                    $em = $this->getDoctrine()->getManager();
+                    $reasonsRecord = $em->getRepository('AppBundle:Reason')->find($request->request->get('h_reasonID_edit'));
+                    $reasonsRecord->setReason($request->request->get('txt_reason_edit'));
+                    $em->persist($reasonsRecord);
+                    $em->flush();
+                    return new JsonResponse(array('status' => 'success'));
+                } catch (DBALException $e) {
+                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t edit reason'));
+                }
+            }
+        }
+
+        return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t edit reason'));
     }
 }

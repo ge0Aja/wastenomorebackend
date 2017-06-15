@@ -2,10 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Unit;
 use Doctrine\DBAL\DBALException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class UnitController extends Controller
 {
@@ -39,20 +42,69 @@ class UnitController extends Controller
     }
 
 
+    /**
+     * @Route("/addUnit",name="addUnit")
+     */
+    public function addUnits(Request $request)
+    {
+        if ($request->getMethod() === 'POST') {
+            if ($request->request) {
+
+                try {
+                    $em = $this->getDoctrine()->getManager();
+                    $unitsRecord = new Unit();
+                    $unitsRecord->setName($request->request->get('txt_unit_add'));
+                    $em->persist($unitsRecord);
+                    $em->flush();
+                    return new JsonResponse(array('status' => 'success'));
+                } catch (DBALException $e) {
+                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add Unit'));
+                }
+            }
+        }
+
+        return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add Unit'));
+    }
+
 
     /**
-     * @Route("/deleteUnit/{id}", name="deleteUnit")
+     * @Route("/deleteUnit", name="deleteUnit")
      */
-    public function DeleteLogAction($id){
+    public function DeleteLogAction(Request $request){
         try {
             $em = $this->getDoctrine()->getManager();
-            $UnitRecord = $em->getRepository('AppBundle:Unit')->find($id);
-            $em->remove($UnitRecord);
+            $UnitsRecord = $em->getRepository('AppBundle:Unit')->find($request->request->get('h_unitID_del'));
+            $em->remove($UnitsRecord);
             $em->flush();
 
             return new JsonResponse(array('status' => 'success'));
         } catch (DBALException $e) {
             return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t delete record'));
         }
+    }
+
+
+    /**
+     * @Route("/editUnit", name="editUnit")
+     */
+    public function editUnits(Request $request)
+    {
+        if ($request->getMethod() === 'POST') {
+            if ($request->request) {
+
+                try {
+                    $em = $this->getDoctrine()->getManager();
+                    $unitsRecord = $em->getRepository('AppBundle:Unit')->find($request->request->get('h_unitID_edit'));
+                    $unitsRecord->setName($request->request->get('txt_unit_edit'));
+                    $em->persist($unitsRecord);
+                    $em->flush();
+                    return new JsonResponse(array('status' => 'success'));
+                } catch (DBALException $e) {
+                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t update Unit'));
+                }
+            }
+        }
+
+        return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t update Unit'));
     }
 }

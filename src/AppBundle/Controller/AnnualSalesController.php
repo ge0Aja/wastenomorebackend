@@ -32,44 +32,6 @@ class AnnualSalesController extends Controller
 
 
     /**
-     * @Route("/renderAddEditAnnualSale/{id}", name="renderAddEditAnnualSale")
-     */
-    public function renderAddEditRange($id = null){
-
-        if($id == null){
-            $em = $this->getDoctrine()->getManager();
-            $AnnualSalesRecord = $em->getRepository('AppBundle:AnnualSalesRanges')->find($id);
-            return $this->render('agriApp/AnnualSales/addEditAnnualSale.html.twig',['range' => $AnnualSalesRecord]);
-
-        }else{
-            return $this->render('agriApp/AnnualSales/addEditAnnualSale.html.twig');
-        }
-    }
-
-
-    /**
-     * @Route("/AddEditAnnualSale",name="AddEditAnnualSale")
-     */
-    public function AddEditRange(Request $request){
-        $em = $this->getDoctrine()->getManager();
-
-        if($request->request->has('record_id')){
-            $id = $request->request->get('record_id');
-            $annualsalerecord = $em->getRepository('AppBundle:AnnualSalesRanges')->find($id);
-
-        }else{
-            $annualsalerecord = new AnnualSalesRanges;
-        }
-        $range_val = $request->request->get('range');
-
-        $annualsalerecord->setSalesRange($range_val);
-
-        $em->persist($annualsalerecord);
-        $em->flush();
-
-    }
-
-    /**
      * @Route("/annualSales",name="annualSales")
      */
     public function AnnualSalesRecords()
@@ -100,20 +62,22 @@ class AnnualSalesController extends Controller
      */
     public function addAnnualSales(Request $request)
     {
-
         if ($request->getMethod() === 'POST') {
             if ($request->request) {
-                $em = $this->getDoctrine()->getManager();
-                $annualSalesRangesRecord = new AnnualSalesRanges();
-                $annualSalesRangesRecord->setSalesRange($request->request->get('range'));
-                $em->persist($annualSalesRangesRecord);
-                $em->flush();
-                return new Response('Range Added Successfully');
+
+                try {
+                    $em = $this->getDoctrine()->getManager();
+                    $annualSalesRangesRecord = new AnnualSalesRanges();
+                    $annualSalesRangesRecord->setSalesRange($request->request->get('range'));
+                    $em->persist($annualSalesRangesRecord);
+                    $em->flush();
+                    return new JsonResponse(array('status' => 'success'));
+                } catch (DBALException $e) {
+                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add range'));
+                }
             }
         }
-
-        return new Response(dump($request));
-
+        return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add range'));
     }
 
     /**
@@ -123,15 +87,19 @@ class AnnualSalesController extends Controller
     {
         if ($request->getMethod() === 'POST') {
             if ($request->request) {
-                $em = $this->getDoctrine()->getManager();
-                $annualSalesRangesRecord = $em->getRepository('AppBundle:AnnualSalesRanges')->find($request->request->get('id'));
-                $annualSalesRangesRecord->setSalesRange($request->request->get('range'));
-                $em->persist($annualSalesRangesRecord);
-                $em->flush();
-                return new Response('Range Updated Successfully');
+                try {
+                    $em = $this->getDoctrine()->getManager();
+                    $annualSalesRangesRecord = $em->getRepository('AppBundle:AnnualSalesRanges')->find($request->request->get('id'));
+                    $annualSalesRangesRecord->setSalesRange($request->request->get('range'));
+                    $em->persist($annualSalesRangesRecord);
+                    $em->flush();
+                    return new JsonResponse(array('status' => 'success'));
+                } catch (DBALException $e) {
+                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t update range'));
+                }
             }
         }
 
-        return new Response(dump($request));
+        return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t update range'));
     }
 }
