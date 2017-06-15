@@ -35,7 +35,7 @@
                                 <label for="range">Range</label>
                                 <input type="text" class="form-control" id="range"
                                        name="range"
-                                       placeholder="Enter Range">
+                                       placeholder="e.g. 10K - 20K" required>
                             </div>
                         </div>
                         <!-- /.box-body -->
@@ -67,7 +67,7 @@
                                 <label for="range">Range</label>
                                 <input type="text" class="form-control" id="rangeEdit"
                                        name="range"
-                                       placeholder="Enter Range">
+                                       placeholder="" required>
                                 <input type="hidden" id="rangeEditID" name="id">
 
                             </div>
@@ -217,7 +217,7 @@
         $("#rangeEditID").val(e);
 
     }
-    function deleterow(e) {
+/*    function deleterow(e) {
         var table = $('#annualSalesRecords').DataTable();
         if (confirm('Are you sure you want to delete this?')) {
             $.ajax({
@@ -232,11 +232,9 @@
                 }
             });
         }
-    }
-
-
-
+    }*/
 </script>
+
 <script>
     $(document).on("submit", "#addCompanyAnnualSalesForm", function (e) {
 
@@ -249,11 +247,14 @@
             data: data_array,
             type: "POST",
             success: function (data) {
-
-                $("#addCompanyAnnualSales").modal("hide");
-                $("#range").val("");
-                var table = $('#annualSalesRecords').DataTable();
-                table.ajax.reload(null, false);
+                if(data.status == 'success') {
+                    $("#addCompanyAnnualSales").modal("hide");
+                    $("#range").val("");
+                    var table = $('#annualSalesRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
 
             }
         });
@@ -270,11 +271,14 @@
             data: data_array,
             type: "POST",
             success: function (data) {
-
-                $("#editCompanyAnnualSales").modal("hide");
-                $("#range").val("");
-                var table = $('#annualSalesRecords').DataTable();
-                table.ajax.reload(null, false);
+                if(data.status == 'success') {
+                    $("#editCompanyAnnualSales").modal("hide");
+                    $("#range").val("");
+                    var table = $('#annualSalesRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
 
             }
         });
@@ -292,11 +296,14 @@
             data: data_array,
             type: "POST",
             success: function (data) {
-
-                $("#delCompanyAnnualSales").modal("hide");
-                $("#delSales").val("");
-                var table = $('#annualSalesRecords').DataTable();
-                table.ajax.reload(null, false);
+                if(data.status == 'success') {
+                    $("#delCompanyAnnualSales").modal("hide");
+                    $("#delSales").val("");
+                    var table = $('#annualSalesRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
             }
         });
 

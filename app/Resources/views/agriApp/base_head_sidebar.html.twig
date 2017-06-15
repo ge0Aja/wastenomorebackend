@@ -30,15 +30,22 @@
 
             <li class="active treeview">
                 <a href="#">
-                    <i class="fa fa-trash-o"></i>
+                    <i class="fa fa-cog"></i>
                     <span class="pull-right-container">Administration</span>
                 </a>
                 <ul class="treeview-menu">
 
-                    <li><a href="{{ path('annualSales') }}"><i class="fa fa-credit-card"></i> Annual Sales </a></li>
-                    <li><a href="{{ path('wasteLogs') }}"><i class="fa fa fa-certificate"></i> Types</a></li>
-                    <li><a href="{{ path('wasteLogs') }}"><i class="fa fa fa-dollar"></i> Categories</a></li>
-                    <li><a href="{{ path('wasteLogs') }}"><i class="fa fa fa-dollar"></i> SubCategories</a></li>
+                    <li><a href="{{ path('annualSales') }}"><i class="fa fa-credit-card"></i> Annual Sales Ranges</a></li>
+                    <li><a href="{{ path('CompanyTypes') }}"><i class="fa fa-search"></i> Company Types </a></li>
+                    <li><a href="{{ path('CompanyTypeAttributes') }}"><i class="fa fa-search"></i> Types Attributes </a></li>
+                    <li><a href="{{ path('CompanyTypeSubAttributes') }}"><i class="fa fa-search"></i> Types SubAttributes </a></li>
+                    <li><a href="{{ path('UnitsRecordsPage') }}"><i class="fa fa fa-certificate"></i> Units</a></li>
+                    <li><a href="{{ path('ReasonsRecordsPage') }}"><i class="fa fa fa-dollar"></i> Waste Reasons</a></li>
+                    <li><a href="{{ path('GovernoratesRecordsPage') }}"><i class="fa fa fa-dollar"></i> Governorates</a></li>
+                    <li><a href="{{ path('DistrictsRecordsPage') }}"><i class="fa fa fa-dollar"></i> Districts</a></li>
+                    <li><a href="{{ path('CitiesRecordsPage') }}"><i class="fa fa fa-dollar"></i> City/Town</a></li>
+                    <li><a href="{{ path('RecyclingCompanies') }}"><i class="fa fa fa-dollar"></i> Recycling Companies</a></li>
+                    <li><a href="{{ path('CollectingCompaniesPage') }}"><i class="fa fa fa-dollar"></i> Collection Companies</a></li>
                 </ul>
             </li>
 
@@ -48,10 +55,8 @@
                     <span class="pull-right-container"> Company</span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ path('CompanyRecordsPage') }}"><i class="fa fa-users"></i> Records</a></li>
-                    <li><a href="{{ path('CompanyTypes') }}"><i class="fa fa-search"></i> Types </a></li>
-                    <li><a href="{{ path('CompanyTypeAttributes') }}"><i class="fa fa-search"></i> Attributes </a></li>
-                    <li><a href="{{ path('CompanyTypeSubAttributes') }}"><i class="fa fa-search"></i> SubAttributes </a></li>
+                    <li><a href="{{ path('CompanyRecordsPage') }}"><i class="fa fa-users"></i> Companies Records</a></li>
+
                 </ul>
             </li>
 

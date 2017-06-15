@@ -2,7 +2,9 @@
 <div class="container-fluid">
 
     <table id="reasonsRecords" style="width: 100%" class="display table table-striped table-bordered">
-        <h1>Reasons</h1>
+        <h1>Waste Reasons</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addReasons"
+                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Waste Reason</b></button></h2>
         <thead>
         <th>ID</th>
         <th>Reason</th>
@@ -13,6 +15,107 @@
         </tbody>
     </table>
 
+</div>
+
+
+
+<div id="addReasons" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add Reason</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="addReasonForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="range">Unit</label>
+                                <input type="text" class="form-control" id="txt_reason_add"
+                                       name="txt_reason_add"
+                                       placeholder="e.g. Spoilage" required>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+<div id="editReasons" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Edit Reason</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="editReasonForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="range">Unit</label>
+                                <input type="text" class="form-control" id="txt_reason_edit"
+                                       name="txt_reason_edit"
+                                       placeholder="" required>
+                                <input type="hidden" id="h_reasonID_edit" name="h_reasonID_edit">
+
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button id="editBtn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+<div id="delReasons" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Confirm Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="delReasonsForm" role="form"
+                          action=""
+                          method="">
+                        <div class="box-body">
+                            <p class="text-black">Are you sure you want to delete this
+                                Instance??</p>
+                            <div class="box-footer">
+                                <button type="submit" class="pull-right btn btn-primary">Yes
+                                </button>
+                                <button type="button" class="pull-left btn btn-primary"
+                                        data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">No</span></button>
+                            </div>
+                            <input type="hidden" id="h_reasonID_del" name="h_reasonID_del">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -58,7 +161,7 @@
                 {
                     "targets":[2],
                     "data": null,
-                    "defaultContent":'<button type="button" data-toggle="modal" class="btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>',
+                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delReasons" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editReasons" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
                     "orderable":false
                 }
             ]
@@ -90,30 +193,109 @@
 
 </script>
 
+
 <script>
-    $('#reasonsRecords tbody').on( 'click', 'button', function () {
+    $('#reasonsRecords tbody').on( 'click', '.deleteBut', function () {
         var table = $('#reasonsRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
-        deleterow(data.id);
+        $("#h_reasonID_del").val(data.id);
+//        deleterow(data.id);
     });
 
-
-    function deleterow(e) {
+    $('#reasonsRecords tbody').on( 'click', '.editBut', function () {
         var table = $('#reasonsRecords').DataTable();
-        if (confirm('Are you sure you want to delete this?')) {
-            $.ajax({
-                url: '/deleteReason/'+e,
-                type: 'POST',
-                success: function (data) {
-                    if(data.status == 'success') {
-                        table.ajax.reload(null, false);
-                    }if(data.status == 'error'){
-                        //display the message
-                    }
-                }
-            });
-        }
+        var data = table.row( $(this).parents('tr') ).data();
+//        console.log($.parseHTML(data.range)[0].data);
+        editRow(data.id,$.parseHTML(data.reason)[0].data);
+    });
+
+    function editRow(e,f)
+    {
+        var table = $('#reasonsRecords').DataTable();
+//        editCompanyAnnualSalesForm
+        $("#txt_reason_edit").val(f);
+        $("#h_reasonID_edit").val(e);
+
     }
 
 </script>
+
+<script>
+    $(document).on("submit", "#addReasonForm", function (e) {
+
+        e.preventDefault();
+
+        var data_array = $('#addReasonForm').serialize();
+
+        $.ajax({
+            url: '{{ path('addReason') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#addReasons").modal("hide");
+                    $("#txt_reason_add").val("");
+                    var table = $('#reasonsRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+
+            }
+        });
+    });
+
+    $(document).on("submit", "#editReasonForm", function (e)
+    {
+        e.preventDefault();
+
+        var data_array = $('#editReasonForm').serialize();
+
+        $.ajax({
+            url: '{{ path('editReason') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#editReasons").modal("hide");
+                    $("#txt_reason_edit").val("");
+                    $("#h_reasonID_edit").val("");
+                    var table = $('#reasonsRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+
+            }
+        });
+
+    });
+
+    $(document).on("submit", "#delReasonsForm", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#delReasonsForm').serialize();
+//        console.log(data_array);
+        $.ajax({
+            url: '{{ path('deleteReason') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#delReasons").modal("hide");
+                    $("#h_reasonID_del").val("");
+                    var table = $('#reasonsRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+            }
+        });
+
+    });
+
+</script>
+
+
 {{ include(':agriApp:base_foot.html.twig') }}

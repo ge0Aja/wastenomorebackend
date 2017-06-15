@@ -2,7 +2,10 @@
 <div class="container-fluid">
 
     <table id="districtRecords" style="width: 100%" class="display table table-striped table-bordered">
+
         <h1>Districts</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addDistricts"
+                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add District</b></button></h2>
         <thead>
         <th>ID</th>
         <th>Name</th>
@@ -15,6 +18,126 @@
     </table>
 
 </div>
+
+
+<div id="addDistricts" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add District</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="addDistrictForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="governorate_select">Governorate</label>
+                                <select id="governorate_select" name="governorate_select" class="form-control" >
+                                    <option value="default" selected="selected">select Governorate</option>
+                                    {% for governorate in governorates %}
+                                        <option value="{{ governorate.id }}">{{ governorate.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <label for="txt_district_add">District</label>
+                                <input type="text" class="form-control" id="txt_district_add"
+                                       name="txt_district_add"
+                                       placeholder="e.g. Jbeil" required>
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+
+
+<div id="editDistricts" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Edit Unit</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="editDistrictForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="governorate_select_edit">Governorate</label>
+                                <select id="governorate_select_edit" name="governorate_select_edit" class="form-control" >
+                                    <option value="default">select Governorate</option>
+                                    {% for governorate in governorates %}
+                                        <option value="{{ governorate.id }}">{{ governorate.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <label for="txt_district_edit">District</label>
+                                <input type="text" class="form-control" id="txt_district_edit"
+                                       name="txt_district_edit"
+                                       placeholder="" required>
+                                <input type="hidden" id="h_districtID_edit" name="h_districtID_edit">
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button id="editBtn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+
+
+<div id="delDistricts" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Confirm Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="delDistrictsForm" role="form"
+                          action=""
+                          method="">
+                        <div class="box-body">
+                            <p class="text-black">Are you sure you want to delete this
+                                Instance??</p>
+                            <div class="box-footer">
+                                <button type="submit" class="pull-right btn btn-primary">Yes
+                                </button>
+                                <button type="button" class="pull-left btn btn-primary"
+                                        data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">No</span></button>
+                            </div>
+                            <input type="hidden" id="h_distrcitID_del" name="h_distrcitID_del">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script>
 
@@ -60,7 +183,7 @@
                 {
                     "targets":[3],
                     "data": null,
-                    "defaultContent":'<button type="button" data-toggle="modal" class="btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>',
+                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delDistricts" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editDistricts" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
                     "orderable":false
                 }
             ]
@@ -92,30 +215,159 @@
 
 </script>
 
+
 <script>
-    $('#districtRecords tbody').on( 'click', 'button', function () {
+
+    $('#districtRecords tbody').on( 'click', '.editBut', function () {
         var table = $('#districtRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
-        deleterow(data.id);
+//        console.log($.parseHTML(data.range)[0].data);
+        editRow(data.id,$.parseHTML(data.name)[0].data,$.parseHTML(data.governorate_name)[0].data);
+    });
+
+    function editRow(e,f,g)
+    {
+        var table = $('#districtRecords').DataTable();
+//        editCompanyAnnualSalesForm
+        $("#txt_district_edit").val(f);
+        $("#h_districtID_edit").val(e);
+        $("#governorate_select_edit option").filter(function(){
+            return $(this).text() == g;
+        }).prop('selected','selected');
+
+    }
+
+    $(document).on("submit", "#editDistrictForm", function (e)
+    {
+        e.preventDefault();
+
+        var data_array = $('#editDistrictForm').serialize();
+    //console.log(data_array);
+        $.ajax({
+            url: '{{ path('editDistrict') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#editDistricts").modal("hide");
+                    $("#txt_district_edit").val("");
+                    $("#h_districtID_edit").val("");
+                    var table = $('#districtRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+
+            }
+        });
+
+    });
+
+</script>
+
+<script>
+
+    $('#districtRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#districtRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        $("#h_distrcitID_del").val(data.id);
     });
 
 
-    function deleterow(e) {
-        var table = $('#districtRecords').DataTable();
-        if (confirm('Are you sure you want to delete this?')) {
+
+    $(document).on("submit", "#delDistrictsForm", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#delDistrictsForm').serialize();
+//        console.log(data_array);
+        $.ajax({
+            url: '{{ path('deleteDistrict') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#delDistricts").modal("hide");
+                    $("#h_distrcitID_del").val("");
+                    var table = $('#districtRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+            }
+        });
+
+    });
+
+
+</script>
+
+<script>
+    $(document).on("submit", "#addDistrictForm", function (e) {
+
+        e.preventDefault();
+
+            var data_array = $('#addDistrictForm').serialize();
             $.ajax({
-                url: '/deleteDistrict/'+e,
-                type: 'POST',
+                url: '{{ path('addDistrict') }}',
+                data: data_array,
+                type: "POST",
                 success: function (data) {
                     if(data.status == 'success') {
+                        $("#addDistricts").modal("hide");
+                        $("#txt_district_add").val("");
+                        $("#governorate_select").val("default");
+                        var table = $('#districtRecords').DataTable();
                         table.ajax.reload(null, false);
                     }if(data.status == 'error'){
                         //display the message
                     }
+
                 }
             });
-        }
-    }
+
+    });
 
 </script>
+
+<script>
+    $(document).ready(function () {
+
+        jQuery.validator.addMethod("valueNotEquals", function(value, element,arg) {
+            return this.optional(element) || arg != value;
+        }, "Please specify a Governate");
+
+
+        $('#editDistrictForm').validate({
+
+            rules:{
+                governorate_select_edit:{
+                    required: true,
+                    valueNotEquals: "default"
+                },
+                txt_district_edit:{
+                    required: true
+                }
+
+            }
+
+        });
+
+        $('#addDistrictForm').validate({
+
+            rules:{
+                governorate_select:{
+                    required: true,
+                    valueNotEquals: "default"
+                },
+                txt_district_add:{
+                    required: true
+                }
+
+            }
+
+        });
+    });
+</script>
+
 {{ include(':agriApp:base_foot.html.twig') }}

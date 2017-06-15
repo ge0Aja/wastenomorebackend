@@ -11,15 +11,15 @@
 
     {%  if counter == DistrcitRecordsArrayLength-1 %}
         {
-        "id": "{{ CityRecord.id }}",
-        "name": "{{ CityRecord.name}}",
+        "id": "{{ DistrcitRecord.id }}",
+        "name": "{{ DistrcitRecord.name}}",
         "governorate_name": "{{ DistrcitRecord.governorate.name}}"
 
         }
     {%  else %}
         {
-        "id": "{{ CityRecord.id }}",
-        "name": "{{ CityRecord.name}}",
+        "id": "{{ DistrcitRecord.id }}",
+        "name": "{{ DistrcitRecord.name}}",
         "governorate_name": "{{ DistrcitRecord.governorate.name}}"
         },
     {% endif %}
