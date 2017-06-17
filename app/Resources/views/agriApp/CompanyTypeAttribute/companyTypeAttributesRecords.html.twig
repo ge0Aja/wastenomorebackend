@@ -3,6 +3,7 @@
 
     <table id="companyTypeAttributeRecords" style="width: 100%" class="display table table-striped table-bordered">
         <h1>Company Type Attributes</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addCompanyTypeAttribute" class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Attribute</b></button></h2>
         <thead>
         <th>ID</th>
         <th>Attribute</th>
@@ -15,6 +16,46 @@
     </table>
 
 </div>
+
+<div id="addCompanyTypeAttribute" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add Attribute</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="addCompanyTypeAttributeForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="companyType">Company Type</label>
+                                {#<input type="text" class="form-control" id="type"
+                                       name="type"
+                                       placeholder="Enter Type">#}
+                                <select name="companyType" class="form-control" id="companyType"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="range">Attribute</label>
+                                <input type="text" class="form-control" id="attribute"
+                                       name="attribute"
+                                       placeholder="Enter Attribute">
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
 
 <script>
 
@@ -99,6 +140,9 @@
         deleterow(data.id);
     });
 
+    $("#companyType").focus(function(){
+        getCompanyTypes();
+    });
 
     function deleterow(e) {
         var table = $('#companyTypeAttributeRecords').DataTable();
@@ -118,5 +162,21 @@
         }
     }
 
+    function getCompanyTypes() {
+        $.ajax({
+            url:'{{ path('CompanyTypeRecords') }}',
+            type:'GET',
+            dataType: 'json',
+            success: function( json ) {
+                for(var i=0;i<json.data.length;i++)
+                {
+                        $('#companyType').append($('<option>', {
+                            value: json.data[i].id,
+                            text: json.data[i].typeName
+                        }));
+                    }
+                }
+            })
+        }
 </script>
 {{ include(':agriApp:base_foot.html.twig') }}

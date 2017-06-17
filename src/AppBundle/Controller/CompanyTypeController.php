@@ -23,7 +23,8 @@ class CompanyTypeController extends Controller
     /**
      * @Route("/CompanyTypeRecords", name="CompanyTypeRecords")
      */
-    public function getCompanyTypeRecords(){
+    public function getCompanyTypeRecords()
+    {
         $em = $this->getDoctrine()->getManager();
         $companyTypeRecords = $em->getRepository('AppBundle:CompanyType')->findAll();
         return $this->render("agriApp/CompanyType/companyTypeRecordsInJson.html.twig", ['companyTypeRecords' => $companyTypeRecords]);
