@@ -1,0 +1,31 @@
+{% set WasteTypeCatRecordsArrayLength = WasteTypeCatRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for WasteTypeCatRecord in WasteTypeCatRecords %}
+
+    {%  if counter == WasteTypeCatRecordsArrayLength-1 %}
+        {
+        "id": "{{ WasteTypeCatRecord.id }}",
+        "name": "{{ WasteTypeCatRecord.name}}",
+        "wastetype_name": "{{ WasteTypeCatRecord.wasteType.name}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ WasteTypeCatRecord.id }}",
+        "name": "{{ WasteTypeCatRecord.name}}",
+        "wastetype_name": "{{ WasteTypeCatRecord.wasteType.name}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

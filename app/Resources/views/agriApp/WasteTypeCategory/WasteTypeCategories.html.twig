@@ -1,14 +1,15 @@
 {{ include(':agriApp:base_head.html.twig') }}
 <div class="container-fluid">
 
-    <table id="collectingCompanyRecords" style="width: 100%" class="display table table-striped table-bordered">
-        <h1>Garbage Collection Companies</h1>
-        <h2><button type="button" data-toggle="modal" data-target="#addGCCompanies"
-                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Company</b></button></h2>
+    <table id="wasteTypeCatRecords" style="width: 100%" class="display table table-striped table-bordered">
+
+        <h1>Waste Categories</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addwasteTypeCat"
+                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Waste Category</b></button></h2>
         <thead>
         <th>ID</th>
-        <th>Name</th>
-        <th>Location</th>
+        <th>Category</th>
+        <th>Waste Type</th>
         <th></th>
         </thead>
         <tbody>
@@ -19,36 +20,34 @@
 </div>
 
 
-
-<div id="addGCCompanies" class="modal fade" role="dialog">
+<div id="addwasteTypeCat" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>
-                    <h3 class="box-title">Add City</h3>
+                    <h3 class="box-title">Add Waste Type Category</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="addGCCompanyForm" role="form" action="">
+                    <form id="addwasteTypeCatForm" role="form" action="">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="gover_district_gc_txt_add">Governorate</label>
-                                <input type="text" class="form-control" id="gover_district_gc_txt_add" name="gover_district_gc_txt_add" disabled>
-                                <label for="district_gc_select">District</label>
-                                <select id="district_gc_select" name="district_gc_select" class="form-control" >
-                                    <option value="default" g_gov="Please Select a District" selected="selected">select District</option>
-                                    {% for district in districts %}
-                                        <option value="{{ district.id }}" g_gov="{{ district.governorate.name }}">{{ district.name }}</option>
+                                <label for="wastetype_select">Waste Types</label>
+                                <select id="wastetype_select" name="wastetype_select" class="form-control" >
+                                    <option value="default" selected="selected">select Waste Type</option>
+                                    {% for wastetype in wastetypes %}
+                                        <option value="{{ wastetype.id }}">{{ wastetype.name }}</option>
                                     {% endfor %}
                                 </select>
 
-                                <label for="txt_gccompany_add">Company</label>
-                                <input type="text" class="form-control" id="txt_gccompany_add"
-                                       name="txt_gccompany_add"
-                                       placeholder="e.g. Sukleen" required>
+                                <label for="txt_wastetypecat_add">Waste Category</label>
+                                <input type="text" class="form-control" id="txt_wastetypecat_add"
+                                       name="txt_wastetypecat_add"
+                                       placeholder="e.g. Protein" required>
                             </div>
                         </div>
+
                         <div class="box-footer">
                             <button id="btn" type="submit" class="btn btn-primary">Submit</button>
                         </div>
@@ -61,38 +60,39 @@
 </div>
 
 
-<div id="editGCCompanies" class="modal fade" role="dialog">
+
+<div id="editwasteTypeCat" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>
-                    <h3 class="box-title">Add City</h3>
+                    <h3 class="box-title">Edit Waste Type Category</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="editGCCompanyForm" role="form" action="">
+                    <form id="editwasteTypeCatForm" role="form" action="">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="gover_district_gc_txt_edit">Governorate</label>
-                                <input type="text" class="form-control" id="gover_district_gc_txt_edit" name="gover_district_gc_txt_edit" disabled>
-                                <label for="district_gc_select_edit">District</label>
-                                <select id="district_gc_select_edit" name="district_gc_select_edit" class="form-control" >
-                                    <option value="default" g_gov="Please Select a District">select District</option>
-                                    {% for district in districts %}
-                                        <option value="{{ district.id }}" g_gov="{{ district.governorate.name }}">{{ district.name }}</option>
+                                <label for="wastetype_select_edit">Waste Types</label>
+                                <select id="wastetype_select_edit" name="wastetype_select_edit" class="form-control" >
+                                    <option value="default">select Waste Type</option>
+                                    {% for wastetype in wastetypes %}
+                                        <option value="{{ wastetype.id }}">{{ wastetype.name }}</option>
                                     {% endfor %}
                                 </select>
 
-                                <label for="txt_gccompany_edit">City</label>
-                                <input type="text" class="form-control" id="txt_gccompany_edit"
-                                       name="txt_gccompany_edit"
+                                <label for="txt_wastetypecat_edit">Waste Category</label>
+                                <input type="text" class="form-control" id="txt_wastetypecat_edit"
+                                       name="txt_wastetypecat_edit"
                                        placeholder="" required>
-                                <input type="hidden" id="h_gccompanyID_edit" name="h_gccompanyID_edit">
+                                <input type="hidden" id="h_wastetypecatID_edit" name="h_wastetypecatID_edit">
                             </div>
                         </div>
+                        <!-- /.box-body -->
+
                         <div class="box-footer">
-                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                            <button id="editBtn" type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -103,7 +103,8 @@
 </div>
 
 
-<div id="delGCCompanies" class="modal fade" role="dialog">
+
+<div id="delwasteTypeCat" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -114,7 +115,7 @@
                     <h3 class="box-title">Confirm Delete</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="delGCCompaniesForm" role="form"
+                    <form id="delwasteTypeCatForm" role="form"
                           action=""
                           method="">
                         <div class="box-body">
@@ -127,7 +128,7 @@
                                         data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">No</span></button>
                             </div>
-                            <input type="hidden" id="h_gccompanyID_del" name="h_gccompanyID_del">
+                            <input type="hidden" id="h_wastetypecatID_del" name="h_wastetypecatID_del">
                         </div>
                     </form>
                 </div>
@@ -137,31 +138,32 @@
 </div>
 
 
+
 <script>
 
     $(document).ready(function () {
 
-        var tHead = $('#collectingCompanyRecords thead th');
+        var tHead = $('#wasteTypeCatRecords thead th');
         tHead.not(":eq(0),:eq(3)").each(function () {
             var title = $(this).text();
             //console.log(title);
             $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
         });
 
-        var table = $('#collectingCompanyRecords').DataTable({
+        var table = $('#wasteTypeCatRecords').DataTable({
 
             "deferRender": true,
 
             "ajax" :
                 {
-                    "url": "/CollectingCompanyRecords",
+                    "url": "/WasteTypeCategoryRecords",
                     "type": "GET"
                 },
 
             "columns": [
                 {"data": "id"},
                 {"data": "name"},
-                {"data": "district_name"}
+                {"data": "wastetype_name"}
 
             ],
             order: [],
@@ -181,7 +183,7 @@
                 {
                     "targets":[3],
                     "data": null,
-                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delGCCompanies" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editGCCompanies" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
+                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delwasteTypeCat" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editwasteTypeCat" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
                     "orderable":false
                 }
             ]
@@ -214,52 +216,49 @@
 </script>
 
 
-
-
-
 <script>
 
-    $('#collectingCompanyRecords tbody').on( 'click', '.editBut', function () {
-        var table = $('#collectingCompanyRecords').DataTable();
+    $('#wasteTypeCatRecords tbody').on( 'click', '.editBut', function () {
+        var table = $('#wasteTypeCatRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
 //        console.log($.parseHTML(data.range)[0].data);
-        editRow(data.id,$.parseHTML(data.name)[0].data,$.parseHTML(data.district_name)[0].data,$.parseHTML(data.governorate_name)[0].data);
+        editRow(data.id,$.parseHTML(data.name)[0].data,$.parseHTML(data.wastetype_name)[0].data);
     });
 
-    function editRow(e,f,g,h)
+    function editRow(e,f,g)
     {
-        var table = $('#collectingCompanyRecords').DataTable();
+        var table = $('#wasteTypeCatRecords').DataTable();
 //        editCompanyAnnualSalesForm
-        $("#txt_gccompany_edit").val(f);
-        $("#h_gccompanyID_edit").val(e);
-        $("#district_gc_select_edit option").filter(function(){
+        $("#txt_wastetypecat_edit").val(f);
+        $("#h_wastetypecatID_edit").val(e);
+        $("#wastetype_select_edit option").filter(function(){
             return $(this).text() == g;
-        }).prop("selected","selected");
-        $("#gover_district_gc_txt_edit").val(h);
+        }).prop('selected','selected');
+
     }
 
-    $(document).on("submit", "#editGCCompanyForm", function (e)
+    $(document).on("submit", "#editwasteTypeCatForm", function (e)
     {
         e.preventDefault();
 
-        var data_array = $('#editGCCompanyForm').serialize();
+        var data_array = $('#editwasteTypeCatForm').serialize();
         //console.log(data_array);
         $.ajax({
-            url: '{{ path('editCollectingCompany') }}',
+            url: '{{ path('editWasteTypeCat') }}',
             data: data_array,
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    $("#editGCCompanies").modal("hide");
-                    $("#txt_gccompany_edit").val("");
-                    $("#h_gccompanyID_edit").val("");
-                    $("#district_gc_select_edit").val("default");
-                    $("#gover_district_gc_txt_edit").val("");
-                    var table = $('#collectingCompanyRecords').DataTable();
+                    $("#editwasteTypeCat").modal("hide");
+                    $("#txt_wastetypecat_edit").val("");
+                    $("#h_wastetypecatID_edit").val("");
+                    $("#wastetype_select_edit").val("default");
+                    var table = $('#wasteTypeCatRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
                     //display the message
                 }
+
             }
         });
 
@@ -267,33 +266,31 @@
 
 </script>
 
-
 <script>
 
-    $('#collectingCompanyRecords tbody').on( 'click', '.deleteBut', function () {
-        var table = $('#collectingCompanyRecords').DataTable();
+    $('#wasteTypeCatRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#wasteTypeCatRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
-        $("#h_gccompanyID_del").val(data.id);
+        $("#h_wastetypecatID_del").val(data.id);
     });
 
 
 
-    $(document).on("submit", "#delGCCompaniesForm", function (e){
+    $(document).on("submit", "#delwasteTypeCatForm", function (e){
 
         e.preventDefault();
 
-        var data_array = $('#delGCCompaniesForm').serialize();
-
-        console.log(data_array);
+        var data_array = $('#delwasteTypeCatForm').serialize();
+//        console.log(data_array);
         $.ajax({
-            url: '{{ path('deleteCollectingCompany') }}',
+            url: '{{ path('deleteWasteTypeCat') }}',
             data: data_array,
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    $("#delGCCompanies").modal("hide");
-                    $("#h_gccompanyID_del").val("");
-                    var table = $('#collectingCompanyRecords').DataTable();
+                    $("#delwasteTypeCat").modal("hide");
+                    $("#h_wastetypecatID_del").val("");
+                    var table = $('#wasteTypeCatRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
                     //display the message
@@ -306,74 +303,54 @@
 
 </script>
 
-
 <script>
-    $(document).on("submit", "#addGCCompanyForm", function (e) {
+    $(document).on("submit", "#addwasteTypeCatForm", function (e) {
+
         e.preventDefault();
-        var data_array = $('#addGCCompanyForm').serialize();
+
+        var data_array = $('#addwasteTypeCatForm').serialize();
+
+        console.log(data_array)
+
+
         $.ajax({
-            url: '{{ path('addCollectingCompany') }}',
+            url: '{{ path('addWasteTypeCat') }}',
             data: data_array,
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    $("#addGCCompanies").modal("hide");
-                    $("#txt_gccompany_add").val("");
-                    $("#district_gc_select").val("default");
-                    $("#gover_district_gc_txt_add").val("");
-                    var table = $('#collectingCompanyRecords').DataTable();
+                    $("#addwasteTypeCat").modal("hide");
+                    $("#txt_wastetypecat_add").val("");
+                    $("#wastetype_select").val("default");
+                    var table = $('#wasteTypeCatRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
                     //display the message
                 }
+
             }
         });
-    });
-</script>
-
-<script>
-
-    $('#district_gc_select').on('change',function () {
-        /* var ind = this.value;*/
-        var gov = $('option:selected',this).attr('g_gov');
-
-        /* console.log(ind);*/
-
-        $('#gover_district_gc_txt_add').val(gov);
-
-    });
-
-
-    $('#district_gc_select_edit').on('change',function () {
-        /* var ind = this.value;*/
-        var gov = $('option:selected',this).attr('g_gov');
-
-        /* console.log(ind);*/
-
-        $('#gover_district_gc_txt_edit').val(gov);
 
     });
 
 </script>
-
-
 
 <script>
     $(document).ready(function () {
 
         jQuery.validator.addMethod("valueNotEquals", function(value, element,arg) {
             return this.optional(element) || arg != value;
-        }, "Please specify a District");
+        }, "Please specify a Waste Type");
 
 
-        $('#editGCCompanyForm').validate({
+        $('#editwasteTypeCatForm').validate({
 
             rules:{
-                district_gc_select_edit:{
+                wastetype_select_edit:{
                     required: true,
                     valueNotEquals: "default"
                 },
-                txt_gccompany_edit:{
+                txt_wastetypecat_edit:{
                     required: true
                 }
 
@@ -381,14 +358,14 @@
 
         });
 
-        $('#addGCCompanyForm').validate({
+        $('#addwasteTypeCatForm').validate({
 
             rules:{
-                district_gc_select:{
-                    required: true,
+                wastetype_select:{
+                        required: true,
                     valueNotEquals: "default"
                 },
-                txt_gccompany_add:{
+                txt_wastetypecat_add:{
                     required: true
                 }
 
@@ -397,6 +374,5 @@
         });
     });
 </script>
-
 
 {{ include(':agriApp:base_foot.html.twig') }}
