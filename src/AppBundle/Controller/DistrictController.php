@@ -18,9 +18,6 @@ class DistrictController extends Controller
         return $this->render('', array('name' => $name));
     }
 
-
-
-
     /**
      * @Route("/DistrictsRecords",name="DistrictsRecords")
      */
