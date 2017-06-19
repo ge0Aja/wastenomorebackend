@@ -34,7 +34,11 @@
                                 {#<input type="text" class="form-control" id="type"
                                        name="type"
                                        placeholder="Enter Type">#}
-                                <select name="companyType" class="form-control" id="companyType"></select>
+                                <select name="companyType" class="form-control" id="companyType">
+                                {% for companyType in companyTypes %}
+                                <option value="{{ companyType.id }}">{{ companyType.typeName }}</option>
+                                {% endfor %}
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="range">Attribute</label>
@@ -60,7 +64,6 @@
 <script>
 
     $(document).ready(function () {
-
         var tHead = $('#companyTypeAttributeRecords thead th');
         tHead.not(":eq(0),:eq(3)").each(function () {
             var title = $(this).text();
@@ -140,10 +143,32 @@
         deleterow(data.id);
     });
 
-    $("#companyType").focus(function(){
-        getCompanyTypes();
-    });
+//    $("#companyType").focus(function(){
+//        getCompanyTypes();
+//    });
+    $(document).on("submit", "#addCompanyTypeAttributeForm", function (e) {
 
+        e.preventDefault();
+
+        var data_array = $('#addCompanyTypeAttributeForm').serialize();
+
+        $.ajax({
+            url: '{{ path('addCompanyTypeAttribute') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#addCompanyTypeAttribute").modal("hide");
+                    $("#attribute").val("");
+                    var table = $('#companyTypeAttributeRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+
+            }
+        });
+    });
     function deleterow(e) {
         var table = $('#companyTypeAttributeRecords').DataTable();
         if (confirm('Are you sure you want to delete this?')) {
@@ -174,9 +199,9 @@
                             value: json.data[i].id,
                             text: json.data[i].typeName
                         }));
-                    }
                 }
-            })
-        }
+            }
+        })
+    }
 </script>
 {{ include(':agriApp:base_foot.html.twig') }}
