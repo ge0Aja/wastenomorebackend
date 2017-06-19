@@ -60,6 +60,84 @@
     </div>
 </div>
 
+<div id="editCompanyTypeAttribute" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Edit Attribute</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="editCompanyTypeAttributeForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="companyType">Company Type</label>
+                                {#<input type="text" class="form-control" id="type"
+                                       name="type"
+                                       placeholder="Enter Type">#}
+                                <select name="companyType" class="form-control" id="companyTypeEditID">
+                                    {% for companyType in companyTypes %}
+                                        <option value="{{ companyType.id }}">{{ companyType.typeName }}</option>
+                                    {% endfor %}
+                                </select>
+                                <input type="hidden" id="attributeID" name="attributeID">
+                            </div>
+                            <div class="form-group">
+                                <label for="range">Attribute</label>
+                                <input type="text" class="form-control" id="attributeEdit"
+                                       name="attribute"
+                                       placeholder="Enter Attribute">
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+<div id="delCompanyTypeAttribute" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Confirm Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="delAttribute" role="form"
+                          action=""
+                          method="">
+                        <div class="box-body">
+                            <p class="text-black">Are you sure you want to delete this
+                                Instance??</p>
+                            <div class="box-footer">
+                                <button type="submit" class="pull-right btn btn-primary">Yes
+                                </button>
+                                <button type="button" class="pull-left btn btn-primary"
+                                        data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">No</span></button>
+                            </div>
+                            <input type="hidden" id="delAttributeID" name="delAttributeID">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script>
 
@@ -98,13 +176,13 @@
                 "visible": false
             },
                 {
-                    "targets": [1, 2],
+                    "targets": [1],
                     "orderable": false
                 },
                 {
                     "targets":[3],
                     "data": null,
-                    "defaultContent":'<button type="button" data-toggle="modal" class="btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>',
+                    "defaultContent":'<button type="button" data-toggle="modal" data-target="#editCompanyTypeAttribute" class="editBut btn-group-xs btn bg-blue-gradient pull-left"><b><i class="fa fa-pencil"></i></b></button> <button type="button" data-toggle="modal" data-target="#delCompanyTypeAttribute" class="deleteBut btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>',
                     "orderable":false
                 }
             ]
@@ -137,15 +215,34 @@
 </script>
 
 <script>
-    $('#companyTypeAttributeRecords tbody').on( 'click', 'button', function () {
+    $('#companyTypeAttributeRecords tbody').on( 'click', '.deleteBut', function () {
         var table = $('#companyTypeAttributeRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
-        deleterow(data.id);
+        $("#delAttributeID").val(data.id);
+    });
+    $('#companyTypeAttributeRecords tbody').on( 'click', '.editBut', function () {
+        var table = $('#companyTypeAttributeRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        var g=(data.companytype);
+//        console.log(g);
+        editRow(data,g);
     });
 
-//    $("#companyType").focus(function(){
-//        getCompanyTypes();
-//    });
+    function editRow(e,g)
+    {
+//        console.log(e);
+        $("#attributeID").val(e.id);
+        $("#attributeEdit").val(e.attributeName);
+//        $("#companyTypeEdit").val(e.companyType);
+        $("#companyTypeEdit option").filter(function(){
+            return $(this).text() === g;
+        }).prop('selected','selected');
+    }
+
+
+    $("#companyType").focus(function(){
+        getCompanyTypes();
+    });
     $(document).on("submit", "#addCompanyTypeAttributeForm", function (e) {
 
         e.preventDefault();
@@ -157,16 +254,14 @@
             data: data_array,
             type: "POST",
             success: function (data) {
-                if(data.status == 'success') {
+//                    getCompanyTypes();
                     $("#addCompanyTypeAttribute").modal("hide");
                     $("#attribute").val("");
+
                     var table = $('#companyTypeAttributeRecords').DataTable();
                     table.ajax.reload(null, false);
-                }if(data.status == 'error'){
-                    //display the message
                 }
 
-            }
         });
     });
     function deleterow(e) {
@@ -176,7 +271,7 @@
                 url: '/deleteCompanyTypeAttribute/'+e,
                 type: 'POST',
                 success: function (data) {
-                    console.log(data);
+//                    console.log(data);
                     if(data.status == 'success') {
                         table.ajax.reload(null, false);
                     }if(data.status == 'error'){
@@ -203,5 +298,53 @@
             }
         })
     }
+
+    $(document).on("submit", "#delAttribute", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#delAttribute').serialize();
+//        console.log(data_array);
+        $.ajax({
+            url: '{{ path('deleteCompanyTypeAttribute') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#delCompanyTypeAttribute").modal("hide");
+                    $("#delAttributeID").val("");
+                    var table = $('#companyTypeAttributeRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+            }
+        });
+
+    });
+
+    $(document).on("submit", "#editCompanyTypeAttributeForm", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#editCompanyTypeAttributeForm').serialize();
+//        console.log(data_array);
+        $.ajax({
+            url: '{{ path('editCompanyTypeAttribute') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+
+                    $("#editCompanyTypeAttribute").modal("hide");
+                    $("#attributeEdit").val("");
+                    var table = $('#companyTypeAttributeRecords').DataTable();
+                    table.ajax.reload(null, false);
+
+                    //display the message
+            }
+        });
+
+    });
+
 </script>
 {{ include(':agriApp:base_foot.html.twig') }}

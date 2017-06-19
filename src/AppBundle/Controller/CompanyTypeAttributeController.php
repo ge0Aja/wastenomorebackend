@@ -38,12 +38,12 @@ class CompanyTypeAttributeController extends Controller
 
 
     /**
-     * @Route("/deleteCompanyTypeAttribute/{id}", name="deleteCompanyTypeAttribute")
+     * @Route("/deleteCompanyTypeAttribute/", name="deleteCompanyTypeAttribute")
      */
-    public function DeleteLogAction($id){
+    public function DeleteLogAction(Request $request){
         try {
             $em = $this->getDoctrine()->getManager();
-            $companyTypeAttributeRecord = $em->getRepository('AppBundle:CompanyTypeAttribute')->find($id);
+            $companyTypeAttributeRecord = $em->getRepository('AppBundle:CompanyTypeAttribute')->find($request->request->get('delAttributeID'));
             $em->remove($companyTypeAttributeRecord);
             $em->flush();
 
@@ -73,6 +73,28 @@ class CompanyTypeAttributeController extends Controller
             }
         }
         return new Response('Add Attribute Fail');
+    }
+
+    /**
+     * @Route("/editCompanyTypeAttribute",name="editCompanyTypeAttribute")
+     */
+    public function editCompanyTypeAttribute(Request $request)
+    {
+        if ($request->getMethod() === 'POST')
+        {
+            if ($request->request) {
+                    $em=$this->getDoctrine()->getManager();
+                    $attribute = $em->getRepository('AppBundle:CompanyTypeAttribute')->find($request->request->get('attributeID'));
+                    $companyType= $em->getRepository('AppBundle:CompanyType')->find($request->request->get('companyType'));
+                    $attribute->setName($request->request->get('attribute'));
+                    $attribute->setCompanyType($companyType);
+                    $em->persist($attribute);
+                    $em->flush();
+                    return new Response ('Attribute Edit Successful');
+            }
+        }
+        return new Response ('Attribute Edit Failed');
+
     }
 
 }
