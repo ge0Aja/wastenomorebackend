@@ -2,25 +2,25 @@
 <div class="container-fluid">
 
 
-    <table id="companyTypeRecords" style="width: 100%" class="display table table-striped table-bordered">
-        <h1>Company Types</h1>
-        <h2><button type="button" data-toggle="modal" data-target="#addCompanyType"
-                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Company Type</b></button></h2>
-        <thead>
-        <th>ID</th>
-        <th>Type</th>
-        <th></th>
-        </thead>
-        <tbody>
+    <table id="wasteTypeRecords" style="width: 100%" class="display table table-striped table-bordered">
+        <h1>Waste Types</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addWasteType"
+                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Waste Type</b></button></h2>
+            <thead>
+            <th>ID</th>
+            <th>Type</th>
+            <th></th>
+            </thead>
+            <tbody>
 
-        </tbody>
+            </tbody>
     </table>
 
 
 </div>
 
 
-<div id="addCompanyType" class="modal fade" role="dialog">
+<div id="addWasteType" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -30,13 +30,13 @@
                     <h3 class="box-title">Add Range</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="addCompanyTypeForm" role="form" action="">
+                    <form id="addWasteTypeForm" role="form" action="">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="companytypeadd">Type</label>
-                                <input type="text" class="form-control" id="companytypeadd"
-                                       name="companytypeadd"
-                                       placeholder="e.g. Restaurant" required>
+                                <label for="wastetypeadd">Type</label>
+                                <input type="text" class="form-control" id="wastetypeadd"
+                                       name="wastetypeadd"
+                                       placeholder="e.g. Food, Packaging" required>
                             </div>
                         </div>
                         <!-- /.box-body -->
@@ -52,24 +52,24 @@
     </div>
 </div>
 
-<div id="editCompanyType" class="modal fade" role="dialog">
+<div id="editWasteType" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>
-                    <h3 class="box-title">Edit Company Type</h3>
+                    <h3 class="box-title">Edit Waste Type</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="editCompanyTypeForm" role="form" action="">
+                    <form id="editWasteTypeForm" role="form" action="">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="editcompanytypetxt">Company Type</label>
-                                <input type="text" class="form-control" id="editcompanytypetxt"
-                                       name="editcompanytypetxt"
+                                <label for="editwastetypetxt">Waste Type</label>
+                                <input type="text" class="form-control" id="editwastetypetxt"
+                                       name="editwastetypetxt"
                                        placeholder="" required>
-                                <input type="hidden" id="companytypeEditID" name="companytypeEditID">
+                                <input type="hidden" id="wastetypeEditID" name="wastetypeEditID">
 
                             </div>
                         </div>
@@ -85,7 +85,7 @@
     </div>
 </div>
 
-<div id="delCompanyType" class="modal fade" role="dialog">
+<div id="delWasteType" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -96,7 +96,7 @@
                     <h3 class="box-title">Confirm Delete</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="delCompanyTypeForm" role="form"
+                    <form id="delWasteTypeForm" role="form"
                           action=""
                           method="">
                         <div class="box-body">
@@ -109,7 +109,7 @@
                                         data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">No</span></button>
                             </div>
-                            <input type="hidden" id="companytypedelID" name="companytypedelID">
+                            <input type="hidden" id="wastetypedelID" name="wastetypedelID">
                         </div>
                     </form>
                 </div>
@@ -122,26 +122,26 @@
 <script>
     $(document).ready(function () {
 
-        var tHead = $('#companyTypeRecords thead th');
+        var tHead = $('#wasteTypeRecords thead th');
         tHead.not(":eq(0),:eq(2)").each(function () {
             var title = $(this).text();
             //console.log(title);
             $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
         });
 
-        var table = $('#companyTypeRecords').DataTable({
+        var table = $('#wasteTypeRecords').DataTable({
 
             "deferRender": true,
 
             "ajax" :
                 {
-                    "url": "/CompanyTypeRecords",
+                    "url": "{{ path('WasteTypeRecords') }}",
                     "type": "GET"
                 },
 
             "columns": [
                 {"data": "id"},
-                {"data": "typeName"}
+                {"data": "wastename"}
             ],
             order: [],
             "pageLength": 15,
@@ -160,7 +160,7 @@
                 {
                     "targets":[2],
                     "data": null,
-                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delCompanyType" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editCompanyType" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
+                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delWasteType" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editWasteType" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
                     "orderable":false
                 }
             ]
@@ -194,26 +194,26 @@
 
 
 <script>
-    $('#companyTypeRecords tbody').on( 'click', '.deleteBut', function () {
-        var table = $('#companyTypeRecords').DataTable();
+    $('#wasteTypeRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#wasteTypeRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
-        $("#companytypedelID").val(data.id);
+        $("#wastetypedelID").val(data.id);
 //        deleterow(data.id);
     });
-    $('#companyTypeRecords tbody').on( 'click', '.editBut', function () {
-        var table = $('#companyTypeRecords').DataTable();
+    $('#wasteTypeRecords tbody').on( 'click', '.editBut', function () {
+        var table = $('#wasteTypeRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
-       // console.log($.parseHTML(data.typeName)[0].data);
-      //  console.log($.parseHTML(data.id)[0].data);
-        editRow(data.id,$.parseHTML(data.typeName)[0].data);
+        // console.log($.parseHTML(data.typeName)[0].data);
+        //  console.log($.parseHTML(data.id)[0].data);
+        editRow(data.id,$.parseHTML(data.wastename)[0].data);
     });
 
     function editRow(e,f)
     {
-        var table = $('#companyTypeRecords').DataTable();
+        var table = $('#wasteTypeRecords').DataTable();
 //        editCompanyAnnualSalesForm
-        $("#editcompanytypetxt").val(f);
-        $("#companytypeEditID").val(e);
+        $("#editwastetypetxt").val(f);
+        $("#wastetypeEditID").val(e);
 
     }
 
@@ -222,21 +222,21 @@
 </script>
 
 <script>
-    $(document).on("submit", "#addCompanyTypeForm", function (e) {
+    $(document).on("submit", "#addWasteTypeForm", function (e) {
 
         e.preventDefault();
 
-        var data_array = $('#addCompanyTypeForm').serialize();
+        var data_array = $('#addWasteTypeForm').serialize();
 
         $.ajax({
-            url: '{{ path('addCompanyType') }}',
+            url: '{{ path('addWasteType') }}',
             data: data_array,
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    $("#addCompanyType").modal("hide");
-                    $("#companytypeadd").val("");
-                    var table = $('#companyTypeRecords').DataTable();
+                    $("#addWasteType").modal("hide");
+                    $("#wastetypeadd").val("");
+                    var table = $('#wasteTypeRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
                     //display the message
@@ -246,22 +246,22 @@
         });
     });
 
-    $(document).on("submit", "#editCompanyTypeForm", function (e)
+    $(document).on("submit", "#editWasteTypeForm", function (e)
     {
         e.preventDefault();
 
-        var data_array = $('#editCompanyTypeForm').serialize();
+        var data_array = $('#editWasteTypeForm').serialize();
 
         $.ajax({
-            url: '{{ path('editCompanyType') }}',
+            url: '{{ path('editWasteType') }}',
             data: data_array,
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    $("#editCompanyType").modal("hide");
-                    $("#editcompanytypetxt").val("");
-                    $("#companytypeEditID").val("");
-                    var table = $('#companyTypeRecords').DataTable();
+                    $("#editWasteType").modal("hide");
+                    $("#editwastetypetxt").val("");
+                    $("#wastetypeEditID").val("");
+                    var table = $('#wasteTypeRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
                     //display the message
@@ -272,24 +272,24 @@
 
     });
 
-    $(document).on("submit", "#delCompanyTypeForm", function (e){
+    $(document).on("submit", "#delWasteTypeForm", function (e){
 
         e.preventDefault();
 
-        var data_array = $('#delCompanyTypeForm').serialize();
-//        console.log(data_array);
+        var data_array = $('#delWasteTypeForm').serialize();
+        console.log(data_array);
         $.ajax({
-            url: '{{ path('deleteCompanyType') }}',
+            url: '{{ path('deleteWasteType') }}',
             data: data_array,
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    $("#delCompanyType").modal("hide");
-                    $("#companytypedelID").val("");
-                    var table = $('#companyTypeRecords').DataTable();
+                    $("#delWasteType").modal("hide");
+                    $("#wastetypedelID").val("");
+                    var table = $('#wasteTypeRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
-                    //display the message
+                    alert(data.message);
                 }
             }
         });

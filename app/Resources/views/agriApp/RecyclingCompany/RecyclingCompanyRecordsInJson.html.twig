@@ -15,7 +15,8 @@
         "name": "{{ RecyclingCompanyRecord.name}}",
         "district_name": "{{ RecyclingCompanyRecord.location.name}}",
         "material": "{{ RecyclingCompanyRecord.material}}",
-        "pickup_service": "{{ RecyclingCompanyRecord.pickup_service}}"
+        "pickup_service": "{{ RecyclingCompanyRecord.pickupService}}",
+        "governorate_name" : "{{ RecyclingCompanyRecord.location.governorate.name }}"
 
         }
     {%  else %}
@@ -24,7 +25,8 @@
         "name": "{{ RecyclingCompanyRecord.name}}",
         "district_name": "{{ RecyclingCompanyRecord.location.name}}",
         "material": "{{ RecyclingCompanyRecord.material}}",
-        "pickup_service": "{{ RecyclingCompanyRecord.pickup_service}}"
+        "pickup_service": "{{ RecyclingCompanyRecord.pickupService}}",
+        "governorate_name" : "{{ RecyclingCompanyRecord.location.governorate.name }}"
         },
     {% endif %}
 

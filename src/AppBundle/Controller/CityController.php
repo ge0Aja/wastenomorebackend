@@ -89,7 +89,7 @@ class CityController extends Controller
     /**
      * @Route("/editCity", name="editCity")
      */
-    public function editUnits(Request $request)
+    public function editCities(Request $request)
     {
         if ($request->getMethod() === 'POST') {
             if ($request->request) {

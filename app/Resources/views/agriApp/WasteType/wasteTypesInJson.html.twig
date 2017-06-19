@@ -1,0 +1,29 @@
+{% set wasteTypeRecordsArrayLength = wasteTypeRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for wasteTypeRecord in wasteTypeRecords %}
+
+    {%  if counter == wasteTypeRecordsArrayLength-1 %}
+        {
+        "id": "{{ wasteTypeRecord.id }}",
+        "wastename": "{{ wasteTypeRecord.name}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ wasteTypeRecord.id }}",
+        "wastename": "{{ wasteTypeRecord.name}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

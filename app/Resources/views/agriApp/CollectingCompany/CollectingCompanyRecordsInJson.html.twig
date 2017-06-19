@@ -13,14 +13,16 @@
         {
         "id": "{{ CollectingCompanyRecord.id }}",
         "name": "{{ CollectingCompanyRecord.name}}",
-        "district_name": "{{ CollectingCompanyRecord.location.name}}"
+        "district_name": "{{ CollectingCompanyRecord.location.name}}",
+        "governorate_name": "{{ CollectingCompanyRecord.location.governorate.name }}"
 
         }
     {%  else %}
         {
         "id": "{{ CollectingCompanyRecord.id }}",
         "name": "{{ CollectingCompanyRecord.name}}",
-        "district_name": "{{ CollectingCompanyRecord.location.name}}"
+        "district_name": "{{ CollectingCompanyRecord.location.name}}",
+        "governorate_name": "{{ CollectingCompanyRecord.location.governorate.name }}"
         },
     {% endif %}
 

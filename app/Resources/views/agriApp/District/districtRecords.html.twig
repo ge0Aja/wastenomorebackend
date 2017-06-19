@@ -68,7 +68,7 @@
                 <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>
-                    <h3 class="box-title">Edit Unit</h3>
+                    <h3 class="box-title">Edit District</h3>
                 </div>
                 <div class="modal-body">
                     <form id="editDistrictForm" role="form" action="">
@@ -252,6 +252,7 @@
                     $("#editDistricts").modal("hide");
                     $("#txt_district_edit").val("");
                     $("#h_districtID_edit").val("");
+                    $("#governorate_select_edit").val("default");
                     var table = $('#districtRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
