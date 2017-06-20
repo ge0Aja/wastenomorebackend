@@ -234,7 +234,7 @@
         $("#attributeID").val(e.id);
         $("#attributeEdit").val(e.attributeName);
 //        $("#companyTypeEdit").val(e.companyType);
-        $("#companyTypeEdit option").filter(function(){
+        $("#companyTypeEditID option").filter(function(){
             return $(this).text() === g;
         }).prop('selected','selected');
     }
@@ -243,6 +243,8 @@
     $("#companyType").focus(function(){
         getCompanyTypes();
     });
+
+
     $(document).on("submit", "#addCompanyTypeAttributeForm", function (e) {
 
         e.preventDefault();

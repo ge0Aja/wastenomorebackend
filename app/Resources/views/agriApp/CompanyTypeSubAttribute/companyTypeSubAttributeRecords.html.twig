@@ -1,0 +1,425 @@
+{{ include(':agriApp:base_head.html.twig') }}
+<div class="container-fluid">
+
+
+    <table id="companyTypeSubAttributeRecords" style="width: 100%" class="display table table-striped table-bordered">
+        <h1>Company Type Sub-Attributes</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addCompanyTypeAttributeSubAttribute" class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add SubAttribute</b></button></h2>
+        <thead>
+        <th>ID</th>
+        <th>Sub-Attribute</th>
+        <th>Attribute</th>
+        <th>Company Type</th>
+        <th></th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+
+</div>
+<div id="addCompanyTypeAttributeSubAttribute" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add Company Type Attribute SubAttribute</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="addSubAttribute" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="companyType">Company Type</label>
+                                <select id="companyType" name="companyType" class="form-control" >
+                                    <option value="default" selected="selected">Select Type</option>
+                                    {% for companyType in companyTypes %}
+                                        <option value="{{ companyType.id }}">{{ companyType.typeName }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="companyTypeAttribute">Company Type Attribute</label>
+                                <select id="companyTypeAttribute" name="companyTypeAttribute" class="form-control" >
+                                    <option value="default" selected="selected">Select Attribute</option>
+                                </select>
+
+                                <label for="subAttribute">Sub-Attribute</label>
+                                <input type="text" class="form-control" id="subAttribute"
+                                       name="subAttribute"
+                                       placeholder="something" required>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+<div id="editCompanyTypeAttributeSubAttribute" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Edit Company Type Attribute SubAttribute</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="editSubAttribute" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="companyType">Company Type</label>
+                                <select id="companyTypeEDIT" name="companyType" class="form-control" >
+                                    <option value="default" selected="selected">Select Type</option>
+                                    {% for companyType in companyTypes %}
+                                        <option value="{{ companyType.id }}">{{ companyType.typeName }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="companyTypeAttribute">Company Type Attribute</label>
+                                <select id="companyTypeAttributeEDIT" name="companyTypeAttribute" class="form-control" >
+                                    <option value="default" selected="selected">Select Attribute</option>
+                                </select>
+
+                                <label for="subAttribute">Sub-Attribute</label>
+                                <input type="text" class="form-control" id="subAttributeEDIT"
+                                       name="subAttribute"
+                                       placeholder="something" required>
+                                <input type="hidden" id="subAttributeIDEDIT" name="subAttributeID">
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+<div id="delCompanyTypeAttributeSubAttribute" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Confirm Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="delSubAttribute" role="form"
+                          action=""
+                          method="">
+                        <div class="box-body">
+                            <p class="text-black">Are you sure you want to delete this
+                                Instance??</p>
+                            <div class="box-footer">
+                                <button type="submit" class="pull-right btn btn-primary">Yes
+                                </button>
+                                <button type="button" class="pull-left btn btn-primary"
+                                        data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">No</span></button>
+                            </div>
+                            <input type="hidden" id="delAttributeID" name="delAttributeID">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        var tHead = $('#companyTypeSubAttributeRecords thead th');
+        tHead.not(":eq(0),:eq(3),:eq(4)").each(function () {
+            var title = $(this).text();
+            //console.log(title);
+            $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
+        });
+
+        var table = $('#companyTypeSubAttributeRecords').DataTable({
+
+            "deferRender": true,
+
+            "ajax" :
+                {
+                    "url": "/CompanyTypeSubAttributesRecords",
+                    "type": "GET"
+                },
+
+            "columns": [
+                {"data": "id"},
+                {"data": "subattributeName"},
+                {"data": "attributetype"},
+                {"data": "companyType"}
+            ],
+            order: [],
+            "pageLength": 15,
+            "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
+            columnDefs: [{
+                id: "DT_RowId",
+                "targets": [0],
+                "orderable": false,
+                "searchable": false,
+                "visible": false
+            },
+                {
+                    "targets": [1,2],
+                    "orderable": false
+                },
+                {
+                    "targets":[4],
+                    "data": null,
+                    "defaultContent":'<button type="button" data-toggle="modal" data-target="#editCompanyTypeAttributeSubAttribute" class="editBut btn-group-xs btn bg-blue-gradient pull-left"><b><i class="fa fa-pencil"></i></b></button> <button type="button" data-toggle="modal" data-target="#delCompanyTypeAttributeSubAttribute" class="deleteBut btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>',
+                    "orderable":false
+                }
+            ]
+        });
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+
+            $('select', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    console.log(this.value);
+                    if (this.value === "") {
+                        that.search('').draw();
+                    }
+                    else that.search("^" + this.value + "$", true, false).draw();
+                }
+            });
+
+        });
+    });
+
+</script>
+
+<script>
+
+    $('#companyTypeSubAttributeRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#companyTypeSubAttributeRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        $("#delAttributeID").val(data.id);
+//        console.log($("#delAttributeID").val())
+    });
+
+
+
+    $('#companyTypeSubAttributeRecords tbody').on( 'click', '.editBut', function () {
+        var table = $('#companyTypeSubAttributeRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        var g=(data.companyType);
+//        console.log(data.attributetype);
+        var h=data.attributetype;
+//        console.log(h);
+        var i=(data.subattributeName);
+        editRow(data,g,h,i);
+    });
+
+    function editRow(data,g,h,i)
+    {
+//        console.log(e);
+        $("#subAttributeIDEDIT").val(data.id);
+
+//        console.log(g);
+//        $("#companyTypeEdit").val(e.companyType);
+        $("#companyTypeEDIT option").filter(function(){
+            return $(this).text() == g;
+        }).prop('selected','selected');
+
+        updateSelects2();
+
+        $("#companyTypeAttributeEDIT option").filter(function(){
+            return $(this).text() == h;
+        }).prop('selected','selected');
+        $("#subAttributeEDIT").val(i);
+
+    }
+
+
+
+    $(document).on("submit", "#addSubAttribute", function (e) {
+
+        e.preventDefault();
+
+        var data_array = $('#addSubAttribute').serialize();
+//        console.log(data_array);
+        $.ajax({
+            url: '{{ path('addSubAttribute') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+//                    getCompanyTypes();
+                $("#addCompanyTypeAttributeSubAttribute").modal("hide");
+//                $("#attribute").val("");
+                $('#companyTypeAttribute')
+                    .find('option')
+                    .remove()
+                    .end();
+
+                var table = $('#companyTypeSubAttributeRecords').DataTable();
+                table.ajax.reload(null, false);
+            }
+
+        });
+    });
+
+
+    $(document).on("submit", "#delSubAttribute", function (e){
+
+        e.preventDefault();
+//        console.log('submitted');
+        var data_array = $('#delSubAttribute').serialize();
+//        console.log(data_array);
+
+        $.ajax({
+            url: '{{ path('deleteCompanyTypeAttributeSubAttribute') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status === 'success') {
+                    $("#delCompanyTypeAttributeSubAttribute").modal("hide");
+                    $("#delAttributeID").val("");
+                    var table = $('#companyTypeSubAttributeRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status === 'error'){
+                    //display the message
+                }
+            }
+        });
+
+    });
+
+
+    $(document).on("submit", "#editSubAttribute", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#editSubAttribute').serialize();
+//        console.log(data_array);
+        $.ajax({
+            url: '{{ path('editCompanyTypeAttributeSubAttribute') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+
+                $("#editCompanyTypeAttributeSubAttribute").modal("hide");
+//                $("#attributeEdit").val("");
+                var table = $('#companyTypeSubAttributeRecords').DataTable();
+                table.ajax.reload(null, false);
+
+                //display the message
+            }
+        });
+
+    });
+
+
+
+    function deleterow(e) {
+        var table = $('#companyTypeSubAttributeRecords').DataTable();
+        if (confirm('Are you sure you want to delete this?')) {
+            $.ajax({
+                url: '/deleteCompanyTypeSubAttribute/'+e,
+                type: 'POST',
+                success: function (data) {
+                    console.log(data);
+                    if(data.status == 'success') {
+                        table.ajax.reload(null, false);
+                    }if(data.status == 'error'){
+                        //display the message
+                    }
+                }
+            });
+        }
+    }
+
+    $( "#companyType" ).change(function() {
+//        console.log($("#companyType").val());//returns companyTypeId
+//        var changed = 0;
+        updateSelects();
+    });
+
+    $( "#companyTypeEDIT" ).change(function() {
+//        console.log($("#companyType").val());//returns companyTypeId
+//        var changed = 0;
+        updateSelects2();
+    });
+
+    function updateSelects()
+    {
+
+        if($("#companyType").val() === 'default')
+        {
+            $('#companyTypeAttribute')
+                .find('option')
+                .remove()
+                .end();
+        }
+
+        {% for companyType in companyTypes %}
+
+        if($("#companyType").val() == {{ companyType.id }})
+        {
+            $('#companyTypeAttribute')
+                .find('option')
+                .remove()
+                .end();
+            {% for companyTypeAttribute in companyType.companyTypeAttribute %}
+            $('#companyTypeAttribute').append($('<option>', {
+                value: '{{ companyTypeAttribute.id }}',
+                text: '{{ companyTypeAttribute.name }}'
+            }));
+            {% endfor %}
+        }
+
+        {% endfor %}
+    }
+    function updateSelects2()
+    {
+
+        if($("#companyTypeEDIT").val() === 'default')
+        {
+            $('#companyTypeAttributeEDIT')
+                .find('option')
+                .remove()
+                .end();
+        }
+
+        {% for companyType in companyTypes %}
+
+        if($("#companyTypeEDIT").val() == {{ companyType.id }})
+        {
+            $('#companyTypeAttributeEDIT')
+                .find('option')
+                .remove()
+                .end();
+            {% for companyTypeAttribute in companyType.companyTypeAttribute %}
+            $('#companyTypeAttributeEDIT').append($('<option>', {
+                value: '{{ companyTypeAttribute.id }}',
+                text: '{{ companyTypeAttribute.name }}'
+            }));
+            {% endfor %}
+        }
+
+        {% endfor %}
+    }
+</script>
+{{ include(':agriApp:base_foot.html.twig') }}
