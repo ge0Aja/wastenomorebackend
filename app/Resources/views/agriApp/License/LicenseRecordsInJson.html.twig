@@ -1,0 +1,30 @@
+{% set LicenseRecordsArrayLength = LicenseRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for LicenseRecord in LicenseRecords %}
+
+    {%  if counter == LicenseRecordsArrayLength-1 %}
+        {
+        "id": "{{ LicenseRecord.id }}",
+        "license": "{{ LicenseRecord.license}}",
+        "userCount" : "{{ LicenseRecord.userCount }}"
+        }
+    {%  else %}
+        {
+        "id": "{{ LicenseRecord.id }}",
+        "license": "{{ LicenseRecord.license}}",
+        "userCount" : "{{ LicenseRecord.userCount }}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

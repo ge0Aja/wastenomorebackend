@@ -1,0 +1,29 @@
+{% set AppRolesRecordsArrayLength = AppRolesRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for AppRolesRecord in AppRolesRecords %}
+
+    {%  if counter == AppRolesRecordsArrayLength-1 %}
+        {
+        "id": "{{ AppRolesRecord.id }}",
+        "role": "{{ AppRolesRecord.role}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ AppRolesRecord.id }}",
+        "role": "{{ AppRolesRecord.role}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}
