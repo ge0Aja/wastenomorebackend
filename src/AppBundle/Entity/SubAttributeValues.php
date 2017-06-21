@@ -20,34 +20,12 @@ class SubAttributeValues
 {
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SubAttributeValues",mappedBy="subAttribute",cascade={"persist"})
-     */
-    private $subAttributeValues;
-
-    public function __construct()
-    {
-        $this->subAttributeValues = new ArrayCollection();
-    }
-
-    /**
      * @return CompanyTypeAttributeSubAttribute
      */
     public function getSubAttribute()
     {
         return $this->subAttribute;
     }
-
-
-
-
-    /**
-     * @return ArrayCollection|SubAttributeValues[]
-     */
-    public function getSubAttributeValues()
-    {
-        return $this->subAttributeValues;
-    }
-
 
     /**
      * @ORM\Id
@@ -58,7 +36,7 @@ class SubAttributeValues
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SubAttributeValues",inversedBy="")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CompanyTypeAttributeSubAttribute",inversedBy="subAttributeValues")
      */
     private $subAttribute;
 
