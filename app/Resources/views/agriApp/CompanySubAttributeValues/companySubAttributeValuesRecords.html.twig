@@ -1,0 +1,346 @@
+{{ include(':agriApp:base_head.html.twig') }}
+<div class="container-fluid">
+
+    <table id="companySubAttributeValueRecords" style="width: 100%" class="display table table-striped table-bordered">
+        <h1>Company SubAttributes Values</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addCompanySubAttributeValue" class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add SubAttribute Value</b></button></h2>
+        <thead>
+        <th>ID</th>
+        <th>Value</th>
+        <th>SubAttribute</th>
+        <th></th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+</div>
+
+<div id="addCompanySubAttributeValue" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add SubAttributeValue</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="addCompanySubAttributeValueForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="subAttribute">SubAttribute</label>
+                                {#<input type="text" class="form-control" id="type"
+                                       name="type"
+                                       placeholder="Enter Type">#}
+                                <select name="subAttribute" class="form-control" id="subAttribute">
+                                {% for value in subAttributes %}
+                                <option value="{{ value.id }}">{{ value.name}}</option>
+                                {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="subAttributeValue">Value</label>
+                                <input type="text" class="form-control" id="subAttributeValue"
+                                       name="subAttributeValue"
+                                       placeholder="Enter Value">
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+<div id="editSubAttributeValue" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Edit Value</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="editSubAttributeValueForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="subAttribute">SubAttribute</label>
+
+                                <select name="subAttribute" class="form-control" id="subAttributeEditID">
+                                    {% for subAttribute in subAttributes %}
+                                        <option value="{{ subAttribute.id }}">{{ subAttribute.name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <input type="hidden" id="subAttributeValueID" name="subAttributeValueID">
+                            </div>
+                            <div class="form-group">
+                                <label for="subAttributeValueEDIT">Attribute</label>
+                                <input type="text" class="form-control" id="subAttributeValueEDIT"
+                                       name="subAttributeValueEDIT"
+                                       placeholder="Enter Value">
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+<div id="delSubAttributeValue" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Confirm Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="delValue" role="form"
+                          action=""
+                          method="">
+                        <div class="box-body">
+                            <p class="text-black">Are you sure you want to delete this
+                                Instance??</p>
+                            <div class="box-footer">
+                                <button type="submit" class="pull-right btn btn-primary">Yes
+                                </button>
+                                <button type="button" class="pull-left btn btn-primary"
+                                        data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">No</span></button>
+                            </div>
+                            <input type="hidden" id="delValueID" name="delValueID">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    $(document).ready(function () {
+        var tHead = $('#companySubAttributeValueRecords thead th');
+        tHead.not(":eq(0),:eq(3)").each(function () {
+            var title = $(this).text();
+            //console.log(title);
+            $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
+        });
+
+        var table = $('#companySubAttributeValueRecords').DataTable({
+
+            "deferRender": true,
+
+            "ajax" :
+                {
+                    "url": "/subAttributeValuesRecords",
+                    "type": "GET"
+                },
+
+            "columns": [
+                {"data": "id"},
+                {"data": "value"},
+                {"data": "subAttribute"}
+
+            ],
+            order: [],
+            "pageLength": 15,
+            "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
+            columnDefs: [{
+                id: "DT_RowId",
+                "targets": [0],
+                "orderable": false,
+                "searchable": false,
+                "visible": false
+            },
+                {
+                    "targets": [1],
+                    "orderable": false
+                },
+                {
+                    "targets":[3],
+                    "data": null,
+                    "defaultContent":'<button type="button" data-toggle="modal" data-target="#editSubAttributeValue" class="editBut btn-group-xs btn bg-blue-gradient pull-left"><b><i class="fa fa-pencil"></i></b></button> <button type="button" data-toggle="modal" data-target="#delSubAttributeValue" class="deleteBut btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>',
+                    "orderable":false
+                }
+            ]
+        });
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+
+            $('select', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    console.log(this.value);
+                    if (this.value === "") {
+                        that.search('').draw();
+                    }
+                    else that.search("^" + this.value + "$", true, false).draw();
+                }
+            });
+
+        });
+    });
+
+
+</script>
+
+<script>
+    $('#companySubAttributeValueRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#companySubAttributeValueRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        $("#delValueID").val(data.id);
+    });
+    $('#companySubAttributeValueRecords tbody').on( 'click', '.editBut', function () {
+        var table = $('#companySubAttributeValueRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+//        console.log(data);
+        editRow(data);
+    });
+
+    function editRow(e)
+    {
+//        console.log(e);
+        $("#subAttributeValueEDIT").val(e.value);
+        $("#subAttributeValueID").val(e.id);
+//        $("#companyTypeEdit").val(e.companyType);
+        $("#subAttributeEditID option").filter(function(){
+            return $(this).text() === e.subAttribute;
+        }).prop('selected','selected');
+    }
+
+
+    $("#companyType").focus(function(){
+        getCompanyTypes();
+    });
+
+
+    $(document).on("submit", "#addCompanySubAttributeValueForm", function (e) {
+
+        e.preventDefault();
+
+        var data_array = $('#addCompanySubAttributeValueForm').serialize();
+
+        $.ajax({
+            url: '{{ path('addCompanySubAttributeValue') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+//                    getCompanyTypes();
+                    $("#addCompanySubAttributeValue").modal("hide");
+                    $("#subAttributeValue").val("");
+
+                    var table = $('#companySubAttributeValueRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }
+
+        });
+    });
+    function deleterow(e) {
+        var table = $('#companySubAttributeValueRecords').DataTable();
+        if (confirm('Are you sure you want to delete this?')) {
+            $.ajax({
+                url: '/deleteCompanyTypeAttribute/'+e,
+                type: 'POST',
+                success: function (data) {
+//                    console.log(data);
+                    if(data.status == 'success') {
+                        table.ajax.reload(null, false);
+                    }if(data.status == 'error'){
+                        //display the message
+                    }
+                }
+            });
+        }
+    }
+
+    function getCompanyTypes() {
+        $.ajax({
+            url:'{{ path('CompanyTypeRecords') }}',
+            type:'GET',
+            dataType: 'json',
+            success: function( json ) {
+                for(var i=0;i<json.data.length;i++)
+                {
+                        $('#companyType').append($('<option>', {
+                            value: json.data[i].id,
+                            text: json.data[i].typeName
+                        }));
+                }
+            }
+        })
+    }
+
+    $(document).on("submit", "#delValue", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#delValue').serialize();
+//        console.log(data_array);
+        $.ajax({
+            url: '{{ path('deleteSubAttributeValue') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+
+                    $("#delSubAttributeValue").modal("hide");
+                    $("#delAttributeID").val("");
+                    var table = $('#companySubAttributeValueRecords').DataTable();
+                    table.ajax.reload(null, false);
+            }
+        });
+
+    });
+
+    $(document).on("submit", "#editSubAttributeValueForm", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#editSubAttributeValueForm').serialize();
+//        console.log(data_array);
+        $.ajax({
+            url: '{{ path('editCompanySubAttributeValue') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+
+                    $("#editSubAttributeValue").modal("hide");
+                    $("#attributeEdit").val("");
+                    var table = $('#companySubAttributeValueRecords').DataTable();
+                    table.ajax.reload(null, false);
+
+                    //display the message
+            }
+        });
+
+    });
+
+</script>
+{{ include(':agriApp:base_foot.html.twig') }}

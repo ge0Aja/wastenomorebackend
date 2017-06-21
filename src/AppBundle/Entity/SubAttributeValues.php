@@ -76,4 +76,13 @@ class SubAttributeValues
      * @ORM\Column(type="string")
      */
     private $value;
+
+    /**
+     * @param CompanyTypeAttributeSubAttribute $subAttribute
+     */
+    public function setSubAttribute($subAttribute)
+    {
+        $this->subAttribute = $subAttribute;
+    }
+
 }
