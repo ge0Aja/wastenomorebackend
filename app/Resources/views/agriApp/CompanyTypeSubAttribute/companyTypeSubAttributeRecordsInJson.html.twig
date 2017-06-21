@@ -13,14 +13,16 @@
         {
         "id": "{{ companyTypeSubAttributeRecord.id }}",
         "attributetype": "{{ companyTypeSubAttributeRecord.companyTypeAttribute.name}}",
-        "subattributeName": "{{ companyTypeSubAttributeRecord.name}}"
+        "subattributeName": "{{ companyTypeSubAttributeRecord.name}}",
+        "companyType": "{{ companyTypeSubAttributeRecord.companyTypeAttribute.companyType.typeName}}"
 
         }
     {%  else %}
         {
         "id": "{{ companyTypeSubAttributeRecord.id }}",
         "attributetype": "{{ companyTypeSubAttributeRecord.companyTypeAttribute.name}}",
-        "subattributeName": "{{ companyTypeSubAttributeRecord.name}}"
+        "subattributeName": "{{ companyTypeSubAttributeRecord.name}}",
+        "companyType": "{{ companyTypeSubAttributeRecord.companyTypeAttribute.companyType.typeName}}"
         },
     {% endif %}
 

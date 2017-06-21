@@ -42,6 +42,7 @@ class CompanyTypeAttributeSubAttribute
     public function __construct()
     {
         $this->company_attributes_and_subattributes = new ArrayCollection();
+        $this->subAttributeValues = new ArrayCollection();
     }
 
     /**
@@ -118,4 +119,19 @@ class CompanyTypeAttributeSubAttribute
     {
         return $this->company_attributes_and_subattributes;
     }
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SubAttributeValues",mappedBy="subAttribute",cascade={"persist"})
+     */
+    private $subAttributeValues;
+
+    /**
+     * @return ArrayCollection|SubAttributeValues[]
+     */
+    public function getSubAttributeValues()
+    {
+        return $this->subAttributeValues;
+    }
+
 }
