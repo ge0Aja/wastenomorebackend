@@ -1,0 +1,31 @@
+{% set companySubAttributeValueRecordsArrayLength = subAttributeValueRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for subAttributeValueRecord in subAttributeValueRecords %}
+
+    {%  if counter == companySubAttributeValueRecordsArrayLength-1 %}
+        {
+        "id": "{{ subAttributeValueRecord.id }}",
+        "value": "{{ subAttributeValueRecord.value}}",
+        "subAttribute": "{{ subAttributeValueRecord.subAttribute.name}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ subAttributeValueRecord.id }}",
+        "value": "{{ subAttributeValueRecord.value}}",
+        "subAttribute": "{{ subAttributeValueRecord.subAttribute.name}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}
