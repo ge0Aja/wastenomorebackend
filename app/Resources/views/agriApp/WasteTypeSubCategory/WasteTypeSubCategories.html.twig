@@ -1,0 +1,395 @@
+{{ include(':agriApp:base_head.html.twig') }}
+<div class="container-fluid">
+
+    <table id="subcatRecords" style="width: 100%" class="display table table-striped table-bordered">
+        <h1>Waste Type Sub Categories</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addSubCat"
+                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Sub Category</b></button></h2>
+        <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Waste Type</th>
+        <th></th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+<div id="addSubCat" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add City</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="addSubCatForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="wastetype_cat_txt_add">Waste Type</label>
+                                <input type="text" class="form-control" id="wastetype_cat_txt_add" name="wastetype_cat_txt_add" disabled>
+                                <label for="wastetypecat_select">Category</label>
+                                <select id="wastetypecat_select" name="wastetypecat_select" class="form-control" >
+                                    <option value="default" g_gov="Please Select a Category" selected="selected">select Category</option>
+                                    {% for wasteTypeCat in wasteTypeCats %}
+                                        <option value="{{ wasteTypeCat.id }}" g_gov="{{ wasteTypeCat.wasteType.name }}">{{ wasteTypeCat.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <label for="txt_subcat_add">Sub Category</label>
+                                <input type="text" class="form-control" id="txt_subcat_add"
+                                       name="txt_subcat_add"
+                                       placeholder="e.g. Meat, Milk" required>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+
+<div id="editSubCat" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add City</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="editSubCatForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="wastetype_cat_txt_edit">Waste Type</label>
+                                <input type="text" class="form-control" id="wastetype_cat_txt_edit" name="wastetype_cat_txt_edit" disabled>
+                                <label for="wastetypecat_select_edit">Category</label>
+                                <select id="wastetypecat_select_edit" name="wastetypecat_select_edit" class="form-control" >
+                                    <option value="default" g_gov="Please Select a Category">select Category</option>
+                                    {% for wasteTypeCat in wasteTypeCats %}
+                                        <option value="{{ wasteTypeCat.id }}" g_gov="{{ wasteTypeCat.wasteType.name }}">{{ wasteTypeCat.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <label for="txt_subcat_edit">City</label>
+                                <input type="text" class="form-control" id="txt_subcat_edit"
+                                       name="txt_subcat_edit"
+                                       placeholder="" required>
+                                <input type="hidden" id="h_subcat_edit" name="h_subcat_edit">
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+<div id="delSubCat" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Confirm Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="delSubCatForm" role="form"
+                          action=""
+                          method="">
+                        <div class="box-body">
+                            <p class="text-black">Are you sure you want to delete this
+                                Instance??</p>
+                            <div class="box-footer">
+                                <button type="submit" class="pull-right btn btn-primary">Yes
+                                </button>
+                                <button type="button" class="pull-left btn btn-primary"
+                                        data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">No</span></button>
+                            </div>
+                            <input type="hidden" id="h_subcat_del" name="h_subcat_del">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        var tHead = $('#subcatRecords thead th');
+        tHead.not(":eq(0),:eq(4)").each(function () {
+            var title = $(this).text();
+            //console.log(title);
+            $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
+        });
+
+        var table = $('#subcatRecords').DataTable({
+
+            "deferRender": true,
+
+            "ajax" :
+                {
+                    "url": "{{ path('WasteTypeSubCategoryRecords') }}",
+                    "type": "GET"
+                },
+
+            "columns": [
+                {"data": "id"},
+                {"data": "name"},
+                {"data": "category_name"},
+                {"data": "wastetype_name"}
+
+            ],
+            order: [],
+            "pageLength": 15,
+            "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
+            columnDefs: [{
+                id: "DT_RowId",
+                "targets": [0],
+                "orderable": false,
+                "searchable": false,
+                "visible": false
+            },
+                {
+                    "targets": [1, 2, 3],
+                    "orderable": false
+                },
+                {
+                    "targets":[4],
+                    "data": null,
+                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delSubCat" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editSubCat" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
+                    "orderable":false
+                }
+            ]
+        });
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+
+            $('select', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    console.log(this.value);
+                    if (this.value === "") {
+                        that.search('').draw();
+                    }
+                    else that.search("^" + this.value + "$", true, false).draw();
+                }
+            });
+
+        });
+    });
+
+
+</script>
+
+
+<script>
+
+    $('#subcatRecords tbody').on( 'click', '.editBut', function () {
+        var table = $('#subcatRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+//        console.log($.parseHTML(data.range)[0].data);
+        editRow(data.id,$.parseHTML(data.name)[0].data,$.parseHTML(data.category_name)[0].data,$.parseHTML(data.wastetype_name)[0].data);
+    });
+
+    function editRow(e,f,g,h)
+    {
+        var table = $('#subcatRecords').DataTable();
+//        editCompanyAnnualSalesForm
+        $("#txt_subcat_edit").val(f);
+        $("#h_subcat_edit").val(e);
+        $("#wastetypecat_select_edit option").filter(function(){
+            return $(this).text() == g;
+        }).prop('selected','selected');
+        $("#wastetype_cat_txt_edit").val(h);
+    }
+
+    $(document).on("submit", "#editSubCatForm", function (e)
+    {
+        e.preventDefault();
+
+        var data_array = $('#editSubCatForm').serialize();
+        //console.log(data_array);
+        $.ajax({
+            url: '{{ path('editSubCat') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#editSubCat").modal("hide");
+                    $("#txt_subcat_edit").val("");
+                    $("#h_subcat_edit").val("");
+                    $("#wastetypecat_select_edit").val("default");
+                    $("#wastetype_cat_txt_edit").val("");
+                    var table = $('#subcatRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+            }
+        });
+
+    });
+
+</script>
+
+
+<script>
+
+    $('#subcatRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#subcatRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        $("#h_subcat_del").val(data.id);
+    });
+
+
+
+    $(document).on("submit", "#delSubCatForm", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#delSubCatForm').serialize();
+
+        console.log(data_array);
+        $.ajax({
+            url: '{{ path('deleteSubCat') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#delSubCat").modal("hide");
+                    $("#h_subcat_del").val("");
+                    var table = $('#subcatRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+            }
+        });
+
+    });
+
+
+</script>
+
+
+<script>
+    $(document).on("submit", "#addSubCatForm", function (e) {
+        e.preventDefault();
+        var data_array = $('#addSubCatForm').serialize();
+        $.ajax({
+            url: '{{ path('addSubCat') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#addSubCat").modal("hide");
+                    $("#txt_subcat_add").val("");
+                    $("#wastetypecat_select").val("default");
+                    $("#wastetype_cat_txt_add").val("");
+                    var table = $('#subcatRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+
+    $('#wastetypecat_select').on('change',function () {
+        /* var ind = this.value;*/
+        var gov = $('option:selected',this).attr('g_gov');
+
+        /* console.log(ind);*/
+
+        $('#wastetype_cat_txt_add').val(gov);
+
+    });
+
+    $('#wastetypecat_select_edit').on('change',function () {
+        /* var ind = this.value;*/
+        var gov = $('option:selected',this).attr('g_gov');
+
+        /* console.log(ind);*/
+
+        $('#wastetype_cat_txt_edit').val(gov);
+
+    });
+
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        jQuery.validator.addMethod("valueNotEquals", function(value, element,arg) {
+            return this.optional(element) || arg != value;
+        }, "Please specify a Category");
+
+
+        $('#editSubCatForm').validate({
+
+            rules:{
+                wastetypecat_select_edit:{
+                    required: true,
+                    valueNotEquals: "default"
+                },
+                txt_subcat_edit:{
+                    required: true
+                }
+
+            }
+
+        });
+
+        $('#addSubCatForm').validate({
+
+            rules:{
+                wastetypecat_select:{
+                    required: true,
+                    valueNotEquals: "default"
+                },
+                txt_subcat_add:{
+                    required: true
+                }
+
+            }
+
+        });
+    });
+</script>
+{{ include(':agriApp:base_foot.html.twig') }}

@@ -1,0 +1,31 @@
+{% set menuSubTypeRecordsArrayLength = menuSubTypeRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for menuSubTypeRecord in menuSubTypeRecords %}
+
+    {%  if counter == menuSubTypeRecordsArrayLength-1 %}
+        {
+        "id": "{{ menuSubTypeRecord.id }}",
+        "subtypeName": "{{ menuSubTypeRecord.name}}",
+        "typeName" : "{{ menuSubTypeRecord.type.name }}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ menuSubTypeRecord.id }}",
+        "subtypeName": "{{ menuSubTypeRecord.name}}",
+        "typeName" : "{{ menuSubTypeRecord.type.name }}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

@@ -1,0 +1,540 @@
+{{ include(':agriApp:base_head.html.twig') }}
+<div class="container-fluid">
+
+    <table id="surveyQRecords" style="width: 100%" class="display table table-striped table-bordered">
+        <h1>Survey Questions</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addSurveyQ"
+                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Survey Question</b></button></h2>
+        <thead>
+        <th>ID</th>
+        <th>Question</th>
+        <th>Has Details ?</th>
+        <th>Details Hint</th>
+        <th>Has DropDown ?</th>
+        <th>DropDown Table</th>
+        <th></th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<div id="addSurveyQ" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add Survey Question</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="addSurveyQForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+
+                                <label for="surveyqadd">Question</label>
+                                <input type="text" class="form-control" id="surveyqadd"
+                                       name="surveyqadd"
+                                       placeholder="e.g. Do you sort food waste ?" required>
+                                <br>
+                                <label for="det">Has Details ?</label>
+                                <div id="det">
+
+                                    <label class="radio-inline">
+                                    <input type="radio" name="surveywithdetailsadd" id="surveywithdetailsaddY" value="Yes"> Yes </label>
+
+                                    <label class="radio-inline">
+                                    <input type="radio" name="surveywithdetailsadd" id="surveywithdetailsaddN" value="No" checked> No </label>
+                                </div>
+                                <br>
+
+                                <label for="surveydetailshintadd" class="hidden" id="surveydetailshintaddlbl" >Details Hint</label>
+                                <input type="text" id="surveydetailshintadd" class="form-control hidden" name="surveydetailshintadd" placeholder="Details Hint">
+
+                                <br>
+
+                                <label for="drp">Has DropDown section ? </label>
+                                <div id="drp">
+                                <label class="radio-inline">
+                                <input type="radio" name="surveywithdropdownadd" id="surveywithdropdownaddY" value="Yes"> Yes </label>
+                                    <label class="radio-inline">
+                                    <input type="radio" name="surveywithdropdownadd" id="surveywithdropdownaddN" value="No" checked> No </label>
+                                </div>
+                                <br>
+                                <label for="surveydropdownadd" id="surveydropdownaddlbl" class="hidden">DropDown Table</label>
+                                <select name="surveydropdownadd" id="surveydropdownadd" class="hidden">
+                                    <option value="default" selected>Please choose a table</option>
+                                    {% for possibleTable in possibleTables %}
+                                        <option value="{{ possibleTable.id }}">{{ possibleTable.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="editSurveyQ" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Edit Survey Question</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="editSurveyQForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+
+                                <label for="surveyqedit">Question</label>
+                                <input type="text" class="form-control" id="surveyqedit"
+                                       name="surveyqedit"
+                                       placeholder="" required>
+                                <br>
+                                <label for="det2">Has Details ?</label>
+                                <div id="det2">
+
+                                    <label class="radio-inline">
+                                        <input type="radio" name="surveywithdetailsedit" id="surveywithdetailseditY" value="Yes"> Yes </label>
+
+                                    <label class="radio-inline">
+                                        <input type="radio" name="surveywithdetailsedit" id="surveywithdetailseditN" value="No" checked> No </label>
+                                </div>
+                                <br>
+
+                                <label for="surveydetailshintedit" class="hidden" id="surveydetailshinteditlbl" >Details Hint</label>
+                                <input type="text" id="surveydetailshintedit" class="form-control hidden" name="surveydetailshintedit" placeholder="">
+
+                                <br>
+
+                                <label for="drp2">Has DropDown section ? </label>
+                                <div id="drp2">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="surveywithdropdownedit" id="surveywithdropdowneditY" value="Yes"> Yes </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="surveywithdropdownedit" id="surveywithdropdowneditN" value="No" checked> No </label>
+                                </div>
+                                <br>
+                                <label for="surveydropdownedit" id="surveydropdowneditlbl" class="hidden">DropDown Table</label>
+                                <select name="surveydropdownedit" id="surveydropdownedit" class="hidden">
+                                    <option value="default">Please choose a table</option>
+                                    {% for possibleTable in possibleTables %}
+                                        <option value="{{ possibleTable.id }}">{{ possibleTable.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <input type="hidden" id="surveyqEditID" name="surveyqEditID">
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="delSurveyQ" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Confirm Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="delSurveyQForm" role="form"
+                          action=""
+                          method="">
+                        <div class="box-body">
+                            <p class="text-black">Are you sure you want to delete this
+                                Instance??</p>
+                            <div class="box-footer">
+                                <button type="submit" class="pull-right btn btn-primary">Yes
+                                </button>
+                                <button type="button" class="pull-left btn btn-primary"
+                                        data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">No</span></button>
+                            </div>
+                            <input type="hidden" id="surveyqdelID" name="surveyqdelID">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        var tHead = $('#surveyQRecords thead th');
+        tHead.not(":eq(0),:eq(6)").each(function () {
+            var title = $(this).text();
+            //console.log(title);
+            $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
+        });
+
+        var table = $('#surveyQRecords').DataTable({
+
+            "deferRender": true,
+
+            "ajax" :
+                {
+                    "url": "/SurveyQsRecords",
+                    "type": "GET"
+                },
+
+            "columns": [
+                {"data": "id"},
+                {"data": "question"},
+                {"data": "withdetails"},
+                {"data": "detailshint"},
+                {"data": "withdropdown"},
+                {"data": "dropdowntable"}
+            ],
+            order: [],
+            "pageLength": 15,
+            "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
+            columnDefs: [{
+                id: "DT_RowId",
+                "targets": [0],
+                "orderable": false,
+                "searchable": false,
+                "visible": false
+            },
+                {
+                    "targets": [1,2,3,4,5],
+                    "orderable": false
+                },
+                {
+                    "targets":[6],
+                    "data": null,
+                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delSurveyQ" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editSurveyQ" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
+                    "orderable":false
+                }
+            ]
+        });
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+
+            $('select', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    console.log(this.value);
+                    if (this.value === "") {
+                        that.search('').draw();
+                    }
+                    else that.search("^" + this.value + "$", true, false).draw();
+                }
+            });
+
+        });
+    });
+
+</script>
+
+<script>
+
+    $(document).ready(function () {
+       $('input[type=radio][name=surveywithdetailsadd]').change(function () {
+
+           if(this.value == 'Yes'){
+               $("#surveydetailshintaddlbl").removeClass("hidden");
+               $("#surveydetailshintadd").removeClass("hidden");
+           }
+           else if (this.value == 'No'){
+               $("#surveydetailshintaddlbl").addClass("hidden");
+               $("#surveydetailshintadd").addClass("hidden");
+           }
+
+       });
+
+
+        $('input[type=radio][name=surveywithdropdownadd]').change(function () {
+
+            if(this.value == 'Yes'){
+                $("#surveydropdownaddlbl").removeClass("hidden");
+                $("#surveydropdownadd").removeClass("hidden");
+            }
+            else if (this.value == 'No'){
+                $("#surveydropdownaddlbl").addClass("hidden");
+                $("#surveydropdownadd").addClass("hidden");
+            }
+
+        });
+
+        ////
+
+
+        $('input[type=radio][name=surveywithdetailsedit]').change(function () {
+
+            if(this.value == 'Yes'){
+                $("#surveydetailshinteditlbl").removeClass("hidden");
+                $("#surveydetailshintedit").removeClass("hidden");
+            }
+            else if (this.value == 'No'){
+                $("#surveydetailshinteditlbl").addClass("hidden");
+                $("#surveydetailshintedit").addClass("hidden");
+            }
+
+        });
+
+
+        $('input[type=radio][name=surveywithdropdownedit]').change(function () {
+
+            if(this.value == 'Yes'){
+                $("#surveydropdowneditlbl").removeClass("hidden");
+                $("#surveydropdownedit").removeClass("hidden");
+            }
+            else if (this.value == 'No'){
+                $("#surveydropdowneditlbl").addClass("hidden");
+                $("#surveydropdownedit").addClass("hidden");
+            }
+
+        });
+
+
+    });
+</script>
+
+
+<script>
+    $(document).on("submit", "#addSurveyQForm", function (e) {
+
+        e.preventDefault();
+
+        var data_array = $('#addSurveyQForm').serialize();
+
+        //console.log(data_array);
+
+        $.ajax({
+            url: '{{ path('addSurveyQ') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#addSurveyQ").modal("hide");
+                   ////
+                    $("#surveyqadd").val("");
+                    $("#surveywithdetailsaddN").prop("checked","checked");
+                    $("#surveydetailshintaddlbl").addClass("hidden");
+                    $("#surveydetailshintadd").addClass("hidden");
+                    $("#surveydetailshintadd").val("");
+
+                    $("#surveywithdropdownaddN").prop("checked","checked");
+                    $("#surveydropdownaddlbl").addClass("hidden");
+                    $("#surveydropdownadd").addClass("hidden");
+                    $("#surveydropdownadd").val("default");
+                    var table = $('#surveyQRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+
+            }
+        });
+    });
+</script>
+
+<script>
+
+    $('#surveyQRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#surveyQRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        $("#surveyqdelID").val(data.id);
+//        deleterow(data.id);
+    });
+
+    $(document).on("submit", "#delSurveyQForm", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#delSurveyQForm').serialize();
+//        console.log(data_array);
+        $.ajax({
+            url: '{{ path('deleteSurveyQ') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#delSurveyQ").modal("hide");
+                    $("#surveyqdelID").val("");
+                    var table = $('#surveyQRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+            }
+        });
+
+    });
+</script>
+
+<script>
+
+
+    $('#surveyQRecords tbody').on( 'click', '.editBut', function () {
+        var table = $('#surveyQRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        // console.log($.parseHTML(data.typeName)[0].data);
+        //  console.log($.parseHTML(data.id)[0].data);
+        //console.log(data);
+        var ddrt = "default";
+        var dh = "";
+        if(data.dropdowntable != ""){
+           ddrt =  $.parseHTML(data.dropdowntable)[0].data
+        }
+
+        if(data.detailshint != ""){
+            dh = $.parseHTML(data.detailshint)[0].data
+        }
+
+        editRow(data.id,$.parseHTML(data.question)[0].data,$.parseHTML(data.withdropdown)[0].data,$.parseHTML(data.withdetails)[0].data,ddrt,dh);
+    });
+
+    function editRow(e,f,g,h,i,j)
+    {
+        var table = $('#surveyQRecords').DataTable();
+//        editCompanyAnnualSalesForm
+        $("#surveyqedit").val(f);
+        $("#surveyqEditID").val(e);
+
+
+        if(h =='Yes'){
+            console.log(h);
+            $("#surveydetailshinteditlbl").removeClass("hidden");
+            $("#surveydetailshintedit").removeClass("hidden");
+            $("#surveywithdetailseditY").prop("checked","checked");
+            $("#surveydetailshintedit").val(j);
+
+        }
+
+         if(g == 'Yes'){
+            $("#surveydropdowneditlbl").removeClass("hidden");
+            $("#surveydropdownedit").removeClass("hidden");
+            $("#surveywithdropdowneditY").prop("checked","checked");
+            $("#surveydropdownedit option").filter(function(){
+                return $(this).text() == i;
+            }).prop('selected','selected');
+        }
+         if(g == 'No'){
+            $("#surveywithdropdowneditN").prop("checked","checked");
+            $("#surveydropdowneditlbl").addClass("hidden");
+            $("#surveydropdownedit").addClass("hidden");
+        }
+
+        if(h == 'No'){
+           $("#surveywithdetailseditN").prop("checked","checked");
+           $("#surveydetailshinteditlbl").addClass("hidden");
+           $("#surveydetailshintedit").addClass("hidden");
+       }
+
+    }
+
+
+    $(document).on("submit", "#editSurveyQForm", function (e)
+    {
+        e.preventDefault();
+
+        var data_array = $('#editSurveyQForm').serialize();
+
+        $.ajax({
+            url: '{{ path('editSurveyQ') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#editSurveyQ").modal("hide");
+
+                   /////
+                    $("#surveyqedit").val("");
+                    $("#surveywithdetailseditN").prop("checked","checked");
+                    $("#surveydetailshinteditlbl").addClass("hidden");
+                    $("#surveydetailshintedit").addClass("hidden");
+                    $("#surveydetailshintedit").val("");
+
+                    $("#surveywithdropdowneditN").prop("checked","checked");
+                    $("#surveydropdowneditlbl").addClass("hidden");
+                    $("#surveydropdownedit").addClass("hidden");
+                    $("#surveydropdownedit").val("default");
+
+
+                    var table = $('#surveyQRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+
+            }
+        });
+
+    });
+
+
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        jQuery.validator.addMethod("valueNotEquals", function(value, element,arg) {
+            return this.optional(element) || arg != value;
+        }, "Please specify a Data Table");
+
+
+        $('#editSurveyQForm').validate({
+
+            rules:{
+                surveydropdownedit:{
+                    valueNotEquals: "default"
+                }
+
+            }
+        });
+
+        $('#addSurveyQForm').validate({
+
+            rules:{
+                surveydropdownadd:{
+                    valueNotEquals: "default"
+                }
+            }
+        });
+
+    });
+</script>
+{{ include(':agriApp:base_foot.html.twig') }}

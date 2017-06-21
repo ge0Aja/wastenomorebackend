@@ -2,12 +2,13 @@
 <div class="container-fluid">
 
 
-    <table id="companyTypeRecords" style="width: 100%" class="display table table-striped table-bordered">
-        <h1>Company Types</h1>
-        <h2><button type="button" data-toggle="modal" data-target="#addCompanyType"
-                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Company Type</b></button></h2>
+    <table id="menuSubTypeRecords" style="width: 100%" class="display table table-striped table-bordered">
+        <h1>Sub Menu Types</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addSubMenuType"
+                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Sub Menu Type</b></button></h2>
         <thead>
         <th>ID</th>
+        <th>Name</th>
         <th>Type</th>
         <th></th>
         </thead>
@@ -20,27 +21,33 @@
 </div>
 
 
-<div id="addCompanyType" class="modal fade" role="dialog">
+<div id="addSubMenuType" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>
-                    <h3 class="box-title">Add Company Type</h3>
+                    <h3 class="box-title">Add Menu Type</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="addCompanyTypeForm" role="form" action="">
+                    <form id="addSubMenuTypeForm" role="form" action="">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="companytypeadd">Type</label>
-                                <input type="text" class="form-control" id="companytypeadd"
-                                       name="companytypeadd"
-                                       placeholder="e.g. Restaurant" required>
+                                <label for="menusubtypeadd">Sub Type</label>
+                                <input type="text" class="form-control" id="menusubtypeadd"
+                                       name="menusubtypeadd"
+                                       placeholder="e.g. Sukleen, Kilo, Municipality" required>
+
+                                <label for="menutypeselect">Menu Type</label>
+                                <select id="menutypeselect" name="menutypeselect">
+                                    <option value="default" selected>Please Select a Menu Type</option>
+                                    {% for menuType in menuTypes %}
+                                    <option value="{{ menuType.id }}">{{ menuType.name }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
-                        <!-- /.box-body -->
-
                         <div class="box-footer">
                             <button id="btn" type="submit" class="btn btn-primary">Submit</button>
                         </div>
@@ -52,7 +59,7 @@
     </div>
 </div>
 
-<div id="editCompanyType" class="modal fade" role="dialog">
+<div id="editSubMenuType" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -62,14 +69,23 @@
                     <h3 class="box-title">Edit Company Type</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="editCompanyTypeForm" role="form" action="">
+                    <form id="editSubMenuTypeForm" role="form" action="">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="editcompanytypetxt">Company Type</label>
-                                <input type="text" class="form-control" id="editcompanytypetxt"
-                                       name="editcompanytypetxt"
+                                <label for="menusubtypeedit">Sub Type</label>
+                                <input type="text" class="form-control" id="menusubtypeedit"
+                                       name="menusubtypeedit"
                                        placeholder="" required>
-                                <input type="hidden" id="companytypeEditID" name="companytypeEditID">
+
+                                <label for="menutypeselect_edit">Menu Type</label>
+                                <select id="menutypeselect_edit" name="menutypeselect_edit">
+                                    <option value="default" selected>Please Select a Menu Type</option>
+                                    {% for menuType in menuTypes %}
+                                        <option value="{{ menuType.id }}">{{ menuType.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                
+                                <input type="hidden" id="menusubtypeEditID" name="menusubtypeEditID">
 
                             </div>
                         </div>
@@ -85,7 +101,7 @@
     </div>
 </div>
 
-<div id="delCompanyType" class="modal fade" role="dialog">
+<div id="delSubMenuType" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -96,7 +112,7 @@
                     <h3 class="box-title">Confirm Delete</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="delCompanyTypeForm" role="form"
+                    <form id="delSubMenuTypeForm" role="form"
                           action=""
                           method="">
                         <div class="box-body">
@@ -109,7 +125,7 @@
                                         data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">No</span></button>
                             </div>
-                            <input type="hidden" id="companytypedelID" name="companytypedelID">
+                            <input type="hidden" id="menusubtypedelID" name="menusubtypedelID">
                         </div>
                     </form>
                 </div>
@@ -122,25 +138,26 @@
 <script>
     $(document).ready(function () {
 
-        var tHead = $('#companyTypeRecords thead th');
-        tHead.not(":eq(0),:eq(2)").each(function () {
+        var tHead = $('#menuSubTypeRecords thead th');
+        tHead.not(":eq(0),:eq(3)").each(function () {
             var title = $(this).text();
             //console.log(title);
             $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
         });
 
-        var table = $('#companyTypeRecords').DataTable({
+        var table = $('#menuSubTypeRecords').DataTable({
 
             "deferRender": true,
 
             "ajax" :
                 {
-                    "url": "/CompanyTypeRecords",
+                    "url": "{{ path('MenuSubTypeRecords') }}",
                     "type": "GET"
                 },
 
             "columns": [
                 {"data": "id"},
+                {"data": "subtypeName"},
                 {"data": "typeName"}
             ],
             order: [],
@@ -154,13 +171,13 @@
                 "visible": false
             },
                 {
-                    "targets": [1],
+                    "targets": [1,2],
                     "orderable": false
                 },
                 {
-                    "targets":[2],
+                    "targets":[3],
                     "data": null,
-                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delCompanyType" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editCompanyType" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
+                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delSubMenuType" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editSubMenuType" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
                     "orderable":false
                 }
             ]
@@ -194,26 +211,32 @@
 
 
 <script>
-    $('#companyTypeRecords tbody').on( 'click', '.deleteBut', function () {
-        var table = $('#companyTypeRecords').DataTable();
+    $('#menuSubTypeRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#menuSubTypeRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
-        $("#companytypedelID").val(data.id);
+        $("#menusubtypedelID").val(data.id);
 //        deleterow(data.id);
     });
-    $('#companyTypeRecords tbody').on( 'click', '.editBut', function () {
-        var table = $('#companyTypeRecords').DataTable();
+    $('#menuSubTypeRecords tbody').on( 'click', '.editBut', function () {
+        var table = $('#menuSubTypeRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
-       // console.log($.parseHTML(data.typeName)[0].data);
-      //  console.log($.parseHTML(data.id)[0].data);
-        editRow(data.id,$.parseHTML(data.typeName)[0].data);
+        // console.log($.parseHTML(data.typeName)[0].data);
+        //  console.log($.parseHTML(data.id)[0].data);
+       //  console.log(data);
+        editRow(data.id,$.parseHTML(data.subtypeName)[0].data,$.parseHTML(data.typeName)[0].data);
     });
 
-    function editRow(e,f)
+    function editRow(e,f,g)
     {
-        var table = $('#companyTypeRecords').DataTable();
+        var table = $('#menuSubTypeRecords').DataTable();
 //        editCompanyAnnualSalesForm
-        $("#editcompanytypetxt").val(f);
-        $("#companytypeEditID").val(e);
+        $("#menusubtypeedit").val(f);
+
+        $("#menutypeselect_edit option").filter(function(){
+            return $(this).text() == g;
+        }).prop('selected','selected');
+
+        $("#menusubtypeEditID").val(e);
 
     }
 
@@ -222,21 +245,23 @@
 </script>
 
 <script>
-    $(document).on("submit", "#addCompanyTypeForm", function (e) {
+    $(document).on("submit", "#addSubMenuTypeForm", function (e) {
 
         e.preventDefault();
 
-        var data_array = $('#addCompanyTypeForm').serialize();
+        var data_array = $('#addSubMenuTypeForm').serialize();
 
         $.ajax({
-            url: '{{ path('addCompanyType') }}',
+            url: '{{ path('addMenuSubType') }}',
             data: data_array,
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    $("#addCompanyType").modal("hide");
-                    $("#companytypeadd").val("");
-                    var table = $('#companyTypeRecords').DataTable();
+                    $("#addSubMenuType").modal("hide");
+                    $("#menusubtypeadd").val("");
+                    $("#menutypeselect").val("default");
+
+                    var table = $('#menuSubTypeRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
                     //display the message
@@ -246,22 +271,25 @@
         });
     });
 
-    $(document).on("submit", "#editCompanyTypeForm", function (e)
+    $(document).on("submit", "#editSubMenuTypeForm", function (e)
     {
         e.preventDefault();
 
-        var data_array = $('#editCompanyTypeForm').serialize();
+        var data_array = $('#editSubMenuTypeForm').serialize();
+        //console.log(data_array);
 
         $.ajax({
-            url: '{{ path('editCompanyType') }}',
+            url: '{{ path('editMenuSubType') }}',
             data: data_array,
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    $("#editCompanyType").modal("hide");
-                    $("#editcompanytypetxt").val("");
-                    $("#companytypeEditID").val("");
-                    var table = $('#companyTypeRecords').DataTable();
+                    $("#editSubMenuType").modal("hide");
+                    $("#menusubtypeedit").val("");
+                    $("#menutypeselect_edit").val("default");
+                    $("#menusubtypeEditID").val("");
+
+                    var table = $('#menuSubTypeRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
                     //display the message
@@ -272,21 +300,21 @@
 
     });
 
-    $(document).on("submit", "#delCompanyTypeForm", function (e){
+    $(document).on("submit", "#delSubMenuTypeForm", function (e){
 
         e.preventDefault();
 
-        var data_array = $('#delCompanyTypeForm').serialize();
+        var data_array = $('#delSubMenuTypeForm').serialize();
 //        console.log(data_array);
         $.ajax({
-            url: '{{ path('deleteCompanyType') }}',
+            url: '{{ path('deleteMenuSubType') }}',
             data: data_array,
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    $("#delCompanyType").modal("hide");
-                    $("#companytypedelID").val("");
-                    var table = $('#companyTypeRecords').DataTable();
+                    $("#delSubMenuType").modal("hide");
+                    $("#menusubtypedelID").val("");
+                    var table = $('#menuSubTypeRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
                     //display the message
@@ -294,6 +322,47 @@
             }
         });
 
+    });
+</script>
+
+<script>
+
+    $(document).ready(function () {
+
+        jQuery.validator.addMethod("valueNotEquals", function(value, element,arg) {
+            return this.optional(element) || arg != value;
+        }, "Please specify a Menu Type");
+
+
+        $('#editSubMenuTypeForm').validate({
+
+            rules:{
+                menutypeselect_edit:{
+                    required: true,
+                    valueNotEquals: "default"
+                },
+                menusubtypeedit:{
+                    required: true
+                }
+
+            }
+
+        });
+
+        $('#addSubMenuTypeForm').validate({
+
+            rules:{
+                menutypeselect:{
+                    required: true,
+                    valueNotEquals: "default"
+                },
+                menusubtypeadd:{
+                    required: true
+                }
+
+            }
+
+        });
     });
 </script>
 {{ include(':agriApp:base_foot.html.twig') }}

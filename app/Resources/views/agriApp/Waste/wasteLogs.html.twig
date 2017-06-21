@@ -9,10 +9,11 @@
         <th>Type</th>
         <th>Category</th>
         <th>SubCategory</th>
+        <th>Quantity</th>
         <th>Unit</th>
+        <th>Company</th>
         <th>Branch</th>
         <th>Date</th>
-        <th>Quantity</th>
         <th>Reason</th>
         <th></th>
         </thead>
@@ -25,7 +26,7 @@
     $(document).ready(function () {
 
         var tHead = $('#wasteLogs thead th');
-        tHead.not(":eq(0),:eq(9)").each(function () {
+        tHead.not(":eq(0),:eq(10)").each(function () {
             var title = $(this).text();
             console.log(title);
             $(this).html('<input style="width:100%" type="text" placeholder=' + "\"" + title + "\"" + '>');
@@ -37,7 +38,7 @@
 
             "ajax" :
                 {
-                  "url": "/renderWasteLogs",
+                  "url": "{{ path('renderWasteLogs') }}",
                     "type": "GET"
                 },
 
@@ -46,10 +47,11 @@
                 {"data": "wasteType"},
                 {"data": "wasteTypeCategory"},
                 {"data": "wasteTypeSubcategory"},
+                {"data": "quantity"},
                 {"data": "unit"},
+                {"data": "company"},
                 {"data": "branch"},
                 {"data": "wasteDate"},
-                {"data": "quantity"},
                 {"data": "reason"}
 
             ],
@@ -64,13 +66,13 @@
                 "visible": false
             },
                 {
-                    "targets": [1, 2, 3, 4, 5, 6],
+                    "targets": [1, 2, 3, 4, 5, 6, 7, 8 ,9],
                     "orderable": false
                 },
                 {
-                    "targets":[9],
+                    "targets":[10],
                     "data": null,
-                    "defaultContent":'<button type="button" data-toggle="modal" class="btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>',
+                    "defaultContent":'', //<button type="button" data-toggle="modal" class="btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>
                     "orderable":false
                 }
                 ]

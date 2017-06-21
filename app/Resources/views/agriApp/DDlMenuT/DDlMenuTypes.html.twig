@@ -1,14 +1,14 @@
 {{ include(':agriApp:base_head.html.twig') }}
 <div class="container-fluid">
 
-    <table id="annualSalesRecords"  style="width: 100%" class="display table table-striped table-bordered">
-        <h1>Annual Sales Ranges</h1>
-        <h2><button type="button" data-toggle="modal" data-target="#addCompanyAnnualSales"
-                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Company Annual Sales</b></button>
-        </h2>
+
+    <table id="menuTypeRecords" style="width: 100%" class="display table table-striped table-bordered">
+        <h1>Menu Types</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addMenuType"
+                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Menu Type</b></button></h2>
         <thead>
         <th>ID</th>
-        <th>Range</th>
+        <th>Type</th>
         <th></th>
         </thead>
         <tbody>
@@ -16,30 +16,29 @@
         </tbody>
     </table>
 
+
 </div>
 
 
-<div id="addCompanyAnnualSales" class="modal fade" role="dialog">
+<div id="addMenuType" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>
-                    <h3 class="box-title">Add Range</h3>
+                    <h3 class="box-title">Add Menu Type</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="addCompanyAnnualSalesForm" role="form" action="">
+                    <form id="addMenuTypeForm" role="form" action="">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="range">Range</label>
-                                <input type="text" class="form-control" id="range"
-                                       name="range"
-                                       placeholder="e.g. 10K - 20K" required>
+                                <label for="menutypeadd">Type</label>
+                                <input type="text" class="form-control" id="menutypeadd"
+                                       name="menutypeadd"
+                                       placeholder="e.g. NGO, Waste Collection Companies" required>
                             </div>
                         </div>
-                        <!-- /.box-body -->
-
                         <div class="box-footer">
                             <button id="btn" type="submit" class="btn btn-primary">Submit</button>
                         </div>
@@ -51,28 +50,27 @@
     </div>
 </div>
 
-<div id="editCompanyAnnualSales" class="modal fade" role="dialog">
+<div id="editMenuType" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="box-header with-border">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span></button>
-                    <h3 class="box-title">Edit Range</h3>
+                    <h3 class="box-title">Edit Company Type</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="editCompanyAnnualSalesForm" role="form" action="">
+                    <form id="editMenuTypeForm" role="form" action="">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="range">Range</label>
-                                <input type="text" class="form-control" id="rangeEdit"
-                                       name="range"
+                                <label for="editmenutypetxt">Menu Type</label>
+                                <input type="text" class="form-control" id="editmenutypetxt"
+                                       name="editmenutypetxt"
                                        placeholder="" required>
-                                <input type="hidden" id="rangeEditID" name="id">
+                                <input type="hidden" id="menutypeEditID" name="menutypeEditID">
 
                             </div>
                         </div>
-                        <!-- /.box-body -->
 
                         <div class="box-footer">
                             <button id="editBtn" type="submit" class="btn btn-primary">Submit</button>
@@ -85,7 +83,7 @@
     </div>
 </div>
 
-<div id="delCompanyAnnualSales" class="modal fade" role="dialog">
+<div id="delMenuType" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -96,7 +94,7 @@
                     <h3 class="box-title">Confirm Delete</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="delCompanySalesForm" role="form"
+                    <form id="delMenuTypeForm" role="form"
                           action=""
                           method="">
                         <div class="box-body">
@@ -109,7 +107,7 @@
                                         data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">No</span></button>
                             </div>
-                            <input type="hidden" id="delSales" name="delSalesID">
+                            <input type="hidden" id="menutypedelID" name="menutypedelID">
                         </div>
                     </form>
                 </div>
@@ -119,32 +117,29 @@
 </div>
 
 
-
 <script>
-
     $(document).ready(function () {
 
-        var tHead = $('#annualSalesRecords thead th');
+        var tHead = $('#menuTypeRecords thead th');
         tHead.not(":eq(0),:eq(2)").each(function () {
             var title = $(this).text();
             //console.log(title);
             $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
         });
 
-        var table = $('#annualSalesRecords').DataTable({
+        var table = $('#menuTypeRecords').DataTable({
 
             "deferRender": true,
 
             "ajax" :
                 {
-                    "url": "{{ path('AnnualSalesRecords') }}",
+                    "url": "{{ path('MenuTypeRecords') }}",
                     "type": "GET"
                 },
 
             "columns": [
                 {"data": "id"},
-                {"data": "range"}
-
+                {"data": "typeName"}
             ],
             order: [],
             "pageLength": 15,
@@ -163,7 +158,7 @@
                 {
                     "targets":[2],
                     "data": null,
-                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delCompanyAnnualSales" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editCompanyAnnualSales" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
+                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delMenuType" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editMenuType" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
                     "orderable":false
                 }
             ]
@@ -192,65 +187,55 @@
         });
     });
 
-
 </script>
 
+
+
 <script>
-    $('#annualSalesRecords tbody').on( 'click', '.deleteBut', function () {
-        var table = $('#annualSalesRecords').DataTable();
+    $('#menuTypeRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#menuTypeRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
-        $("#delSales").val(data.id);
+        $("#menutypedelID").val(data.id);
 //        deleterow(data.id);
     });
-    $('#annualSalesRecords tbody').on( 'click', '.editBut', function () {
-        var table = $('#annualSalesRecords').DataTable();
+    $('#menuTypeRecords tbody').on( 'click', '.editBut', function () {
+        var table = $('#menuTypeRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
-//        console.log($.parseHTML(data.range)[0].data);
-        editRow(data.id,$.parseHTML(data.range)[0].data);
+        // console.log($.parseHTML(data.typeName)[0].data);
+        //  console.log($.parseHTML(data.id)[0].data);
+       // console.log(data);
+        editRow(data.id,$.parseHTML(data.typeName)[0].data);
     });
 
     function editRow(e,f)
     {
-        var table = $('#annualSalesRecords').DataTable();
+        var table = $('#menuTypeRecords').DataTable();
 //        editCompanyAnnualSalesForm
-        $("#rangeEdit").val(f);
-        $("#rangeEditID").val(e);
+        $("#editmenutypetxt").val(f);
+        $("#menutypeEditID").val(e);
 
     }
-/*    function deleterow(e) {
-        var table = $('#annualSalesRecords').DataTable();
-        if (confirm('Are you sure you want to delete this?')) {
-            $.ajax({
-                url: '/deleteAnnualSaleRange/'+e,
-                type: 'POST',
-                success: function (data) {
-                    if(data.status == 'success') {
-                        table.ajax.reload(null, false);
-                    }if(data.status == 'error'){
-                        //display the message
-                    }
-                }
-            });
-        }
-    }*/
+
+
+
 </script>
 
 <script>
-    $(document).on("submit", "#addCompanyAnnualSalesForm", function (e) {
+    $(document).on("submit", "#addMenuTypeForm", function (e) {
 
         e.preventDefault();
 
-        var data_array = $('#addCompanyAnnualSalesForm').serialize();
+        var data_array = $('#addMenuTypeForm').serialize();
 
         $.ajax({
-            url: '{{ path('addAnnualSales') }}',
+            url: '{{ path('addMenuType') }}',
             data: data_array,
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    $("#addCompanyAnnualSales").modal("hide");
-                    $("#range").val("");
-                    var table = $('#annualSalesRecords').DataTable();
+                    $("#addMenuType").modal("hide");
+                    $("#menutypeadd").val("");
+                    var table = $('#menuTypeRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
                     //display the message
@@ -260,21 +245,22 @@
         });
     });
 
-    $(document).on("submit", "#editCompanyAnnualSalesForm", function (e)
+    $(document).on("submit", "#editMenuTypeForm", function (e)
     {
         e.preventDefault();
 
-        var data_array = $('#editCompanyAnnualSalesForm').serialize();
+        var data_array = $('#editMenuTypeForm').serialize();
 
         $.ajax({
-            url: '{{ path('editAnnualSales') }}',
+            url: '{{ path('editMenuType') }}',
             data: data_array,
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    $("#editCompanyAnnualSales").modal("hide");
-                    $("#range").val("");
-                    var table = $('#annualSalesRecords').DataTable();
+                    $("#editMenuType").modal("hide");
+                    $("#editMenuTypetxt").val("");
+                    $("#menutypeEditID").val("");
+                    var table = $('#menuTypeRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
                     //display the message
@@ -285,21 +271,21 @@
 
     });
 
-    $(document).on("submit", "#delCompanySalesForm", function (e){
+    $(document).on("submit", "#delMenuTypeForm", function (e){
 
         e.preventDefault();
 
-        var data_array = $('#delCompanySalesForm').serialize();
+        var data_array = $('#delMenuTypeForm').serialize();
 //        console.log(data_array);
         $.ajax({
-            url: '{{ path('deleteAnnualSaleRange') }}',
+            url: '{{ path('deleteMenuType') }}',
             data: data_array,
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    $("#delCompanyAnnualSales").modal("hide");
-                    $("#delSales").val("");
-                    var table = $('#annualSalesRecords').DataTable();
+                    $("#delMenuType").modal("hide");
+                    $("#menutypedelID").val("");
+                    var table = $('#menuTypeRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
                     //display the message
@@ -308,6 +294,5 @@
         });
 
     });
-
 </script>
 {{ include(':agriApp:base_foot.html.twig') }}
