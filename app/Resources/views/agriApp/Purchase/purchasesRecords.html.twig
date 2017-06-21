@@ -1,16 +1,16 @@
 {{ include(':agriApp:base_head.html.twig') }}
 <div class="container-fluid">
 
-    <table id="branchRecords" style="width: 100%" class="display table table-striped table-bordered">
-        <h1>Branches</h1>
+    <table id="purchaseRecords" style="width: 100%" class="display table table-striped table-bordered">
+        <h1>Purchases</h1>
         <thead>
         <th>ID</th>
-        <th>Company Name</th>
-        <th>Staff Count</th>
-        <th>Date of Opening</th>
-        <th>City</th>
-        <th>District</th>
-        <th>Governorate</th>
+        <th>Type</th>
+        <th>Quantity</th>
+        <th>Cost</th>
+        <th>Company</th>
+        <th>Branch</th>
+        <th>Date</th>
         <th></th>
         </thead>
         <tbody>
@@ -22,7 +22,7 @@
 
 
 
-<div id="delBranch" class="modal fade" role="dialog">
+<div id="delPurchase" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -33,7 +33,7 @@
                     <h3 class="box-title">Confirm Delete</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="delBranchForm" role="form"
+                    <form id="delPurchaseForm" role="form"
                           action=""
                           method="">
                         <div class="box-body">
@@ -46,7 +46,7 @@
                                         data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">No</span></button>
                             </div>
-                            <input type="hidden" id="barnchdelID" name="barnchdelID">
+                            <input type="hidden" id="purchasedelID" name="purchasedelID">
                         </div>
                     </form>
                 </div>
@@ -60,31 +60,31 @@
 
     $(document).ready(function () {
 
-        var tHead = $('#branchRecords thead th');
+        var tHead = $('#purchaseRecords thead th');
         tHead.not(":eq(0),:eq(7)").each(function () {
             var title = $(this).text();
             //console.log(title);
             $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
         });
 
-        var table = $('#branchRecords').DataTable({
+        var table = $('#purchaseRecords').DataTable({
 
             "deferRender": true,
 
             "ajax" :
                 {
-                    "url": "/BranchRecords",
+                    "url": "{{ path('PurchaseRecords') }}",
                     "type": "GET"
                 },
 
             "columns": [
                 {"data": "id"},
-                {"data": "company_name"},
-                {"data": "staff_count"},
-                {"data": "opening_date"},
-                {"data": "city_location"},
-                {"data": "district_location"},
-                {"data": "governorate_location"}
+                {"data": "pType"},
+                {"data": "pQuan"},
+                {"data": "pCost"},
+                {"data": "pCompany"},
+                {"data": "pBranch"},
+                {"data": "pDate"}
 
             ],
             order: [],
@@ -104,7 +104,7 @@
                 {
                     "targets":[7],
                     "data": null,
-                    "defaultContent":'', //<button type="button" data-toggle="modal" data-target="#delBranch" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button>
+                    "defaultContent":'', //<button type="button" data-toggle="modal" data-target="#delPurchase" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button>
                     "orderable":false
                 }
             ]
@@ -137,29 +137,29 @@
 </script>
 
 <script>
-    $('#branchRecords tbody').on( 'click', '.deleteBut', function () {
-        var table = $('#branchRecords').DataTable();
+    $('#purchaseRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#purchaseRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
-        $("#barnchdelID").val(data.id);
+        $("#purchasedelID").val(data.id);
 //        deleterow(data.id);
     });
 
 
-    $(document).on("submit", "#delBranchForm", function (e){
+    $(document).on("submit", "#delPurchaseForm", function (e){
 
         e.preventDefault();
 
-        var data_array = $('#delBranchForm').serialize();
+        var data_array = $('#delPurchaseForm').serialize();
 //        console.log(data_array);
         $.ajax({
-            url: '{{ path('deleteBranch') }}',
+            url: '{{ path('deletePurchase') }}',
             data: data_array,
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    $("#delBranch").modal("hide");
-                    $("#barnchdelID").val("");
-                    var table = $('#branchRe').DataTable();
+                    $("#delPurchase").modal("hide");
+                    $("#purchasedelID").val("");
+                    var table = $('#purchaseRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
                     //display the message

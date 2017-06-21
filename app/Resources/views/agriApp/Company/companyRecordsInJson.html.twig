@@ -15,8 +15,9 @@
         "companyName": "{{ companyRecord.name}}",
         "companyType": "{{ companyRecord.type.typeName}}",
         "EstablishmentDate": "{{ companyRecord.dateOfEstablishment |date('d-M-Y') }}",
-        "mainBranchLocation": "{{ companyRecord.mainBranch.location.name}}",
-        "totalAnnualSales": "{{ companyRecord.totalAnnualSales.range }}"
+
+        "mainBranchLocation": {% if companyRecord.mainBranch != null %}"{{ companyRecord.mainBranch.location.name}}" {% else %} " " {% endif %},
+        "totalAnnualSales": "{{ companyRecord.totalAnnualSales.salesRange }}"
         }
     {%  else %}
         {
@@ -24,8 +25,8 @@
         "companyName": "{{ companyRecord.name}}",
         "companyType": "{{ companyRecord.type.typeName}}",
         "EstablishmentDate": "{{ companyRecord.dateOfEstablishment |date('d-M-Y') }}",
-        "mainBranchLocation": "{{ companyRecord.mainBranch.location.name}}",
-        "totalAnnualSales": "{{ companyRecord.totalAnnualSales.range }}"
+        "mainBranchLocation": {% if companyRecord.mainBranch != null %}"{{ companyRecord.mainBranch.location.name}}" {% else %} " " {% endif %},
+        "totalAnnualSales": "{{ companyRecord.totalAnnualSales.salesRange }}"
         },
     {% endif %}
 

@@ -1,0 +1,38 @@
+{% set PurchaseRecordsArrayLength = PurchaseRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for PurchaseRecord in PurchaseRecords %}
+
+    {%  if counter == PurchaseRecordsArrayLength-1 %}
+        {
+        "id": "{{ PurchaseRecord.id }}",
+        "pType": "{{ PurchaseRecord.type.name}}",
+        "pQuan": "{{ PurchaseRecord.quantity}}",
+        "pCost": "{{ PurchaseRecord.estimateOfCost}}",
+        "pCompany": "{{ PurchaseRecord.branch.Company.name}}",
+        "pBranch": "{{ PurchaseRecord.branch.name}}",
+        "pDate": "{{ PurchaseRecord.date |date('d-M-Y')}}"
+        }
+    {%  else %}
+        {
+        "id": "{{ PurchaseRecord.id }}",
+        "pType": "{{ PurchaseRecord.type.name}}",
+        "pQuan": "{{ PurchaseRecord.quantity}}",
+        "pCost": "{{ PurchaseRecord.estimateOfCost}}",
+        "pCompany": "{{ PurchaseRecord.branch.Company.name}}",
+        "pBranch": "{{ PurchaseRecord.branch.name}}",
+        "pDate": "{{ PurchaseRecord.date |date('d-M-Y')}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

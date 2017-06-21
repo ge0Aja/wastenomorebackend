@@ -30,7 +30,6 @@ class CompanyTypeController extends Controller
         return $this->render("agriApp/CompanyType/companyTypeRecordsInJson.html.twig", ['companyTypeRecords' => $companyTypeRecords]);
     }
 
-
     /**
      * @Route("/deleteCompanyType", name="deleteCompanyType")
      */

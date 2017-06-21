@@ -1,0 +1,33 @@
+{% set WasteSubCatRecordsArrayLength = WasteSubCatRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for WasteSubCatRecord in WasteSubCatRecords %}
+
+    {%  if counter == WasteSubCatRecordsArrayLength-1 %}
+        {
+        "id": "{{ WasteSubCatRecord.id }}",
+        "name": "{{ WasteSubCatRecord.name}}",
+        "category_name": "{{ WasteSubCatRecord.categoryType.name}}",
+        "wastetype_name": "{{ WasteSubCatRecord.categoryType.wasteType.name}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ WasteSubCatRecord.id }}",
+        "name": "{{ WasteSubCatRecord.name}}",
+        "category_name": "{{ WasteSubCatRecord.categoryType.name}}",
+        "wastetype_name": "{{ WasteSubCatRecord.categoryType.wasteType.name}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

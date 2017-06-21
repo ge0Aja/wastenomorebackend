@@ -1,0 +1,29 @@
+{% set menuTypeRecordsArrayLength = menuTypeRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for menuTypeRecord in menuTypeRecords %}
+
+    {%  if counter == menuTypeRecordsArrayLength-1 %}
+        {
+        "id": "{{ menuTypeRecord.id }}",
+        "typeName": "{{ menuTypeRecord.name}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ menuTypeRecord.id }}",
+        "typeName": "{{ menuTypeRecord.name}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

@@ -51,6 +51,7 @@ class Branch
     public function __construct()
     {
         $this->purchases = new ArrayCollection();
+        $this->surveyAnswerBranch = new ArrayCollection();
     }
 
     /**
@@ -175,5 +176,21 @@ class Branch
     {
         $this->waste = $waste;
     }
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SurveyQuestionAnswer", mappedBy="branch", cascade={"persist"})
+     */
+    private $surveyAnswerBranch;
+
+    /**
+     * @return ArrayCollection|SurveyQuestionAnswer[]
+     */
+    public function getSurveyAnswerBranch()
+    {
+        return $this->surveyAnswerBranch;
+    }
+
+
 
 }

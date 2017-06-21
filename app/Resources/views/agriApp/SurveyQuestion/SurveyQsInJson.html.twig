@@ -1,0 +1,37 @@
+{% set surveyQsRecordsArrayLength = surveyQsRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for surveyQsRecord in surveyQsRecords %}
+
+    {%  if counter == surveyQsRecordsArrayLength-1 %}
+        {
+        "id": "{{ surveyQsRecord.id }}",
+        "question": "{{ surveyQsRecord.question}}",
+        "withdropdown": "{{ surveyQsRecord.questionwithdropdown }}",
+        "withdetails": "{{ surveyQsRecord.questionwithdetails }}",
+        "dropdowntable" : "{{ surveyQsRecord.dropdowntable.name }}",
+        "detailshint" : "{{ surveyQsRecord.detailshint }}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ surveyQsRecord.id }}",
+        "question": "{{ surveyQsRecord.question}}",
+        "withdropdown": "{{ surveyQsRecord.questionwithdropdown }}",
+        "withdetails": "{{ surveyQsRecord.questionwithdetails }}",
+        "dropdowntable" : "{{ surveyQsRecord.dropdowntable.name }}",
+        "detailshint" : "{{ surveyQsRecord.detailshint }}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

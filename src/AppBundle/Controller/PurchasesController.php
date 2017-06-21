@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class BranchController extends Controller
+class PurchasesController extends Controller
 {
     public function indexAction($name)
     {
@@ -16,38 +16,36 @@ class BranchController extends Controller
     }
 
 
-
     /**
-     * @Route("/BranchRecords",name="BranchRecords")
+     * @Route("/PurchaseRecords",name="PurchaseRecords")
      */
     public function getBranchRecords()
     {
-        /* return $this->render('agriApp/companyRecords.html.twig');*/
-
         $em = $this->getDoctrine()->getManager();
-        $BranchRecords = $em->getRepository('AppBundle:Branch')->findAll();
-        return $this->render("agriApp/Branch/BranchRecordsInJson.html.twig", ['BranchRecords' => $BranchRecords]);
+        $PurchaseRecords = $em->getRepository('AppBundle:Purchases')->findAll();
+        return $this->render("agriApp/Purchase/purchasesRecordsInJson.html.twig", ['PurchaseRecords' => $PurchaseRecords]);
     }
 
 
     /**
-     * @Route("/Branches",name="Branches")
+     * @Route("/Purchases",name="Purchase")
      */
     public function BranchRecords()
     {
-        return $this->render('agriApp/Branch/branchRecords.html.twig');
+       /* $em = $this->getDoctrine()->getManager();
+        $FoodsubTypes = $em->getRepository('AppBundle:WasteTypeCategorySubCategory');*/
+        return $this->render('agriApp/Purchase/purchasesRecords.html.twig');
     }
 
 
-
     /**
-     * @Route("/deleteBranch", name="deleteBranch")
+     * @Route("/deletePurchase", name="deletePurchase")
      */
     public function DeleteLogAction(Request $request){
         try {
             $em = $this->getDoctrine()->getManager();
-            $branchRecord = $em->getRepository('AppBundle:Branch')->find($request->request->get('barnchdelID'));
-            $em->remove($branchRecord);
+            $purchaseRecord = $em->getRepository('AppBundle:Branch')->find($request->request->get('purchasedelID'));
+            $em->remove($purchaseRecord);
             $em->flush();
 
             return new JsonResponse(array('status' => 'success'));
