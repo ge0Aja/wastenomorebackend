@@ -55,6 +55,8 @@ class User implements UserInterface
      */
     private $password;
 
+
+
     // other properties and methods
 
     public function getEmail()
@@ -147,6 +149,50 @@ class User implements UserInterface
     public function getRoles()
     {
         return [$this->getRole()];
+    }
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AppRole", inversedBy="roleUser");
+     */
+    private $appRole;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\License", inversedBy="licenseUser")
+     */
+    private $license;
+
+    /**
+     * @return mixed
+     */
+    public function getAppRole()
+    {
+        return $this->appRole;
+    }
+
+    /**
+     * @param mixed $appRole
+     */
+    public function setAppRole($appRole)
+    {
+        $this->appRole = $appRole;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLicense()
+    {
+        return $this->license;
+    }
+
+    /**
+     * @param mixed $license
+     */
+    public function setLicense($license)
+    {
+        $this->license = $license;
     }
 
     /**
