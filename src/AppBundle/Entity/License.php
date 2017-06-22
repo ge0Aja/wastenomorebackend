@@ -107,4 +107,47 @@ class License
     }
 
 
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $startDate;
+
+    /**
+     * @return mixed
+     */
+    public function getStartDate()
+    {
+        return $this->startDate;
+    }
+
+    /**
+     * @param mixed $startDate
+     */
+    public function setStartDate($startDate)
+    {
+        $this->startDate = $startDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExpiryDate()
+    {
+        return $this->expiryDate;
+    }
+
+    /**
+     * @param mixed $expiryDate
+     */
+    public function setExpiryDate($expiryDate)
+    {
+        $this->expiryDate = $expiryDate;
+    }
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $expiryDate;
+
+
 }

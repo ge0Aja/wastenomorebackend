@@ -65,11 +65,19 @@ class LicenseController extends Controller
                     $licenseRecord = new License();
                     $licenseRecord->setLicense($request->request->get('licenseadd'));
                     $licenseRecord->setUserCount($request->request->get('usercountadd'));
+
+                    /*var_dump(date("Y-m-d",strtotime($request->request->get('startDateadd'))));
+                    var_dump(date("Y-m-d",strtotime($request->request->get('expiryDateadd'))));
+
+                    exit();*/
+
+                    $licenseRecord->setStartDate(new \DateTime($request->request->get('startDateadd')));
+                    $licenseRecord->setExpiryDate(new \DateTime($request->request->get('expiryDateadd')));
                     $em->persist($licenseRecord);
                     $em->flush();
                     return new JsonResponse(array('status' => 'success'));
                 } catch (DBALException $e) {
-                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add License'));
+                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add License','info' =>$e->getMessage()));
                 }
             }
         }

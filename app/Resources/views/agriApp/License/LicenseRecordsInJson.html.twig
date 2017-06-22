@@ -13,13 +13,17 @@
         {
         "id": "{{ LicenseRecord.id }}",
         "license": "{{ LicenseRecord.license}}",
-        "userCount" : "{{ LicenseRecord.userCount }}"
+        "userCount" : "{{ LicenseRecord.userCount }}",
+        "startDate" : "{{ LicenseRecord.startDate|date('d-m-Y')}}",
+        "expiryDate" : "{{ LicenseRecord.expiryDate|date('d-m-Y')}}"
         }
     {%  else %}
         {
         "id": "{{ LicenseRecord.id }}",
         "license": "{{ LicenseRecord.license}}",
-        "userCount" : "{{ LicenseRecord.userCount }}"
+        "userCount" : "{{ LicenseRecord.userCount }}",
+        "startDate" : "{{ LicenseRecord.startDate|date('d-m-Y')}}",
+        "expiryDate" : "{{ LicenseRecord.expiryDate|date('d-m-Y')}}"
         },
     {% endif %}
 
