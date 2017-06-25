@@ -1,0 +1,31 @@
+{% set SubCatUnitRecordsArrayLength = SubCatUnitRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for SubCatUnitRecord in SubCatUnitRecords %}
+
+    {%  if counter == SubCatUnitRecordsArrayLength-1 %}
+        {
+        "id": "{{ SubCatUnitRecord.id }}",
+        "subcat": "{{ SubCatUnitRecord.subcategory.name }}",
+        "unit": "{{ SubCatUnitRecord.unit.name }}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ SubCatUnitRecord.id }}",
+        "subcat": "{{ SubCatUnitRecord.subcategory.name }}",
+        "unit": "{{ SubCatUnitRecord.unit.name }}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

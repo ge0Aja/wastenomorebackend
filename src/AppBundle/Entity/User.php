@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
 /**
  * @ORM\Entity
@@ -29,6 +30,14 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
      * @Assert\Email()
@@ -43,6 +52,10 @@ class User implements UserInterface
 
     /**
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min = 6,
+     *     minMessage = "Password should by at least 6 chars long"
+     * )
      * @Assert\Length(max=4096)
      */
     private $plainPassword;
@@ -50,11 +63,31 @@ class User implements UserInterface
     /**
      * The below length depends on the "algorithm" you use for encoding
      * the password, but this works well with bcrypt.
-     *
      * @ORM\Column(type="string", length=64)
      */
     private $password;
 
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $activeUser;
+
+    /**
+     * @return mixed
+     */
+    public function getActiveUser()
+    {
+        return $this->activeUser;
+    }
+
+    /**
+     * @param mixed $activeUser
+     */
+    public function setActiveUser($activeUser)
+    {
+        $this->activeUser = $activeUser;
+    }
 
 
     // other properties and methods
@@ -145,7 +178,6 @@ class User implements UserInterface
     }
 
 
-
     public function getRoles()
     {
         return [$this->getRole()];
@@ -205,4 +237,25 @@ class User implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCompanyBranch()
+    {
+        return $this->companyBranch;
+    }
+
+    /**
+     * @param mixed $companyBranch
+     */
+    public function setCompanyBranch($companyBranch)
+    {
+        $this->companyBranch = $companyBranch;
+    }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Branch", inversedBy="branchUser")
+     */
+    private $companyBranch;
 }

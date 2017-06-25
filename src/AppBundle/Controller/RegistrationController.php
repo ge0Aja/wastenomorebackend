@@ -3,6 +3,10 @@
 namespace AppBundle\Controller;
 use AppBundle\Form\UserType;
 use AppBundle\Entity\User;
+
+use AppBundle\Form\ChangePasswordType;
+use AppBundle\Form\Model\ChangePassword;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,8 +15,11 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class RegistrationController extends Controller
 {
+
+    CONST ROLE_ADMIN = 'ROLE_ADMIN';
+    CONST ROLE_USER = 'ROLE_USER';
     /**
-     * @Route("/register", name="user_registration")
+     * @Route("/register", name="registerCMSUser")
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
     {
@@ -27,6 +34,7 @@ class RegistrationController extends Controller
             // 3) Encode the password (you could also do this via Doctrine listener)
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
+            $user->setActiveUser(true);
 
             // 4) save the User!
             $em->persist($user);
@@ -35,11 +43,43 @@ class RegistrationController extends Controller
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
 
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render(
             ':agriApp:addUser.html.twig',
+            array('form' => $form->createView())
+        );
+    }
+
+    /**
+     * @Route("/changePasswd", name="changePasswdCMSUser")
+     */
+    public function changePasswdAction(Request $request,UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
+    {
+        $changePasswordModel = new ChangePassword();
+        $user = $this->getUser();
+
+        $form = $this->createForm(ChangePasswordType::class, $changePasswordModel);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $changePassword = $form->getData();
+
+          //  var_dump($changePassword);
+
+            $password = $passwordEncoder->encodePassword($user, $changePassword->getPlainPassword());
+
+            $user->setPassword($password);
+
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render(
+            ':agriApp:changePassword.html.twig',
             array('form' => $form->createView())
         );
     }

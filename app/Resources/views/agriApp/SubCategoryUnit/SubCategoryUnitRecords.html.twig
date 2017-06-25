@@ -1,0 +1,380 @@
+{{ include(':agriApp:base_head.html.twig') }}
+<div class="container-fluid">
+
+    <table id="SubCategoryUnitRecords" style="width: 100%" class="display table table-striped table-bordered">
+        <h1>Sub Categories Units</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addSCUnit"
+                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add SubCategory Unit</b></button></h2>
+        <thead>
+        <th>ID</th>
+        <th>Sub Category</th>
+        <th>Unit</th>
+        <th></th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+<div id="addSCUnit" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add City</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="addSCUnitForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="subcatadd">Sub Category</label>
+                                <select id="subcatadd" name="subcatadd" class="form-control">
+                                    <option value="default" selected>Please Select A Sub Category</option>
+                                    {% for SubCat in SubCats %}
+                                        <option value="{{ SubCat.id }}">{{ SubCat.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <label for="unitadd">Unit</label>
+                                <select id="unitadd" name="unitadd" class="form-control">
+                                    <option value="default" selected>Please Select A Unit</option>
+                                    {% for Unit in Units %}
+                                        <option value="{{ Unit.id }}">{{ Unit.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="editSCUnit" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add City</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="editSCUnitForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="subcatedit">Sub Category</label>
+                                <select id="subcatedit" name="subcatedit" class="form-control">
+                                    <option value="default">Please Select A Sub Category</option>
+                                    {% for SubCat in SubCats %}
+                                        <option value="{{ SubCat.id }}">{{ SubCat.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <label for="unitedit">Unit</label>
+                                <select id="unitedit" name="unitedit" class="form-control">
+                                    <option value="default">Please Select A Unit</option>
+                                    {% for Unit in Units %}
+                                        <option value="{{ Unit.id }}">{{ Unit.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <input type="hidden" id="subcatuniteditID" name="subcatuniteditID">
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="delSCUnit" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Confirm Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="delSCUnitForm" role="form"
+                          action=""
+                          method="">
+                        <div class="box-body">
+                            <p class="text-black">Are you sure you want to delete this
+                                Instance??</p>
+                            <div class="box-footer">
+                                <button type="submit" class="pull-right btn btn-primary">Yes
+                                </button>
+                                <button type="button" class="pull-left btn btn-primary"
+                                        data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">No</span></button>
+                            </div>
+                            <input type="hidden" id="subcatunitdelID" name="subcatunitdelID">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+        var tHead = $('#SubCategoryUnitRecords thead th');
+        tHead.not(":eq(0),:eq(3)").each(function () {
+            var title = $(this).text();
+            //console.log(title);
+            $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
+        });
+
+        var table = $('#SubCategoryUnitRecords').DataTable({
+
+            "deferRender": true,
+
+            "ajax" :
+                {
+                    "url": "{{ path('SubCatsUnitsRecords') }}",
+                    "type": "GET"
+                },
+
+            "columns": [
+                {"data": "id"},
+                {"data": "subcat"},
+                {"data": "unit"}
+            ],
+            order: [],
+            "pageLength": 15,
+            "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
+            columnDefs: [{
+                id: "DT_RowId",
+                "targets": [0],
+                "orderable": false,
+                "searchable": false,
+                "visible": false
+            },
+                {
+                    "targets": [1, 2],
+                    "orderable": false
+                },
+                {
+                    "targets":[3],
+                    "data": null,
+                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delSCUnit" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editSCUnit" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
+                    "orderable":false
+                }
+            ]
+        });
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+
+            $('select', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    console.log(this.value);
+                    if (this.value === "") {
+                        that.search('').draw();
+                    }
+                    else that.search("^" + this.value + "$", true, false).draw();
+                }
+            });
+
+        });
+    });
+</script>
+
+
+
+
+
+
+<script>
+
+    $('#SubCategoryUnitRecords tbody').on( 'click', '.editBut', function () {
+        var table = $('#SubCategoryUnitRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+//        console.log($.parseHTML(data.range)[0].data);
+        editRow(data.id,$.parseHTML(data.subcat)[0].data,$.parseHTML(data.unit)[0].data);
+    });
+
+    function editRow(e,f,g)
+    {
+        var table = $('#SubCategoryUnitRecords').DataTable();
+//        editCompanyAnnualSalesForm
+        $("#subcatuniteditID").val(e);
+
+        $("#subcatedit option").filter(function(){
+            return $(this).text() == f;
+        }).prop("selected","selected");
+
+        $("#unitedit option").filter(function(){
+            return $(this).text() == g;
+        }).prop("selected","selected");
+
+    }
+
+    $(document).on("submit", "#editSCUnitForm", function (e)
+    {
+        e.preventDefault();
+
+        var data_array = $('#editSCUnitForm').serialize();
+        //console.log(data_array);
+        $.ajax({
+            url: '{{ path('editSubCatUnit') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#editSCUnit").modal("hide");
+                    $("#subcatuniteditID").val("");
+                    $("#subcatedit").val("default");
+                    $("#unitedit").val("default");
+
+                    var table = $('#SubCategoryUnitRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+            }
+        });
+
+    });
+
+</script>
+
+
+<script>
+
+    $('#SubCategoryUnitRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#SubCategoryUnitRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        $("#subcatunitdelID").val(data.id);
+    });
+
+
+
+    $(document).on("submit", "#delSCUnitForm", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#delSCUnitForm').serialize();
+
+       // console.log(data_array);
+        $.ajax({
+            url: '{{ path('delSubCatUnit') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#delSCUnit").modal("hide");
+                    $("#subcatunitdelID").val("");
+                    var table = $('#SubCategoryUnitRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                }
+            }
+        });
+
+    });
+
+
+</script>
+
+
+<script>
+    $(document).on("submit", "#addSCUnitForm", function (e) {
+        e.preventDefault();
+        var data_array = $('#addSCUnitForm').serialize();
+        $.ajax({
+            url: '{{ path('addSubCatUnit') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#addSCUnit").modal("hide");
+                    $("#subcatadd").val("default");
+                    $("#unitadd").val("default");
+                    var table = $('#SubCategoryUnitRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        jQuery.validator.addMethod("valueNotEqualsSubcat", function(value, element,arg) {
+            return this.optional(element) || arg != value;
+        }, "Please specify a Sub Category");
+
+
+        jQuery.validator.addMethod("valueNotEqualsUnit", function(value, element,arg) {
+            return this.optional(element) || arg != value;
+        }, "Please specify a Unit");
+
+
+        $('#editSCUnitForm').validate({
+            rules:{
+                subcatedit:{
+                    required: true,
+                    valueNotEqualsSubcat: "default"
+                },
+                unitedit:{
+                    required: true,
+                    valueNotEqualsUnit: "default"
+                }
+            }
+
+        });
+
+        $('#addSCUnitForm').validate({
+            rules:{
+                subcatadd:{
+                    required: true,
+                    valueNotEqualsSubcat: "default"
+                },
+                unitadd:{
+                    required: true,
+                    valueNotEqualsUnit: "default"
+                }
+            }
+        });
+    });
+</script>
+
+
+{{ include(':agriApp:base_foot.html.twig') }}

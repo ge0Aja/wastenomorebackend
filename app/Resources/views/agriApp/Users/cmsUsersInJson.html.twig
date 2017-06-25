@@ -1,0 +1,28 @@
+{% set cmsUsersRecordsArrayLength = cmsUsersRecords |length %}
+{% set counter = 0 %}
+
+{
+
+"data":[
+
+{% for cmsUsersRecord in cmsUsersRecords %}
+
+    {%  if counter == cmsUsersRecordsArrayLength-1 %}
+        {
+        "id": "{{ cmsUsersRecord.id }}",
+        "username": "{{ cmsUsersRecord.username}}",
+        "email": "{{ cmsUsersRecord.email}}"
+        }
+    {%  else %}
+        {
+        "id": "{{ cmsUsersRecord.id }}",
+        "username": "{{ cmsUsersRecord.username}}",
+        "email": "{{ cmsUsersRecord.email}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

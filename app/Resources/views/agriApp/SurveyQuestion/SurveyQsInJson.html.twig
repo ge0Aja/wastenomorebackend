@@ -15,7 +15,7 @@
         "question": "{{ surveyQsRecord.question}}",
         "withdropdown": "{{ surveyQsRecord.questionwithdropdown }}",
         "withdetails": "{{ surveyQsRecord.questionwithdetails }}",
-        "dropdowntable" : "{{ surveyQsRecord.dropdowntable.name }}",
+        "dropdowntable" :{% if surveyQsRecord.dropdowntable != null %} "{{ surveyQsRecord.dropdowntable.name }}" {% else %} " " {% endif %},
         "detailshint" : "{{ surveyQsRecord.detailshint }}"
 
         }
@@ -25,7 +25,7 @@
         "question": "{{ surveyQsRecord.question}}",
         "withdropdown": "{{ surveyQsRecord.questionwithdropdown }}",
         "withdetails": "{{ surveyQsRecord.questionwithdetails }}",
-        "dropdowntable" : "{{ surveyQsRecord.dropdowntable.name }}",
+        "dropdowntable" :{% if surveyQsRecord.dropdowntable != null %} "{{ surveyQsRecord.dropdowntable.name }}" {% else %} " " {% endif %},
         "detailshint" : "{{ surveyQsRecord.detailshint }}"
         },
     {% endif %}

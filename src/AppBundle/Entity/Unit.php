@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,6 +29,15 @@ class Unit
      * @ORM\Column(type="string")
      */
     private $name;
+
+    /**
+     * Unit constructor.
+     */
+    public function __construct()
+    {
+        $this->conversionT = new ArrayCollection();
+        $this->subcatunit = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -82,4 +92,31 @@ class Unit
     {
         $this->waste = $waste;
     }
+
+    /**
+     * @return ArrayCollection|Conversion[]
+     */
+    public function getConversionT()
+    {
+        return $this->conversionT;
+    }
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Conversion", mappedBy="unit", cascade={"persist"})
+     */
+    private $conversionT;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SubCategoryUnit", mappedBy="subcategory", cascade={"persist"})
+     */
+    private $subcatunit;
+
+    /**
+     * @return ArrayCollection|SubCategoryUnit[]
+     */
+    public function getSubcatunit()
+    {
+        return $this->subcatunit;
+    }
+
 }

@@ -52,6 +52,7 @@ class Branch
     {
         $this->purchases = new ArrayCollection();
         $this->surveyAnswerBranch = new ArrayCollection();
+        $this->branchUser = new ArrayCollection();
     }
 
     /**
@@ -191,6 +192,24 @@ class Branch
         return $this->surveyAnswerBranch;
     }
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="companyBranch", cascade={"persist"})
+     */
+    private $branchUser;
 
+    /**
+     * @return ArrayCollection|User[]
+     */
+    public function getBranchUser()
+    {
+        return $this->branchUser;
+    }
 
+    /**
+     * @param mixed $branchUser
+     */
+    public function setBranchUser($branchUser)
+    {
+        $this->branchUser = $branchUser;
+    }
 }

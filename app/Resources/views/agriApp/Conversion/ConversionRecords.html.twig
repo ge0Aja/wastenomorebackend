@@ -1,0 +1,469 @@
+{{ include(':agriApp:base_head.html.twig') }}
+<div class="container-fluid">
+
+
+    <table id="conversionRecords" style="width: 100%" class="display table table-striped table-bordered">
+        <h1>Conversion Records</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addConversion" class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Conversion</b></button></h2>
+        <thead>
+        <th>ID</th>
+        <th>Sub Category</th>
+        <th>Quantity From</th>
+        <th>Unit</th>
+        <th>Quantity in KG</th>
+        <th></th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+</div>
+
+<div id="addConversion" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add Conversion</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="addConversionForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="subcatadd">Food Type</label>
+                                <select id="subcatadd" name="subcatadd" class="form-control">
+                                    <option value="default" selected>Please select a food type</option>
+                                    {% for Subcat in Subcats %}
+                                        <option value="{{ Subcat.id }}">{{ Subcat.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <label for="quanadd">Quantity From</label>
+                                <input type="text" class="form-control" id="quanadd" name="quanadd" required>
+
+                                <label for="unitadd">Unit From</label>
+                                <select id="unitadd" name="unitadd" class="form-control">
+                                    <option value="default">Please select a unit</option>
+                                </select>
+
+                                <label for="quankgadd">Quantity in KG</label>
+                                <input type="text" id="quankgadd" name="quankgadd" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editConversion" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Edit Conversion</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="editConversionForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label for="subcatedit">Select Food Category</label>
+                                <select id="subcatedit" name="subcatedit" class="form-control">
+                                    <option value="default" >Please select a food category</option>
+                                    {% for Subcat in Subcats %}
+                                    <option value="{{ Subcat.id }}">{{ Subcat.name }}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <label for="quanedit">Quantity From</label>
+                                <input type="text" class="form-control" id="quanedit" name="quanedit" required>
+
+                                <label for="unitedit">Unit From</label>
+                                <select id="unitedit" name="unitedit" class="form-control">
+                                    <option value="default">Please select a unit</option>
+                                </select>
+                                <input type="hidden" id="editconversionid" name="editconversionid">
+
+                                <label for="quankgedit">Quantity in KG</label>
+                                <input type="text" id="quankgedit" name="quankgedit" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+<div id="delConversion" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Confirm Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="delConversionForm" role="form"
+                          action=""
+                          method="">
+                        <div class="box-body">
+                            <p class="text-black">Are you sure you want to delete this
+                                Instance??</p>
+                            <div class="box-footer">
+                                <button type="submit" class="pull-right btn btn-primary">Yes
+                                </button>
+                                <button type="button" class="pull-left btn btn-primary"
+                                        data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">No</span></button>
+                            </div>
+                            <input type="hidden" id="delConversionID" name="delConversionID">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        var tHead = $('#conversionRecords thead th');
+        tHead.not(":eq(0),:eq(5)").each(function () {
+            var title = $(this).text();
+            //console.log(title);
+            $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
+        });
+
+        var table = $('#conversionRecords').DataTable({
+
+            "deferRender": true,
+
+            "ajax" :
+                {
+                    "url": "{{ path('ConversionRecords') }}",
+                    "type": "GET"
+                },
+
+            "columns": [
+                {"data": "id"},
+                {"data": "subtypeName"},
+                {"data": "quan"},
+                {"data": "unit"},
+                {"data": "quankg"}
+            ],
+            order: [],
+            "pageLength": 15,
+            "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
+            columnDefs: [{
+                id: "DT_RowId",
+                "targets": [0],
+                "orderable": false,
+                "searchable": false,
+                "visible": false
+            },
+                {
+                    "targets": [1,2,3,4],
+                    "orderable": false
+                },
+                {
+                    "targets":[5],
+                    "data": null,
+                    "defaultContent":'<button type="button" data-toggle="modal" data-target="#editConversion" class="editBut btn-group-xs btn bg-blue-gradient pull-left"><b><i class="fa fa-pencil"></i></b></button> <button type="button" data-toggle="modal" data-target="#delConversion" class="deleteBut btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>',
+                    "orderable":false
+                }
+            ]
+        });
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+
+            $('select', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    console.log(this.value);
+                    if (this.value === "") {
+                        that.search('').draw();
+                    }
+                    else that.search("^" + this.value + "$", true, false).draw();
+                }
+            });
+
+        });
+    });
+
+</script>
+
+<script>
+
+    $('#conversionRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#conversionRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        $("#delConversionID").val(data.id);
+    });
+
+
+
+    $('#conversionRecords tbody').on( 'click', '.editBut', function () {
+        var table = $('#conversionRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+
+        editRow(data.id,
+            $.parseHTML(data.subtypeName)[0].data,
+            $.parseHTML(data.quan)[0].data,
+            $.parseHTML(data.unit)[0].data,
+            $.parseHTML(data.quankg)[0].data,
+            $.parseHTML(data.subtypeid)[0].data
+            );
+
+        console.log($.parseHTML(data.subtypeid)[0].data);
+        console.log($.parseHTML(data.subtypeName)[0].data);
+    });
+
+    function editRow(e,g,h,i,j,k)
+    {
+        $("#editconversionid").val(e);
+
+
+        $("#subcatedit").prepend($("<option></option>")
+            .attr("value",k)
+            .attr("selected","selected")
+            .text(g));
+
+//        $("#subcatedit option").filter(k).prop('selected','selected');
+
+        //
+
+        $("#quanedit").val(h);
+
+        $("#quankgedit").val(j);
+
+        $(function(){
+            getUnits($("select#subcatedit option:selected" ).val(),"#unitedit").done(function() {
+
+                $("#unitedit option").filter(function () {
+                    return $(this).text() == i;
+                }).prop('selected', 'selected');
+            });
+        });
+    }
+
+
+    $(document).on("submit", "#addConversionForm", function (e) {
+        e.preventDefault();
+        var data_array = $('#addConversionForm').serialize();
+
+        console.log(data_array);
+        $.ajax({
+            url: '{{ path('addConversion') }}', // add path
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                $("#addConversion").modal("hide");
+                $("#quanadd").val("");
+                $("#quankgadd").val("");
+                $("#subcatadd").val("default");
+                $("#unitadd").val("default");
+                getNewSubcats("#subcatadd");
+                getNewSubcats("#subcatedit");
+                var table = $('#conversionRecords').DataTable();
+                table.ajax.reload(null, false);
+            }
+        });
+    });
+
+
+    $(document).on("submit", "#delConversionForm", function (e){
+
+        e.preventDefault();
+        var data_array = $('#delConversionForm').serialize();
+        $.ajax({
+            url: '{{ path('delConversion') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status === 'success') {
+                    $("#delConversion").modal("hide");
+                    $("#delConversionID").val("");
+                    getNewSubcats("#subcatadd");
+                    getNewSubcats("#subcatedit");
+                    var table = $('#conversionRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status === 'error'){
+
+                }
+            }
+        });
+
+    });
+
+
+    $(document).on("submit", "#editConversionForm", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#editConversionForm').serialize();
+        $.ajax({
+            url: '{{ path('editConversion') }}', // add path
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                $("#editConversion").modal("hide");
+                $("#quanedit").val("");
+                $("#quankgedit").val("");
+                $("#subcatedit").val("default");
+                $("#unitedit").val("default");
+                getNewSubcats("#subcatadd");
+                getNewSubcats("#subcatedit");
+                var table = $('#conversionRecords').DataTable();
+                table.ajax.reload(null, false);
+            }
+        });
+
+    });
+</script>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        jQuery.validator.addMethod("valueNotEqualsSubcat", function(value, element,arg) {
+            return this.optional(element) || arg != value;
+        }, "Please specify a Food Category");
+
+        jQuery.validator.addMethod("valueNotEqualsUnit", function(value, element,arg) {
+            return this.optional(element) || arg != value;
+        }, "Please specify a Unit");
+
+        $("#addConversionForm").validate({
+            rules: {
+                subcatadd:{
+                    required: true,
+                    valueNotEqualsSubcat: "default"
+                },
+                unitadd:{
+                    required: true,
+                    valueNotEqualsUnit: "default"
+                }
+            }
+        });
+
+        $("#editConversionForm").validate({
+            rules: {
+                subcatedit:{
+                    required: true,
+                    valueNotEqualsSubcat: "default"
+                },
+                unitedit:{
+                    required: true,
+                    valueNotEqualsUnit: "default"
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    function getUnits(id,element){
+        var dfrd1 = $.Deferred();
+
+        if(id != "default"){
+            $.ajax({
+                url: '/getUnitsUpdateDDL/'+id,
+                type: "GET",
+                success: function (data) {
+                    if(data.status == "success"){
+                        var units_array = $.parseJSON(data.units);
+
+                        $.each(units_array, function(i, item) {
+                            $(element).append($("<option></option>")
+                                .attr("value",units_array[i].id)
+                                .text(units_array[i].name));
+                        });
+
+                    }if(data.status == "error"){
+                        //$(error_lbl).text(data.error);
+                    }
+                    dfrd1.resolve();
+                }
+            });
+        }else{
+            $(element).empty().append($("<option></option>")
+                .attr("value","default")
+                .text("Please select a unit"));
+
+            dfrd1.resolve();
+        }
+
+        return $.when(dfrd1).done(function () {
+
+        }).promise();
+    }
+
+    function getNewSubcats(element){
+
+        $(element).empty().append($("<option></option>")
+            .attr("value","default")
+            .text("Please select a food type"));
+
+        $.ajax({
+            url: '/getSubCatsForConversion',
+            type: "GET",
+            success: function (data) {
+              //  console.log(data);
+                if(data.status == "success"){
+                    var subcats_array = $.parseJSON(data.subcats);
+                  //  console.log(subcats_array);
+                    $.each(subcats_array, function(i, item) {
+                        console.log(subcats_array[i].id);
+                        $(element).append($("<option></option>")
+                            .attr("value",subcats_array[i].id)
+                            .text(subcats_array[i].name));
+                    });
+
+                }if(data.status == "error"){
+                    //$(error_lbl).text(data.error);
+                }
+            }
+        });
+
+    }
+
+    $(document).on('change',"#subcatadd",function () {
+        var comp_id =   this.value;
+        getUnits(comp_id,"#unitadd");
+
+    });
+
+    $(document).on('change',"#subcatedit",function () {
+        var comp_id =   this.value;
+        getUnits(comp_id,"#unitedit");
+    });
+
+
+</script>
+{{ include(':agriApp:base_foot.html.twig') }}

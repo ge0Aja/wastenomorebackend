@@ -42,7 +42,8 @@ class License
      */
     public function __construct()
     {
-        $this-> licenseUser = new ArrayCollection();
+        $this->licenseUser = new ArrayCollection();
+        $this->Company = new ArrayCollection();
     }
 
     /**
@@ -149,5 +150,16 @@ class License
      */
     private $expiryDate;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Company", mappedBy="companyLicense", cascade={"persist"});
+     */
+    private $Company;
 
+    /**
+     * @return ArrayCollection|Company[]
+     */
+    public function getCompany()
+    {
+        return $this->Company;
+    }
 }

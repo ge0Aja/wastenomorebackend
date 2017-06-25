@@ -12,6 +12,7 @@
         <th>User Count</th>
         <th>Start Date</th>
         <th>Expiry Date</th>
+        <th>Users Remaining</th>
         <th></th>
         </thead>
         <tbody>
@@ -146,7 +147,7 @@
     $(document).ready(function () {
 
         var tHead = $('#licenseRecords thead th');
-        tHead.not(":eq(0),:eq(5)").each(function () {
+        tHead.not(":eq(0),:eq(6)").each(function () {
             var title = $(this).text();
             //console.log(title);
             $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
@@ -167,7 +168,8 @@
                 {"data": "license"},
                 {"data": "userCount"},
                 {"data": "startDate"},
-                {"data": "expiryDate"}
+                {"data": "expiryDate"},
+                {"data": "usersOnLicense"}
 
 
             ],
@@ -182,11 +184,11 @@
                 "visible": false
             },
                 {
-                    "targets": [1,2,3,4],
+                    "targets": [1,2,3,4,5],
                     "orderable": false
                 },
                 {
-                    "targets":[5],
+                    "targets":[6],
                     "data": null,
                     "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delLicense" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editLicense" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
                     "orderable":false

@@ -36,6 +36,8 @@ class WasteTypeCategorySubCategory
     public function __construct()
     {
         $this->purchases = new ArrayCollection();
+        $this->conversionT = new ArrayCollection();
+        $this->subcatunit = new ArrayCollection();
     }
 
     /**
@@ -133,4 +135,31 @@ class WasteTypeCategorySubCategory
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Purchases",mappedBy="type",cascade={"persist"})
      */
     private $purchases;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Conversion", mappedBy="subcategory", cascade={"persist"})
+     */
+    private $conversionT;
+
+    /**
+     * @return ArrayCollection|Conversion[]
+     */
+    public function getConversionT()
+    {
+        return $this->conversionT;
+    }
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SubCategoryUnit", mappedBy="subcategory", cascade={"persist"})
+     */
+    private $subcatunit;
+
+    /**
+     * @return ArrayCollection|SubCategoryUnit[]
+     */
+    public function getSubcatunit()
+    {
+        return $this->subcatunit;
+    }
+
 }

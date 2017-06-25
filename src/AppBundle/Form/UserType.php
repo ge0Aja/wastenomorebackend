@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Controller\RegistrationController;
 use AppBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -20,10 +21,8 @@ class UserType extends AbstractType
             ->add('email', EmailType::class)
             ->add('username', TextType::class)
             ->add('role',ChoiceType::class,['choices'=>[
-                'ROLE_ADMIN' => 'ROLE_ADMIN',
-                'ROLE_COMPANY_ADMIN' => 'ROLE_COMPANY_ADMIN',
-                'ROLE_COMPANY' => 'ROLE_COMPANY',
-
+                'ROLE_ADMIN' => RegistrationController::ROLE_ADMIN,
+                /*'ROLE_USER' => RegistrationController::ROLE_USER,*/
             ]])
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,

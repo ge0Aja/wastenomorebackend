@@ -186,4 +186,25 @@ class Company
     {
         return $this->company_attributes_and_subattributes;
     }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\License", inversedBy="")
+     */
+    private $companyLicense;
+
+    /**
+     * @param mixed $companyLicense
+     */
+    public function setCompanyLicense($companyLicense)
+    {
+        $this->companyLicense = $companyLicense;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompanyLicense()
+    {
+        return $this->companyLicense;
+    }
 }

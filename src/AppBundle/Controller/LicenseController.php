@@ -108,4 +108,19 @@ class LicenseController extends Controller
         return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t update License'));
     }
 
+    /**
+     * @Route("/getCompanyLicense/{id}",name="getCompanyLicenses")
+     */
+    public function getCompanyLicenses($id){
+
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $branch = $em->getRepository("AppBundle:Branch")->find($id);
+            $license = $branch->getCompany()->getCompanyLicense();
+
+            return new JsonResponse(array("status" => "success", "license" => array("id" => $license->getId(), "licecode" => $license->getLicense())));
+        } catch (DBALException $e) {
+            return new JsonResponse(array("status" => "error", "message" => "Can't get Company's License"));
+        }
+    }
 }

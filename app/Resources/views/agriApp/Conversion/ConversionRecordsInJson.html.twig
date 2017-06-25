@@ -1,0 +1,34 @@
+{% set conversionRecordsArrayLength = conversionRecords |length %}
+{% set counter = 0 %}
+
+{
+
+"data":[
+
+{% for conversionRecord in conversionRecords %}
+
+    {%  if counter == conversionRecordsArrayLength-1 %}
+        {
+        "id": "{{ conversionRecord.id }}",
+        "subtypeName": "{{ conversionRecord.subcategory.name }}",
+        "subtypeid": "{{ conversionRecord.subcategory.id }}",
+        "quan" : "{{ conversionRecord.quan }}",
+        "unit" : "{{ conversionRecord.unit.name }}",
+        "quankg" : "{{ conversionRecord.quanInKg }}"
+        }
+    {%  else %}
+        {
+        "id": "{{ conversionRecord.id }}",
+        "subtypeName": "{{ conversionRecord.subcategory.name }}",
+        "subtypeid": "{{ conversionRecord.subcategory.id }}",
+        "quan" : "{{ conversionRecord.quan }}",
+        "unit" : "{{ conversionRecord.unit.name }}",
+        "quankg" : "{{ conversionRecord.quanInKg }}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

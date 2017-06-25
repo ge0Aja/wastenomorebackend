@@ -1,0 +1,716 @@
+{{ include(':agriApp:base_head.html.twig') }}
+
+<div class="container-fluid">
+
+    <table id="appUsersRecords"  style="width: 100%" class="display table table-striped table-bordered">
+        <h1>App Users</h1>
+        <h2><button type="button" data-toggle="modal" data-target="#addAppUser"
+                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add App User</b></button></h2>
+        <thead>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>License</th>
+        <th>Company</th>
+        <th>Branch</th>
+        <th>Active</th>
+        <th></th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+<div id="addAppUser" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add App User</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="addAppUserForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <div class="input-group full-width">
+                                <label for="usernameadd">Username</label>
+                                <input type="text" class="form-control" id="usernameadd"
+                                       name="usernameadd"
+                                       placeholder="" required>
+                                    <span class="ug-error-message" id="usernameadd_lbl"></span>
+                                </div>
+                                <div class="input-group full-width">
+                                <label for="emailadd">Email</label>
+                                <input type="text" class="form-control" id="emailadd"
+                                       name="emailadd"
+                                       placeholder="" required>
+                                    <span class="ug-error-message" id="emailadd_lbl"></span>
+                                </div>
+                                <div class="input-group full-width">
+                                <label for="plainPasswordadd">Password</label>
+                                <input type="password" class="form-control" id="plainPasswordadd"
+                                       name="plainPasswordadd"
+                                       placeholder="" required>
+                                    <span class="ug-error-message" id="plainPasswordadd_lbl"></span>
+                                <br>
+                                <input type="password" placeholder="Confirm Password" class="form-control" id="confirm_password" required>
+                                </div>
+
+                                <div class="input-group full-width">
+                                <label for="approleadd">Role</label>
+                                <select id="approleadd" name="approleadd" class="form-control">
+                                    <option value="default" selected>Select Role</option>
+                                    {% for Role in Roles %}
+                                        <option value="{{ Role.id }}">{{ Role.role }}</option>
+                                    {% endfor %}
+                                </select>
+                                    <span class="ug-error-message" id="approleadd_lbl"></span>
+                                </div>
+
+                                <div class="input-group full-width">
+                                    <label for="branchadd">Company/Branch</label>
+                                    <select id="branchadd" name="branchadd" class="form-control">
+                                        <option value="default" selected>Select Company/Branch</option>
+                                        {% for Branch in Branches %}
+                                            <option value="{{ Branch.id }}">{{ Branch.company.name ~ "  " ~ Branch.location.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <span class="ug-error-message" id="branchadd_lbl"></span>
+                                </div>
+
+                                <div class="input-group full-width">
+                                <label for="licenseadd">License</label>
+                                <select id="licenseadd" name="licenseadd" class="form-control">
+                                    <option value="default" selected>Select License</option>
+                                    {#{% for License in Licenses %}
+                                        <option value="{{ License.id }}">{{ License.license }}</option>
+                                    {% endfor %}#}
+                                </select>
+                                    <span class="ug-error-message" id="licenseadd_lbl"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+
+<div id="editAppUser" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Edit App User</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="editAppUserForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <div class="input-group full-width">
+                                    <label for="usernameedit">Username</label>
+                                    <input type="text" class="form-control" id="usernameedit"
+                                           name="usernameedit"
+                                           placeholder="" required>
+                                    <span class="ug-error-message" id="usernameedit_lbl"></span>
+                                </div>
+                                <div class="input-group full-width">
+                                    <label for="emailedit">Email</label>
+                                    <input type="text" class="form-control" id="emailedit"
+                                           name="emailedit"
+                                           placeholder="" required>
+                                    <span class="ug-error-message" id="emailedit_lbl"></span>
+                                </div>
+
+
+                                <div class="input-group full-width">
+                                    <label for="approleedit">Role</label>
+                                    <select id="approleedit" name="approleedit" class="form-control">
+                                        <option value="default">Select Role</option>
+                                        {% for Role in Roles %}
+                                            <option value="{{ Role.id }}">{{ Role.role }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <span class="ug-error-message" id="approleedit_lbl"></span>
+                                </div>
+
+                                <div class="input-group full-width">
+                                    <label for="branchedit">Company/Branch</label>
+                                    <select id="branchedit" name="branchedit" class="form-control">
+                                        <option value="default">Select Branch</option>
+                                        {% for Branch in Branches %}
+                                            <option value="{{ Branch.id }}">{{ Branch.company.name ~ "  " ~ Branch.location.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <span class="ug-error-message" id="branchedit_lbl"></span>
+                                </div>
+
+                                <div class="input-group full-width">
+                                    <label for="licenseedit">License</label>
+                                    <select id="licenseedit" name="licenseedit" class="form-control">
+                                        <option value="default">Select License</option>
+                                        {#{% for License in Licenses %}
+                                            <option value="{{ License.id }}">{{ License.license }}</option>
+                                        {% endfor %}#}
+                                    </select>
+                                    <span class="ug-error-message" id="licenseedit_lbl"></span>
+                                </div>
+                                <input type="hidden" id="h_usereditid" name="h_usereditid">
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+
+<div id="resetAppUser" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Reset Password</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="resetAppUserForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="input-group full-width">
+                                <label for="plainpasswordreset">Password</label>
+                                    <input type="password" class="form-control" id="plainpasswordreset"
+                                       name="plainpasswordreset"
+                                       placeholder="" required>
+                                <span class="ug-error-message" id="plainPasswordreset_lbl"></span>
+                                <br>
+                            </div>
+                            <label for="confirm_passwordreset">Confirm Password</label>
+                                <input type="password" placeholder="Confirm Password" class="form-control" id="confirm_passwordreset" required>
+                            <input type="hidden" id="h_resetpassworduserid" name="h_resetpassworduserid">
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+
+<div id="delAppUser" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Confirm Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="delAppUserForm" role="form"
+                          action=""
+                          method="">
+                        <div class="box-body">
+                            <p class="text-black">Are you sure you want to delete this
+                                User??</p>
+                            <div class="box-footer">
+                                <button type="submit" class="pull-right btn btn-primary">Yes
+                                </button>
+                                <button type="button" class="pull-left btn btn-primary"
+                                        data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">No</span></button>
+                            </div>
+                            <input type="hidden" id="deluserid" name="deluserid">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        var tHead = $('#appUsersRecords thead th');
+        tHead.not(":eq(0), :eq(7), :eq(8)").each(function () {
+            var title = $(this).text();
+            //console.log(title);
+            $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
+        });
+
+        var table = $('#appUsersRecords').DataTable({
+
+            "deferRender": true,
+
+            "ajax" :
+                {
+                    "url": "{{ path('appUsersRecords') }}",
+                    "type": "GET"
+                },
+
+            "columns": [
+                {"data": "id"},
+                {"data": "username"},
+                {"data": "email"},
+                {"data": "approle"},
+                {"data": "license"},
+                {"data": "company"},
+
+                {"data": "branch"},
+                {
+                    data:   "active",
+                    render: function ( data, type, row ) {
+                        if ( type === 'display' ) {
+                            return '<input type="checkbox" class="editor-active">';
+                        }
+                        return data;
+                    },
+                    className: "dt-body-center"
+                }
+
+            ],
+            order: [],
+            "pageLength": 15,
+            "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
+            columnDefs: [{
+                id: "DT_RowId",
+                "targets": [0],
+                "orderable": false,
+                "searchable": false,
+                "visible": false
+            },
+                {
+                    "targets": [1,2,3,4,5,6],
+                    "orderable": false
+                },
+                 {
+                 "targets":[8],
+                 "data": null,
+                 "defaultContent":'<div style="text-align:center;"><span style="display: inline-block; vertical-align: top;margin-right: 5px"><button type="button" data-toggle="modal" data-target="#delAppUser" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span style="display: inline-block; vertical-align: top;"><button type="button" data-toggle="modal" data-target="#resetAppUser" class="resetBut btn-group-xs btn bg-yellow-active"><b><i class="fa fa-refresh"></i></b></button></span><span style="display: inline-block; vertical-align: top;margin-left: 5px"><button type="button" data-toggle="modal" data-target="#editAppUser" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span></div>',
+                 "orderable":false
+                 }
+            ],
+            rowCallback: function ( row, data ) {
+                // Set the checked state of the checkbox in the table
+                $('input.editor-active', row).prop( 'checked', data.active == 1 );
+            }
+        });
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+
+            $('select', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    console.log(this.value);
+                    if (this.value === "") {
+                        that.search('').draw();
+                    }
+                    else that.search("^" + this.value + "$", true, false).draw();
+                }
+            });
+
+        });
+    });
+</script>
+
+
+<script>
+    $('#appUsersRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#appUsersRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        $("#deluserid").val(data.id);
+//        deleterow(data.id);
+    });
+
+    $(document).on("submit", "#delAppUserForm", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#delAppUserForm').serialize();
+//        console.log(data_array);
+        $.ajax({
+            url: '{{ path('appUserDel') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#delAppUser").modal("hide");
+                    $("#deluserid").val("");
+                    var table = $('#appUsersRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }
+            }
+        });
+
+    });
+
+
+</script>
+
+
+<script>
+    $('#appUsersRecords tbody').on( 'click', '.editBut', function () {
+        var table = $('#appUsersRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        var llc = "";
+        var brnch = "";
+
+        if(data.license != ""){
+            llc =  $.parseHTML(data.license)[0].data
+        }
+        if(data.branch != ""){
+            brnch =  $.parseHTML(data.company)[0].data + "  " + $.parseHTML(data.branch)[0].data ;
+        }
+        editRow(data.id,$.parseHTML(data.username)[0].data,$.parseHTML(data.email)[0].data,$.parseHTML(data.approle)[0].data,llc,brnch);
+    });
+
+    function editRow(e,f,g,h,i,j)
+    {
+        console.log(i);
+       /* console.log(j);*/
+
+        var table = $('#appUsersRecords').DataTable();
+
+        $("#h_usereditid").val(e);
+        $("#usernameedit").val(f);
+        $("#emailedit").val(g);
+
+        $("#approleedit option").filter(function(){
+            return $(this).text() == h;
+        }).prop('selected','selected');
+
+        $("#branchedit option").filter(function(){
+            return $(this).text() == j;
+        }).prop('selected','selected');
+
+        //console.log($("select#branchedit option:selected" ).val());
+
+        $(function(){
+            getCLicenses($("select#branchedit option:selected" ).val(),"#licenseedit","#licenseedit_lbl").done(function() {
+
+                $("#licenseedit option").filter(function () {
+                    return $(this).text() == i;
+                }).prop('selected', 'selected');
+            });
+        });
+
+
+    }
+
+    $(document).on("submit", "#editAppUserForm", function (e)
+    {
+        e.defaultPrevented();
+
+        var data_array = $('#editAppUserForm').serialize();
+        $.ajax({
+            url: '{{ path('appUserEdit') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#editAppUser").modal("hide");
+                    $("#usernameedit").val("");
+                    $("#emailedit").val("");
+
+                    $("#branchedit").val("default");
+                    $("#roleedit").val("default");
+                    $("#licenseedit").val("default");
+
+                    $("#usernameedit_lbl").val("");
+                    $("#approleedit_lbl").val("");
+                    $("#branchedit_lbl").val("");
+                    $("#emailedit_lbl").val("");
+                    $("#licenseedit_lbl").val("");
+
+
+
+                    var table = $('#appUsersRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }if(data.status == 'invalid'){
+                    //alert("here");
+                    $.each(data.errors, function( index, value ) {
+                        $("#"+index+"edit").css('border-color: #a94442;');
+                        $("#"+index+"edit_lbl").text(value);
+                    });
+                }if(data.status =='invalidLicense'){
+                    $("#licenseedit_lbl").text(data.error);
+                }if(data.status == "missingLicense"){
+                    $("#licenseedit_lbl").text(data.error);
+                }
+            }
+        });
+
+    });
+</script>
+
+<script>
+    $('#appUsersRecords tbody').on( 'click', '.resetBut', function () {
+        var table = $('#appUsersRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        $("#h_resetpassworduserid").val(data.id);
+    });
+
+    $(document).on("submit", "#resetAppUserForm", function (e){
+        e.defaultPrevented();
+
+        var data_array = $('#resetAppUserForm').serialize();
+//        console.log(data_array);
+        $.ajax({
+            url: '{{ path('resetPasswordAppUser') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#resetAppUser").modal("hide");
+                    $("#h_resetpassworduserid").val("");
+                    $("#plainpasswordreset").val("");
+                    $("#confirm_passwordreset").val("");
+                    $("#plainPasswordreset_lbl").val("");
+
+                    var table = $('#appUsersRecords').DataTable();
+                    table.ajax.reload(null, false);
+                    alert("Password has been changed successfully");
+                }if(data.status == 'error'){
+                    alert(data.message);
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    $('#appUsersRecords').on( 'change', 'input.editor-active', function () {
+        var table = $('#appUsersRecords').DataTable();
+        var data = table.row($(this).parents('tr')).data();
+        var user_id = data.id;
+
+        var ischecked = $(this).is(':checked');
+        console.log(ischecked);
+        $.ajax({
+            url: '{{ path('appUserDeactivate') }}',
+            data: "deactivateuserid="+user_id+"&setactive="+ischecked,
+            type: "POST",
+            success: function (data) {
+                if (data.status == "success") {
+                    alert("User status is changed");
+                }if(data.status == "error"){
+                    alert(data.message);
+                }
+            }
+
+        });
+
+    } );
+</script>
+
+<script>
+    var password = document.getElementById("plainpasswordadd")
+        , confirm_password = document.getElementById("confirm_password");
+
+    function validatePassword(){
+        if(password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords Don't Match");
+        } else {
+            confirm_password.setCustomValidity('');
+        }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+    //# sourceURL=pen.js
+</script>
+
+<script>
+    var passwordreset = document.getElementById("plainpasswordreset")
+        , confirm_passwordreset = document.getElementById("confirm_passwordreset");
+
+    function validatePassword(){
+        if(passwordreset.value != confirm_passwordreset.value) {
+            confirm_passwordreset.setCustomValidity("Passwords Don't Match");
+        } else {
+            confirm_passwordreset.setCustomValidity('');
+        }
+    }
+
+    passwordreset.onchange = validatePassword;
+    confirm_passwordreset.onkeyup = validatePassword;
+    //# sourceURL=pen.js
+</script>
+
+
+<script>
+
+    $(document).on("submit", "#addAppUserForm", function (e) {
+
+        e.defaultPrevented();
+
+        var data_array = $('#addAppUserForm').serialize();
+
+        $.ajax({
+            url: '{{ path('appUserAdd') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#addAppUser").modal("hide");
+                    $("#usernameadd").val("");
+                    $("#emailadd").val("");
+                    $("#plainPasswordadd").val("");
+                    $("#confirm_password").val("");
+                    $("#branchadd").val("default");
+                    $("#roleadd").val("default");
+                    $("#licenseadd").val("default");
+
+                    var table = $('#appUsersRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    //display the message
+                }if(data.status == 'invalid'){
+                    //alert("here");
+                    $.each(data.errors, function( index, value ) {
+                       $("#"+index+"add").css('border-color: #a94442;');
+                       $("#"+index+"add_lbl").text(value);
+                    });
+                }if(data.status =='invalidLicense'){
+                    $("#licenseadd_lbl").text(data.error);
+                }if(data.status == "missingLicense"){
+                    $("#licenseadd_lbl").text(data.error);
+                }
+            }
+        });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        jQuery.validator.addMethod("valueNotEqualsLicense", function(value, element,arg) {
+            return this.optional(element) || arg != value;
+        }, "Please specify a License");
+
+        jQuery.validator.addMethod("valueNotEqualsRole", function(value, element,arg) {
+            return this.optional(element) || arg != value;
+        }, "Please specify a Role");
+
+        $("#addAppUserForm").validate({
+            rules: {
+                /*licenseadd:{
+                    required: true,
+                    valueNotEqualsLicense: "default"
+                },
+*/
+                approleadd:{
+                    required: true,
+                    valueNotEqualsRole: "default"
+                }
+            }
+        });
+
+        $("#editAppUserForm").validate({
+            rules:{
+                approleedit:{
+                    required: true,
+                    valueNotEqualsRole: "default"
+                }
+            }
+        });
+    });
+</script>
+
+
+<script>
+
+    function getCLicenses(comp_id,elemnt,error_lbl){
+
+        var dfrd1 = $.Deferred();
+
+        if(comp_id != "default"){
+            $.ajax({
+                url: '/getCompanyLicense/'+comp_id,
+                type: "GET",
+                success: function (data) {
+                    if(data.status == "success"){
+                        $(elemnt).append($("<option></option>")
+                            .attr("value",data.license.id)
+                            .text(data.license.licecode));
+
+                    }if(data.status == "error"){
+                        $(error_lbl).text(data.error);
+                    }
+                    dfrd1.resolve();
+                }
+            });
+        }else{
+            $(elemnt).empty().append($("<option></option>")
+                .attr("value","default")
+                .text("Please Select License"));
+
+            dfrd1.resolve();
+        }
+
+        return $.when(dfrd1).done(function () {
+
+        }).promise();
+    }
+
+
+    $(document).on('change',"#branchadd",function () {
+      var comp_id =   this.value;
+       getCLicenses(comp_id,"#licenseadd","#licenseadd_lbl");
+
+   });
+
+
+   $(document).on('change',"#branchedit",function () {
+       var comp_id =   this.value;
+       getCLicenses(comp_id,"#licenseedit","#licenseedit_lbl");
+   });
+
+</script>
+
+{{ include(':agriApp:base_foot.html.twig') }}

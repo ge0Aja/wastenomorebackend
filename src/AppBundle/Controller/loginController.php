@@ -32,7 +32,6 @@ class loginController extends Controller
         ));
     }
 
-
     /**
      * @Route("/")
      */
