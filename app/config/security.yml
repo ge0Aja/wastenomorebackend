@@ -32,6 +32,10 @@ security:
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/home, roles: ROLE_ADMIN }
+        - { path: ^/register, roles: ROLE_ADMIN }
+        - { path: ^/changePasswd, roles: ROLE_ADMIN }
+
     encoders:
       AppBundle\Entity\User:
         algorithm: bcrypt
