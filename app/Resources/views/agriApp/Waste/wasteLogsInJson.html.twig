@@ -20,7 +20,11 @@
         "wasteTypeSubcategory": "{{ wasteLog.wasteTypeSubcategory.name}}",
         "unit": "{{ wasteLog.unit.name}}",
         "branch": "{{ wasteLog.branch }}",
+        {% if wasteLog.branch is not null %}
         "company": "{{ wasteLog.branch.Company.name }}",
+        {% else %}
+        "company":"",
+        {% endif %}
         "wasteDate": "{{ wasteLog.wasteDate|date('d-m-Y') }}",
         "quantity": "{{ wasteLog.quantity}}",
         "reason": "{{ wasteLog.reason }}"
