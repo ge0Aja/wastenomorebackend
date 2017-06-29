@@ -1,4 +1,63 @@
 {{ include(':agriApp:base_head.html.twig') }}
 <div class="box-body">
+
+    <div id="graph1">
+    </div>
+    <table id="table1">
+        <thead>
+        <tr>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key,value in niceArray %}
+            <tr>
+                <th>{{ key }}</th>
+                <td>{{ value }}</td>
+                {#<td>{{ value }}</td>#}
+            </tr>
+            <tr>
+                <th>{{ key }}2</th>
+                <td>{{ value }}</td>
+                {#<td>{{ value }}</td>#}
+            </tr>
+            <tr>
+                <th>{{ key }}3</th>
+                <td>{{ value }}</td>
+                {#<td>{{ value }}</td>#}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 </div>
 {{ include(':agriApp:base_foot.html.twig') }}
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script>
+    Highcharts.chart('graph1', {
+        data: {
+            table: 'table1'
+        },
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Graph1'
+        },
+        yAxis: {
+            allowDecimals: true,
+            title: {
+                text: 'Normalized Weight (Kg)'
+            }
+        }
+        /*tooltip: {
+         formatter: function () {
+         return '<b>' + this.series.name + '</b><br/>' +
+         this.point.y + ' ' + this.point.name.toLowerCase();
+         }
+         }*/
+    });
+</script>
