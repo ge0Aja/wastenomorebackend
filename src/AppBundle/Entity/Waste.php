@@ -114,7 +114,7 @@ class Waste
     }
 
     /**
-     * @return mixed
+     * @return WasteTypeCategory
      */
     public function getWasteTypeCategory()
     {
@@ -178,7 +178,7 @@ class Waste
     }
 
     /**
-     * @return mixed
+     * @return Unit
      */
     public function getUnit()
     {
