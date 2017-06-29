@@ -289,6 +289,9 @@
                 $("#unitadd").val("default");
                 getNewSubcats("#subcatadd");
                 getNewSubcats("#subcatedit");
+
+                getUnits("default","#unitedit");
+                getUnits("default","#unitadd");
                 var table = $('#conversionRecords').DataTable();
                 table.ajax.reload(null, false);
             }
@@ -310,6 +313,8 @@
                     $("#delConversionID").val("");
                     getNewSubcats("#subcatadd");
                     getNewSubcats("#subcatedit");
+                    getUnits("default","#unitedit");
+                    getUnits("default","#unitadd");
                     var table = $('#conversionRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status === 'error'){
@@ -338,6 +343,10 @@
                 $("#unitedit").val("default");
                 getNewSubcats("#subcatadd");
                 getNewSubcats("#subcatedit");
+
+                getUnits("default","#unitedit");
+                getUnits("default","#unitadd");
+
                 var table = $('#conversionRecords').DataTable();
                 table.ajax.reload(null, false);
             }
@@ -399,9 +408,11 @@
                     console.log(data);
                     if(data.status == "success"){
                         var units_array = $.parseJSON(data.units);
+
                         $(element).empty().append($("<option></option>")
                                 .attr("value","default")
                                 .text("Please select a unit"));
+
                         $.each(units_array, function(i, item) {
                             $(element).append($("<option></option>")
                                 .attr("value",units_array[i].id)
@@ -438,12 +449,13 @@
             type: "GET",
             success: function (data) {
               //  console.log(data);
+              //  return false;
                 if(data.status == "success"){
                     var subcats_array = $.parseJSON(data.subcats);
                   //  console.log(subcats_array);
                     $.each(subcats_array, function(i, item) {
-                        console.log(subcats_array[i].id);
-                        $(element).empty().append($("<option></option>")
+                      //  console.log(subcats_array[i].id);
+                        $(element).append($("<option></option>")
                             .attr("value",subcats_array[i].id)
                             .text(subcats_array[i].name));
                     });
