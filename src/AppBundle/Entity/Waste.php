@@ -10,6 +10,7 @@ namespace AppBundle\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity
@@ -98,7 +99,7 @@ class Waste
     }
 
     /**
-     * @return mixed
+     * @return WasteType
      */
     public function getWasteType()
     {
@@ -130,7 +131,7 @@ class Waste
     }
 
     /**
-     * @return mixed
+     * @return WasteTypeCategorySubCategory
      */
     public function getWasteTypeSubcategory()
     {
@@ -146,7 +147,7 @@ class Waste
     }
 
     /**
-     * @return mixed
+     * @return DateTime
      */
     public function getWasteDate()
     {
@@ -178,7 +179,7 @@ class Waste
     }
 
     /**
-     * @return Unit
+     * @return Unit $unit
      */
     public function getUnit()
     {
