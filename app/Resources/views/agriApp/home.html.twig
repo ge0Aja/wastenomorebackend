@@ -1,9 +1,19 @@
 {{ include(':agriApp:base_head.html.twig') }}
 <div class="box-body">
 
-    <div id="graph1">
+    {#{{ dump(catTimeValues) }}#}
+
+    <div id="graph1" style="min-width: 310px; height: 400px; margin: 0 auto">
     </div>
-    <table id="table1">
+
+    <div id="graph2" style="min-width: 310px; height: 400px; margin: 0 auto">
+    </div>
+
+    <div id="graph3" style="min-width: 310px; height: 400px; margin: 0 auto">
+
+    </div>
+
+    <table id="table1" style="display: none;">
         <thead>
         <tr>
             <th></th>
@@ -16,17 +26,28 @@
                 <td>{{ value }}</td>
                 {#<td>{{ value }}</td>#}
             </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {#{{ dump(niceArray2) }}#}
+    <table id="table2" style="display: none">
+        <thead>
+        <tr>
+            <th></th>
+            <td>Purchased</td>
+            <td>Wasted</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key,value in niceArray2 %}
             <tr>
-                <th>{{ key }}2</th>
-                <td>{{ value }}</td>
-                {#<td>{{ value }}</td>#}
-            </tr>
-            <tr>
-                <th>{{ key }}3</th>
-                <td>{{ value }}</td>
-                {#<td>{{ value }}</td>#}
+                <th>{{ key }}</th>
+                <td>{{ value.purchase }}</td>
+                <td>{{ value.waste}}</td>
             </tr>
         {% endfor %}
+
         </tbody>
     </table>
 
@@ -41,6 +62,11 @@
         data: {
             table: 'table1'
         },
+        plotOptions: {
+            column: {
+                minPointLength: 2
+            }
+        },
         chart: {
             type: 'column'
         },
@@ -52,12 +78,110 @@
             title: {
                 text: 'Normalized Weight (Kg)'
             }
-        }
-        /*tooltip: {
+        },
+        tooltip: {
          formatter: function () {
          return '<b>' + this.series.name + '</b><br/>' +
          this.point.y + ' ' + this.point.name.toLowerCase();
          }
-         }*/
+         }
     });
+</script>
+
+<script>
+
+    Highcharts.chart('graph2', {
+        data: {
+            table: 'table2'
+        },
+        plotOptions: {
+            column: {
+                minPointLength: 2
+            }
+        },
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Graph 2'
+        },
+        yAxis: {
+            allowDecimals: false,
+            title: {
+                text: 'Percentage (%)'
+            },
+            max:100
+        },
+        tooltip: {
+         formatter: function () {
+         return '<b>' + this.series.name + '</b><br/>' +
+         Math.round(this.point.y) + '% ' + this.point.name.toLowerCase();
+         }
+         }
+    });
+</script>
+
+<script>
+    Highcharts.chart('graph3', {
+        chart: {
+            type: 'spline'
+        },
+        title: {
+            text: 'Graph 3'
+        },
+        subtitle: {
+            text: 'Something'
+        },
+        xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: { // don't display the dummy year
+                month: '%e. %b',
+                year: '%b'
+            },
+            title: {
+                text: 'Date'
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Normalized Weight (Kg)'
+            },
+            min: 0
+        },
+        tooltip: {
+            headerFormat: '<b>{series.name}</b><br>',
+            pointFormat: '{point.x:%e. %b}: {point.y:.2f} Kg'
+        },
+
+        plotOptions: {
+            spline: {
+                marker: {
+                    enabled: true
+                }
+            }
+        },
+
+        series: [
+            {% for key,dates in catTimeValues %}
+            {
+            name: '{{ key }}',
+
+            // Define the data points. All series have a dummy year
+            // of 1970/71 in order to be compared on the same x axis. Note
+            // that in JavaScript, months start at 0 for January, 1 for February etc.
+            data: [
+                {% for key2,dateElem in dates %}
+                {% set dateVal = key2|split('-') %}
+                [Date.UTC({{ dateVal[0] }}, {{ dateVal[1] -1 }}, {{ dateVal[2] }}), {{dateElem}}],
+                {% endfor %}
+            ]
+        },
+            {% endfor %}
+        ]
+    });
+
+    {#{% for key,dates in catTimeValues %}
+    {{ dump(catTimeValues) }}
+    {{ dump(dates) }}
+    {% endfor %}#}
 </script>
