@@ -53,4 +53,7 @@ class PurchasesController extends Controller
             return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t delete record'));
         }
     }
+
+    //TODO: 'create purchases' and 'edit purchases' functions, please note that
+    // we must record the category of the purchase not only the subCategory, for graphing purposes
 }
