@@ -4,18 +4,48 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Psr\Log\LoggerInterface;
 
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route(path="api/token_authentication", name="token_authentication")
      */
-    public function indexAction(Request $request)
+    public function tokenAuthentication(Request $request)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-        ]); 
+
+        $logger = $this->get('logger');
+
+        if ($request->getMethod() === 'POST') {
+            if ($request->request) {
+
+                $username = $request->request->get('username');
+                $password = $request->request->get('password');
+
+                if(isset($username) && isset($password)) {
+                    $em = $this->getDoctrine()->getManager();
+                    $user = $em->getRepository('AppBundle:User')->findOneBy(['username' => $username]);
+
+                    if (!$user) {
+                        throw $this->createNotFoundException();
+                    }
+
+                    // password check
+                    if (!$this->get('security.password_encoder')->isPasswordValid($user, $password)) {
+                        throw $this->createAccessDeniedException();
+                    }
+
+                    // Use LexikJWTAuthenticationBundle to create JWT token that hold only information about user name
+                    $token = $this->get('lexik_jwt_authentication.encoder.default')
+                        ->encode(['username' => $user->getUsername()]);
+
+                    // Return genereted tocken
+                    return new JsonResponse(['token' => $token]);
+                }
+            }
+        }
     }
+
 }

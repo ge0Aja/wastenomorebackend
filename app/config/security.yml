@@ -18,7 +18,9 @@ security:
             # activate different ways to authenticate
             pattern:  ^/
             http_basic: ~
-
+#            guard:
+#                authenticators:
+#                    - app.form_login_authenticator
             # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
             provider: our_db_provider
             # form_login: ~
@@ -30,8 +32,16 @@ security:
               always_use_default_target_path: true
             logout:     true
 
+        api:
+            pattern: ^/api/(?!token)
+            guard:
+                authenticators:
+                    - app.jwt_token_authenticator
+
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /api/token_authentication, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: [ROLE_USER, ROLE_ADMIN] }
         - { path: ^/home, roles: ROLE_ADMIN }
         - { path: ^/register, roles: ROLE_ADMIN }
         - { path: ^/changePasswd, roles: ROLE_ADMIN }
