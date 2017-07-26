@@ -16,19 +16,15 @@ security:
         main:
             anonymous: ~
             # activate different ways to authenticate
-            pattern:  ^/
+            pattern:  ^/cms/
             http_basic: ~
-#            guard:
-#                authenticators:
-#                    - app.form_login_authenticator
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
             provider: our_db_provider
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
             form_login:
-              login_path: login
-              check_path: login
-              default_target_path: home
+              login_path: /cms/login
+              check_path: /cms/login
+              default_target_path: /cms/home
               always_use_default_target_path: true
             logout:     true
 
@@ -37,14 +33,11 @@ security:
             guard:
                 authenticators:
                     - app.jwt_token_authenticator
-
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/cms/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /api/token_authentication, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: [ROLE_USER, ROLE_ADMIN] }
-        - { path: ^/home, roles: ROLE_ADMIN }
-        - { path: ^/register, roles: ROLE_ADMIN }
-        - { path: ^/changePasswd, roles: ROLE_ADMIN }
+        - { path: ^/cms, roles: ROLE_ADMIN }
 
     encoders:
       AppBundle\Entity\User:

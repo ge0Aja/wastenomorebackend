@@ -402,7 +402,7 @@
 
         if(id != "default"){
             $.ajax({
-                url: '/getUnitsUpdateDDL/'+id,
+                url: '{{ path('getUnitsUpdateDDL') }}'+id,
                 type: "GET",
                 success: function (data) {
                     console.log(data);
@@ -445,7 +445,7 @@
             .text("Please select a food type"));
 
         $.ajax({
-            url: '/getSubCatsForConversion',
+            url:'{{ path('getSubCatsForConversion') }}',
             type: "GET",
             success: function (data) {
               //  console.log(data);

@@ -19,7 +19,7 @@ class AnnualSalesController extends Controller
 
 
     /**
-     * @Route("/AnnualSalesRecords",name="AnnualSalesRecords")
+     * @Route("/cms/AnnualSalesRecords",name="AnnualSalesRecords")
      */
     public function getAnnualSalesRecords()
     {
@@ -32,7 +32,7 @@ class AnnualSalesController extends Controller
 
 
     /**
-     * @Route("/annualSales",name="annualSales")
+     * @Route("/cms/annualSales",name="annualSales")
      */
     public function AnnualSalesRecords()
     {
@@ -42,7 +42,7 @@ class AnnualSalesController extends Controller
 
 
     /**
-     * @Route("/deleteAnnualSaleRange", name="deleteAnnualSaleRange")
+     * @Route("/cms/deleteAnnualSaleRange", name="deleteAnnualSaleRange")
      */
     public function DeleteLogAction(Request $request){
         try {
@@ -58,7 +58,7 @@ class AnnualSalesController extends Controller
     }
 
     /**
-     * @Route("/addAnnualSales",name="addAnnualSales")
+     * @Route("/cms/addAnnualSales",name="addAnnualSales")
      */
     public function addAnnualSales(Request $request)
     {
@@ -81,7 +81,7 @@ class AnnualSalesController extends Controller
     }
 
     /**
-     * @Route("/editAnnualSales",name="editAnnualSales")
+     * @Route("/cms/editAnnualSales",name="editAnnualSales")
      */
     public function editAnnualSales(Request $request)
     {

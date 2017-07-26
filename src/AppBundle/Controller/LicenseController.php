@@ -17,7 +17,7 @@ class LicenseController extends Controller
     }
 
     /**
-     * @Route("/LicenseRecords",name="LicenseRecords")
+     * @Route("/cms/LicenseRecords",name="LicenseRecords")
      */
     public function getLicenseRecords()
     {
@@ -28,7 +28,7 @@ class LicenseController extends Controller
 
 
     /**
-     * @Route("/Licenses",name="Licenses")
+     * @Route("/cms/Licenses",name="Licenses")
      */
     public function LicensesRecords()
     {
@@ -38,7 +38,7 @@ class LicenseController extends Controller
     }
 
     /**
-     * @Route("/deleteLicense", name="deleteLicense")
+     * @Route("/cms/deleteLicense", name="deleteLicense")
      */
     public function DeleteLogAction(Request $request){
         try {
@@ -54,7 +54,7 @@ class LicenseController extends Controller
     }
 
     /**
-     * @Route("/addLicense",name="addLicense")
+     * @Route("/cms/addLicense",name="addLicense")
      */
     public function addLicense(Request $request)
     {
@@ -86,7 +86,7 @@ class LicenseController extends Controller
 
 
     /**
-     * @Route("/editLicense",name="editLicense")
+     * @Route("/cms/editLicense",name="editLicense")
      */
     public function editLicense(Request $request)
     {
@@ -109,7 +109,7 @@ class LicenseController extends Controller
     }
 
     /**
-     * @Route("/getCompanyLicense/{id}",name="getCompanyLicenses")
+     * @Route("/cms/getCompanyLicense/{id}",name="getCompanyLicenses")
      */
     public function getCompanyLicenses($id){
 

@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class HomeController extends Controller
 {
     /**
-     * @Route("/home",name="home")
+     * @Route("/cms/home",name="home")
      */
     public function home()
     {

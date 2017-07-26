@@ -19,7 +19,7 @@ class CompanyTypeSubAttributeController extends Controller
 
 
     /**
-     * @Route("/CompanyTypeSubAttributes",name="CompanyTypeSubAttributes")
+     * @Route("/cms/CompanyTypeSubAttributes",name="CompanyTypeSubAttributes")
      */
     public function CompanyTypeSubAttributes()
     {
@@ -29,7 +29,7 @@ class CompanyTypeSubAttributeController extends Controller
     }
 
     /**
-     * @Route("/CompanyTypeSubAttributesRecords", name="CompanyTypeSubAttributesRecords")
+     * @Route("/cms/CompanyTypeSubAttributesRecords", name="CompanyTypeSubAttributesRecords")
      */
     public function getCompanyTypeSubAttributeRecords(){
         $em = $this->getDoctrine()->getManager();
@@ -39,7 +39,7 @@ class CompanyTypeSubAttributeController extends Controller
 
 
     /**
-     * @Route("/deleteCompanyTypeSubAttribute/{id}", name="deleteCompanyTypeSubAttribute")
+     * @Route("/cms/deleteCompanyTypeSubAttribute/{id}", name="deleteCompanyTypeSubAttribute")
      */
     public function DeleteLogAction($id){
         try {
@@ -55,7 +55,7 @@ class CompanyTypeSubAttributeController extends Controller
     }
 
     /**
-     * @Route("/addSubAttribute",name="addSubAttribute")
+     * @Route("/cms/addSubAttribute",name="addSubAttribute")
      */
     public function addSubAttribute(Request $request)
     {
@@ -78,7 +78,7 @@ class CompanyTypeSubAttributeController extends Controller
     }
 
     /**
-     * @Route("/deleteCompanyTypeAttributeSubAttribute/", name="deleteCompanyTypeAttributeSubAttribute")
+     * @Route("/cms/deleteCompanyTypeAttributeSubAttribute/", name="deleteCompanyTypeAttributeSubAttribute")
      */
     public function deleteCompanyTypeAttributeSubAttribute(Request $request){
         try {
@@ -94,7 +94,7 @@ class CompanyTypeSubAttributeController extends Controller
     }
 
     /**
-     * @Route("/editCompanyTypeAttributeSubAttribute",name="editCompanyTypeAttributeSubAttribute")
+     * @Route("/cms/editCompanyTypeAttributeSubAttribute",name="editCompanyTypeAttributeSubAttribute")
      */
     public function editCompanyTypeAttributeSubAttribute(Request $request)
     {

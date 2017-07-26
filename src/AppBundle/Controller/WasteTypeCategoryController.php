@@ -18,7 +18,7 @@ class WasteTypeCategoryController extends Controller
 
 
     /**
-     * @Route("/WasteTypeCategoryRecords",name="WasteTypeCategoryRecords")
+     * @Route("/cms/WasteTypeCategoryRecords",name="WasteTypeCategoryRecords")
      */
     public function getWasteTypeCatsRecords()
     {
@@ -29,7 +29,7 @@ class WasteTypeCategoryController extends Controller
 
 
     /**
-     * @Route("/WasteTypeCategories",name="WasteTypeCategories")
+     * @Route("/cms/WasteTypeCategories",name="WasteTypeCategories")
      */
     public function WasteTypeCatsRecords()
     {
@@ -40,7 +40,7 @@ class WasteTypeCategoryController extends Controller
 
 
     /**
-     * @Route("/deleteWasteTypeCat", name="deleteWasteTypeCat")
+     * @Route("/cms/deleteWasteTypeCat", name="deleteWasteTypeCat")
      */
     public function DeleteLogAction(Request $request)
     {
@@ -58,7 +58,7 @@ class WasteTypeCategoryController extends Controller
 
 
     /**
-     * @Route("/addWasteTypeCat", name="addWasteTypeCat")
+     * @Route("/cms/addWasteTypeCat", name="addWasteTypeCat")
      */
     public function addDistrict(Request $request)
     {
@@ -85,7 +85,7 @@ class WasteTypeCategoryController extends Controller
     }
 
     /**
-     * @Route("/editWasteTypeCat", name="editWasteTypeCat")
+     * @Route("/cms/editWasteTypeCat", name="editWasteTypeCat")
      */
     public function editUnits(Request $request)
     {

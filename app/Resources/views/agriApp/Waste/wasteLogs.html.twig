@@ -117,7 +117,7 @@
        var table = $('#wasteLogs').DataTable();
        if (confirm('Are you sure you want to delete this?')) {
            $.ajax({
-               url: '/deleteWasteLog/'+e,
+               url: '{{ path('deleteWasteLog') }}'+e,
                type: 'POST',
                success: function (data) {
                    if(data.status == 'success') {

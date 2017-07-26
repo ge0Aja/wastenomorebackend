@@ -19,7 +19,7 @@ class ReasonController extends Controller
 
 
     /**
-     * @Route("/ReasonsRecords",name="ReasonsRecords")
+     * @Route("/cms/ReasonsRecords",name="ReasonsRecords")
      */
     public function getReasonsRecords()
     {
@@ -32,7 +32,7 @@ class ReasonController extends Controller
 
 
     /**
-     * @Route("/Reasons",name="ReasonsRecordsPage")
+     * @Route("/cms/Reasons",name="ReasonsRecordsPage")
      */
     public function ReasonsRecords()
     {
@@ -41,7 +41,7 @@ class ReasonController extends Controller
 
 
     /**
-     * @Route("/addReason",name="addReason")
+     * @Route("/cms/addReason",name="addReason")
      */
     public function addReasons(Request $request)
     {
@@ -66,7 +66,7 @@ class ReasonController extends Controller
 
 
     /**
-     * @Route("/deleteReason", name="deleteReason")
+     * @Route("/cms/deleteReason", name="deleteReason")
      */
     public function DeleteLogAction(Request $request){
         try {
@@ -83,7 +83,7 @@ class ReasonController extends Controller
 
 
     /**
-     * @Route("/editReason", name="editReason")
+     * @Route("/cms/editReason", name="editReason")
      */
     public function editReasons(Request $request)
     {

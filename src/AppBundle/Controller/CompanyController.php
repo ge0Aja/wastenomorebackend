@@ -12,7 +12,7 @@ class CompanyController extends Controller
 {
 
     /**
-     * @Route("/CompanyRecords",name="CompanyRecords")
+     * @Route("/cms/CompanyRecords",name="CompanyRecords")
      */
     public function getCompanyRecords()
     {
@@ -25,7 +25,7 @@ class CompanyController extends Controller
 
 
     /**
-     * @Route("/Companies",name="CompanyRecordsPage")
+     * @Route("/cms/Companies",name="CompanyRecordsPage")
      */
     public function CompanyRecords()
     {
@@ -33,7 +33,7 @@ class CompanyController extends Controller
     }
 
     /**
-     * @Route("/deleteCompany/{id}", name="deleteCompany")
+     * @Route("/cms/deleteCompany/{id}", name="deleteCompany")
      */
     public function DeleteLogAction($id){
         try {

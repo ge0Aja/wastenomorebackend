@@ -18,7 +18,7 @@ class SubCategoryUnitController extends Controller
 
 
     /**
-     * @Route("/SubCatsUnitsRecords", name="SubCatsUnitsRecords")
+     * @Route("/cms/SubCatsUnitsRecords", name="SubCatsUnitsRecords")
      */
     public function getSubCatUnitRecords()
     {
@@ -31,7 +31,7 @@ class SubCategoryUnitController extends Controller
 
 
     /**
-     * @Route("/SubCatsUnits", name="SubCatsUnits")
+     * @Route("/cms/SubCatsUnits", name="SubCatsUnits")
      */
     public function getSubCatUnits()
     {
@@ -45,7 +45,7 @@ class SubCategoryUnitController extends Controller
 
 
     /**
-     * @Route("/addSubCatUnit", name="addSubCatUnit")
+     * @Route("/cms/addSubCatUnit", name="addSubCatUnit")
      */
     public function addSubCatUnit(Request $request)
     {
@@ -75,7 +75,7 @@ class SubCategoryUnitController extends Controller
     }
 
     /**
-     * @Route("/editSubCatUnit", name="editSubCatUnit")
+     * @Route("/cms/editSubCatUnit", name="editSubCatUnit")
      */
     public function editSubCatUnit(Request $request)
     {
@@ -106,7 +106,7 @@ class SubCategoryUnitController extends Controller
 
 
     /**
-     * @Route("/delSubCatUnit", name="delSubCatUnit")
+     * @Route("/cms/delSubCatUnit", name="delSubCatUnit")
      */
     public function deleteSubCatUnit(Request $request)
     {

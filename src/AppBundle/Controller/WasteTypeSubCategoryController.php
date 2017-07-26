@@ -18,7 +18,7 @@ class WasteTypeSubCategoryController extends Controller
 
 
     /**
-     * @Route("/WasteTypeSubCategoryRecords",name="WasteTypeSubCategoryRecords")
+     * @Route("/cms/WasteTypeSubCategoryRecords",name="WasteTypeSubCategoryRecords")
      */
     public function getCitiesRecords()
     {
@@ -29,7 +29,7 @@ class WasteTypeSubCategoryController extends Controller
 
 
     /**
-     * @Route("/WasteTypeSubCategories",name="WasteTypeSubCategories")
+     * @Route("/cms/WasteTypeSubCategories",name="WasteTypeSubCategories")
      */
     public function CitiesRecords()
     {
@@ -41,7 +41,7 @@ class WasteTypeSubCategoryController extends Controller
 
 
     /**
-     * @Route("/addSubCat",name="addSubCat")
+     * @Route("/cms/addSubCat",name="addSubCat")
      */
     public function addCity(Request $request){
         if ($request->getMethod() === 'POST') {
@@ -67,7 +67,7 @@ class WasteTypeSubCategoryController extends Controller
     }
 
     /**
-     * @Route("/deleteSubCat", name="deleteSubCat")
+     * @Route("/cms/deleteSubCat", name="deleteSubCat")
      */
     public function DeleteLogAction(Request $request)
     {
@@ -84,7 +84,7 @@ class WasteTypeSubCategoryController extends Controller
     }
 
     /**
-     * @Route("/editSubCat", name="editSubCat")
+     * @Route("/cms/editSubCat", name="editSubCat")
      */
     public function editCities(Request $request)
     {

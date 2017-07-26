@@ -48,4 +48,16 @@ class DefaultController extends Controller
         }
     }
 
+    /**
+     * @Route(path="api/secure_resource", name="secure_resource")
+     */
+    public function secureResource(){
+        $data = [
+            "test" => 'test',
+            "test2" => 'test2'
+        ];
+
+        return new JsonResponse($data);
+    }
+
 }

@@ -17,7 +17,7 @@ class DDlMenuTypeController extends Controller
     }
 
     /**
-     * @Route("/MenuTypes",name="MenuTypes")
+     * @Route("/cms/MenuTypes",name="MenuTypes")
      */
     public function getMenuTypes()
     {
@@ -26,7 +26,7 @@ class DDlMenuTypeController extends Controller
 
 
     /**
-     * @Route("/MenuTypeRecords", name="MenuTypeRecords")
+     * @Route("/cms/MenuTypeRecords", name="MenuTypeRecords")
      */
     public function getMenuTypeRecords()
     {
@@ -37,7 +37,7 @@ class DDlMenuTypeController extends Controller
 
 
     /**
-     * @Route("/deleteMenuType", name="deleteMenuType")
+     * @Route("/cms/deleteMenuType", name="deleteMenuType")
      */
     public function DeleteLogAction(Request $request){
         try {
@@ -54,7 +54,7 @@ class DDlMenuTypeController extends Controller
 
 
     /**
-     * @Route("/addMenuType",name="addMenuType")
+     * @Route("/cms/addMenuType",name="addMenuType")
      */
     public function addMenuType(Request $request)
     {
@@ -80,7 +80,7 @@ class DDlMenuTypeController extends Controller
     }
 
     /**
-     * @Route("/editMenuType",name="editMenuType")
+     * @Route("/cms/editMenuType",name="editMenuType")
      */
     public function editMenuType(Request $request)
     {

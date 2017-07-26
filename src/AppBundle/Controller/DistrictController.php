@@ -19,7 +19,7 @@ class DistrictController extends Controller
     }
 
     /**
-     * @Route("/DistrictsRecords",name="DistrictsRecords")
+     * @Route("/cms/DistrictsRecords",name="DistrictsRecords")
      */
     public function getDistrictsRecords()
     {
@@ -32,7 +32,7 @@ class DistrictController extends Controller
 
 
     /**
-     * @Route("/Districts",name="DistrictsRecordsPage")
+     * @Route("/cms/Districts",name="DistrictsRecordsPage")
      */
     public function DistrictsRecords()
     {
@@ -43,7 +43,7 @@ class DistrictController extends Controller
 
 
     /**
-     * @Route("/deleteDistrict", name="deleteDistrict")
+     * @Route("/cms/deleteDistrict", name="deleteDistrict")
      */
     public function DeleteLogAction(Request $request)
     {
@@ -61,7 +61,7 @@ class DistrictController extends Controller
 
 
     /**
-     * @Route("/addDistrict", name="addDistrict")
+     * @Route("/cms/addDistrict", name="addDistrict")
      */
     public function addDistrict(Request $request)
     {
@@ -88,7 +88,7 @@ class DistrictController extends Controller
     }
 
     /**
-     * @Route("/editDistrict", name="editDistrict")
+     * @Route("/cms/editDistrict", name="editDistrict")
      */
     public function editUnits(Request $request)
     {

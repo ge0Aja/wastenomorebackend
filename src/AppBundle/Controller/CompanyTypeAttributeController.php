@@ -18,7 +18,7 @@ class CompanyTypeAttributeController extends Controller
     }
 
     /**
-     * @Route("/CompanyTypeAttributes",name="CompanyTypeAttributes")
+     * @Route("/cms/CompanyTypeAttributes",name="CompanyTypeAttributes")
      */
     public function CompanyTypeAttributes()
     {
@@ -28,7 +28,7 @@ class CompanyTypeAttributeController extends Controller
     }
 
     /**
-     * @Route("/CompanyTypeAttributesRecords", name="CompanyTypeAttributesRecords")
+     * @Route("/cms/CompanyTypeAttributesRecords", name="CompanyTypeAttributesRecords")
      */
     public function getCompanyTypeAttributeRecords(){
         $em = $this->getDoctrine()->getManager();
@@ -38,7 +38,7 @@ class CompanyTypeAttributeController extends Controller
 
 
     /**
-     * @Route("/deleteCompanyTypeAttribute/", name="deleteCompanyTypeAttribute")
+     * @Route("/cms/deleteCompanyTypeAttribute/", name="deleteCompanyTypeAttribute")
      */
     public function DeleteLogAction(Request $request){
         try {
@@ -54,7 +54,7 @@ class CompanyTypeAttributeController extends Controller
     }
 
     /**
-     * @Route("/addCompanyTypeAttribute",name="addCompanyTypeAttribute")
+     * @Route("/cms/addCompanyTypeAttribute",name="addCompanyTypeAttribute")
      */
     public function addCompanyTypeAttribute(Request $request)
     {
@@ -76,7 +76,7 @@ class CompanyTypeAttributeController extends Controller
     }
 
     /**
-     * @Route("/editCompanyTypeAttribute",name="editCompanyTypeAttribute")
+     * @Route("/cms/editCompanyTypeAttribute",name="editCompanyTypeAttribute")
      */
     public function editCompanyTypeAttribute(Request $request)
     {

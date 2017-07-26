@@ -19,7 +19,7 @@ class WasteTypeController extends Controller
 
 
     /**
-     * @Route("/WasteTypes",name="WasteTypes")
+     * @Route("/cms/WasteTypes",name="WasteTypes")
      */
     public function getCompanyTypes()
     {
@@ -27,7 +27,7 @@ class WasteTypeController extends Controller
     }
 
     /**
-     * @Route("/WasteTypeRecords", name="WasteTypeRecords")
+     * @Route("/cms/WasteTypeRecords", name="WasteTypeRecords")
      */
     public function getCompanyTypeRecords(){
         $em = $this->getDoctrine()->getManager();
@@ -37,7 +37,7 @@ class WasteTypeController extends Controller
 
 
     /**
-     * @Route("/deleteWasteType", name="deleteWasteType")
+     * @Route("/cms/deleteWasteType", name="deleteWasteType")
      */
     public function DeleteLogAction(Request $request){
         try {
@@ -53,7 +53,7 @@ class WasteTypeController extends Controller
 
 
     /**
-     * @Route("/addWasteType",name="addWasteType")
+     * @Route("/cms/addWasteType",name="addWasteType")
      */
     public function addCompanyType(Request $request)
     {
@@ -79,7 +79,7 @@ class WasteTypeController extends Controller
     }
 
     /**
-     * @Route("/editWasteType",name="editWasteType")
+     * @Route("/cms/editWasteType",name="editWasteType")
      */
     public function editCompanyType(Request $request)
     {

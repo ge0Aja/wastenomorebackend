@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CompanyTypeController extends Controller
 {
     /**
-     * @Route("/CompanyTypes",name="CompanyTypes")
+     * @Route("/cms/CompanyTypes",name="CompanyTypes")
      */
     public function getCompanyTypes()
     {
@@ -21,7 +21,7 @@ class CompanyTypeController extends Controller
     }
 
     /**
-     * @Route("/CompanyTypeRecords", name="CompanyTypeRecords")
+     * @Route("/cms/CompanyTypeRecords", name="CompanyTypeRecords")
      */
     public function getCompanyTypeRecords()
     {
@@ -31,7 +31,7 @@ class CompanyTypeController extends Controller
     }
 
     /**
-     * @Route("/deleteCompanyType", name="deleteCompanyType")
+     * @Route("/cms/deleteCompanyType", name="deleteCompanyType")
      */
     public function DeleteLogAction(Request $request){
         try {
@@ -48,7 +48,7 @@ class CompanyTypeController extends Controller
 
 
     /**
-     * @Route("/addCompanyType",name="addCompanyType")
+     * @Route("/cms/addCompanyType",name="addCompanyType")
      */
     public function addCompanyType(Request $request)
     {
@@ -74,7 +74,7 @@ class CompanyTypeController extends Controller
     }
 
     /**
-     * @Route("/editCompanyType",name="editCompanyType")
+     * @Route("/cms/editCompanyType",name="editCompanyType")
      */
     public function editCompanyType(Request $request)
     {

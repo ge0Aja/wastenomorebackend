@@ -19,7 +19,7 @@ class RegistrationController extends Controller
     CONST ROLE_ADMIN = 'ROLE_ADMIN';
     CONST ROLE_USER = 'ROLE_USER';
     /**
-     * @Route("/register", name="registerCMSUser")
+     * @Route("/cms/register", name="registerCMSUser")
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
     {
@@ -53,7 +53,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * @Route("/changePasswd", name="changePasswdCMSUser")
+     * @Route("/cms/changePasswd", name="changePasswdCMSUser")
      */
     public function changePasswdAction(Request $request,UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
     {

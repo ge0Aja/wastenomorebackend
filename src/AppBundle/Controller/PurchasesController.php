@@ -17,7 +17,7 @@ class PurchasesController extends Controller
 
 
     /**
-     * @Route("/PurchaseRecords",name="PurchaseRecords")
+     * @Route("/cms/PurchaseRecords",name="PurchaseRecords")
      */
     public function getBranchRecords()
     {
@@ -28,7 +28,7 @@ class PurchasesController extends Controller
 
 
     /**
-     * @Route("/Purchases",name="Purchase")
+     * @Route("/cms/Purchases",name="Purchase")
      */
     public function BranchRecords()
     {
@@ -39,7 +39,7 @@ class PurchasesController extends Controller
 
 
     /**
-     * @Route("/deletePurchase", name="deletePurchase")
+     * @Route("/cms/deletePurchase", name="deletePurchase")
      */
     public function DeleteLogAction(Request $request){
         try {

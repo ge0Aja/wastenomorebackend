@@ -671,7 +671,7 @@
 
         if(comp_id != "default"){
             $.ajax({
-                url: '/getCompanyLicense/'+comp_id,
+                url: '{{ path('getCompanyLicenses') }}'+comp_id,
                 type: "GET",
                 success: function (data) {
                     if(data.status == "success"){

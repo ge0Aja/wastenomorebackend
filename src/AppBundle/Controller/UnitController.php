@@ -20,7 +20,7 @@ class UnitController extends Controller
 
 
     /**
-     * @Route("/UnitsRecords",name="UnitsRecords")
+     * @Route("/cms/UnitsRecords",name="UnitsRecords")
      */
     public function getUnitRecords()
     {
@@ -34,7 +34,7 @@ class UnitController extends Controller
 
 
     /**
-     * @Route("/Units",name="UnitsRecordsPage")
+     * @Route("/cms/Units",name="UnitsRecordsPage")
      */
     public function UnitsRecords()
     {
@@ -43,7 +43,7 @@ class UnitController extends Controller
 
 
     /**
-     * @Route("/addUnit",name="addUnit")
+     * @Route("/cms/addUnit",name="addUnit")
      */
     public function addUnits(Request $request)
     {
@@ -68,7 +68,7 @@ class UnitController extends Controller
 
 
     /**
-     * @Route("/deleteUnit", name="deleteUnit")
+     * @Route("/cms/deleteUnit", name="deleteUnit")
      */
     public function DeleteLogAction(Request $request){
         try {
@@ -85,7 +85,7 @@ class UnitController extends Controller
 
 
     /**
-     * @Route("/editUnit", name="editUnit")
+     * @Route("/cms/editUnit", name="editUnit")
      */
     public function editUnits(Request $request)
     {

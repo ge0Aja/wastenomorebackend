@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class SubAttributeValuesController extends Controller
 {
     /**
-     * @Route("/subAttributeValues",name="subAttributeValues")
+     * @Route("/cms/subAttributeValues",name="subAttributeValues")
      */
     public function subAttributeValues()
     {
@@ -22,7 +22,7 @@ class SubAttributeValuesController extends Controller
     }
 
     /**
-     * @Route("/subAttributeValuesRecords",name="subAttributeValuesRecords")
+     * @Route("/cms/subAttributeValuesRecords",name="subAttributeValuesRecords")
      */
     public function subAttributeValuesRecords()
     {
@@ -32,7 +32,7 @@ class SubAttributeValuesController extends Controller
     }
 
     /**
-     * @Route("/addCompanySubAttributeValue",name="addCompanySubAttributeValue")
+     * @Route("/cms/addCompanySubAttributeValue",name="addCompanySubAttributeValue")
      */
     public function addCompanySubAttributeValue(Request $request)
     {
@@ -55,7 +55,7 @@ class SubAttributeValuesController extends Controller
     }
 
     /**
-     * @Route("/editCompanySubAttributeValue",name="editCompanySubAttributeValue")
+     * @Route("/cms/editCompanySubAttributeValue",name="editCompanySubAttributeValue")
      */
     public function editCompanySubAttributeValue(Request $request)
     {
@@ -80,7 +80,7 @@ class SubAttributeValuesController extends Controller
 
 
     /**
-     * @Route("/deleteSubAttributeValue",name="deleteSubAttributeValue")
+     * @Route("/cms/deleteSubAttributeValue",name="deleteSubAttributeValue")
      */
     public function deleteSubAttributeValue(Request $request)
     {

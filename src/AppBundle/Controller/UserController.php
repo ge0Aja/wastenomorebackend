@@ -20,7 +20,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/cmsUsersRecords", name="cmsUsersRecords")
+     * @Route("/cms/cmsUsersRecords", name="cmsUsersRecords")
      */
     public function getCmsUsersRecords()
     {
@@ -32,7 +32,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/appUsersRecords", name="appUsersRecords")
+     * @Route("/cms/appUsersRecords", name="appUsersRecords")
      */
     public function getAppUsersRecords()
     {
@@ -44,7 +44,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/cmsUsers", name="cmsUsers")
+     * @Route("/cms/cmsUsers", name="cmsUsers")
      */
     public function CmsUsers()
     {
@@ -53,7 +53,7 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/appUsers", name="appUsers")
+     * @Route("/cms/appUsers", name="appUsers")
      */
     public function AppUsers()
     {
@@ -66,7 +66,7 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/resetPasswordAppUser", name="resetPasswordAppUser")
+     * @Route("/cms/resetPasswordAppUser", name="resetPasswordAppUser")
      */
     public function resetPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -95,7 +95,7 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/appUserAdd", name="appUserAdd")
+     * @Route("/cms/appUserAdd", name="appUserAdd")
      */
     public function addAppUser(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -163,7 +163,7 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/appUserEdit", name="appUserEdit")
+     * @Route("/cms/appUserEdit", name="appUserEdit")
      */
     public function editAppUser(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -221,7 +221,7 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/appUserDel", name="appUserDel")
+     * @Route("/cms/appUserDel", name="appUserDel")
      */
     public function deleteAppUser(Request $request)
     {
@@ -248,7 +248,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/appUserDeactivate", name="appUserDeactivate")
+     * @Route("/cms/appUserDeactivate", name="appUserDeactivate")
      */
     public function deactivateUser(Request $request)
     {

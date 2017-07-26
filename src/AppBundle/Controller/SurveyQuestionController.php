@@ -17,7 +17,7 @@ class SurveyQuestionController extends Controller
     }
 
     /**
-     * @Route("/SurveyQuestions",name="SurveyQuestions")
+     * @Route("/cms/SurveyQuestions",name="SurveyQuestions")
      */
     public function getSurveyQuestions()
     {
@@ -34,7 +34,7 @@ class SurveyQuestionController extends Controller
     }
 
     /**
-     * @Route("/SurveyQsRecords", name="SurveyQsRecords")
+     * @Route("/cms/SurveyQsRecords", name="SurveyQsRecords")
      */
     public function getSurveyQuestionRecords()
     {
@@ -45,7 +45,7 @@ class SurveyQuestionController extends Controller
 
 
     /**
-     * @Route("/deleteSurveyQ", name="deleteSurveyQ")
+     * @Route("/cms/deleteSurveyQ", name="deleteSurveyQ")
      */
     public function DeleteLogAction(Request $request){
         try {
@@ -62,9 +62,9 @@ class SurveyQuestionController extends Controller
 
 
     /**
-     * @Route("/addSurveyQ",name="addSurveyQ")
+     * @Route("/cms/addSurveyQ",name="addSurveyQ")
      */
-    public function adSurveyQ(Request $request)
+    public function addSurveyQ(Request $request)
     {
 
         if ($request->getMethod() === 'POST') {
@@ -100,7 +100,7 @@ class SurveyQuestionController extends Controller
     }
 
     /**
-     * @Route("/editSurveyQ",name="editSurveyQ")
+     * @Route("/cms/editSurveyQ",name="editSurveyQ")
      */
     public function editSurveyQ(Request $request)
     {
