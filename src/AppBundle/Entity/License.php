@@ -37,6 +37,28 @@ class License
      */
     private $userCount;
 
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $premium;
+
+    /**
+     * @return mixed
+     */
+    public function getPremium()
+    {
+        return $this->premium;
+    }
+
+    /**
+     * @param mixed $premium
+     */
+    public function setPremium($premium)
+    {
+        $this->premium = $premium;
+    }
+
     /**
      * License constructor.
      */
@@ -99,6 +121,29 @@ class License
      */
     private $licenseSubLicense;
 
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $active;
+
+    /**
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param mixed $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
+
     /**
      * @return ArrayCollection|SubLicense[]
      */
@@ -107,6 +152,15 @@ class License
         return $this->licenseSubLicense;
     }
 
+    /**
+     * @return ArrayCollection|SubLicense[]
+     */
+    public function getLicenseSubLicenseUsed()
+    {
+        return $this->licenseSubLicense->filter(function ($entry){
+            return $entry->getUsed() == 1;
+        });
+    }
 
     /**
      * @ORM\Column(type="date")

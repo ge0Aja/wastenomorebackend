@@ -1,0 +1,208 @@
+{{ include(':agriApp:base_head.html.twig') }}
+<div class="container-fluid">
+    <table id="sublicenseRecords"  style="width: 100%" class="display table table-striped table-bordered">
+        <h1>SubLicenses</h1>
+        <thead>
+        <th>ID</th>
+        <th>SubLicense</th>
+        <th>License</th>
+        <th>User</th>
+        <th>Used?</th>
+        <th>Active?</th>
+        <th></th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+
+
+<div id="delSubLicense" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Confirm Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="delSubLicenseForm" role="form"
+                          action=""
+                          method="">
+                        <div class="box-body">
+                            <p class="text-black">Are you sure you want to delete this
+                                Instance??</p>
+                            <div class="box-footer">
+                                <button type="submit" class="pull-right btn btn-primary">Yes
+                                </button>
+                                <button type="button" class="pull-left btn btn-primary"
+                                        data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">No</span></button>
+                            </div>
+                            <input type="hidden" id="delSubLicenseID" name="delSubLicenseID">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+        var tHead = $('#sublicenseRecords thead th');
+        tHead.not(":eq(0),:eq(6),:eq(5)").each(function () {
+            var title = $(this).text();
+            //console.log(title);
+            $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
+        });
+
+        var table = $('#sublicenseRecords').DataTable({
+
+            "deferRender": true,
+
+            "ajax" :
+                {
+                    "url": "{{ path('SubLicenseRecords') }}",
+                    "type": "GET"
+                },
+
+            "columns": [
+                {"data": "id"},
+                {"data": "sublicense"},
+                {"data": "license"},
+                {"data": "user"},
+                {"data": "used"},
+                {
+                    "data":   "active",
+                    render: function ( data, type, row ) {
+                        if ( type === 'display' ) {
+                            return '<input type="checkbox" class="editor-active">';
+                        }
+                        return data;
+                    },
+                    className: "dt-body-center"
+                }
+
+            ],
+            order: [],
+            "pageLength": 15,
+            "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
+            columnDefs: [{
+                id: "DT_RowId",
+                "targets": [0],
+                "orderable": false,
+                "searchable": false,
+                "visible": false
+            },
+                {
+                    "targets": [1,2,3,4,5],
+                    "orderable": false
+                },
+                {
+                    "targets":[6],
+                    "data": null,
+                    "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delSubLicense" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span>',
+                    "orderable":false
+                }
+            ],
+            rowCallback: function ( row, data ) {
+                // Set the checked state of the checkbox in the table
+                $('input.editor-active', row).prop( 'checked', data.active == 1 );
+            }
+        });
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+
+            $('select', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    console.log(this.value);
+                    if (this.value === "") {
+                        that.search('').draw();
+                    }
+                    else that.search("^" + this.value + "$", true, false).draw();
+                }
+            });
+
+        });
+    });
+
+
+</script>
+
+<script>
+    $('#sublicenseRecords tbody').on( 'click', '.deleteBut', function () {
+        var table = $('#sublicenseRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        $("#delSubLicenseID").val(data.id);
+
+        console.log($("#delSubLicenseID").val());
+    });
+
+    $(document).on("submit", "#delSubLicenseForm", function (e){
+
+        e.preventDefault();
+
+        var data_array = $('#delSubLicenseForm').serialize();
+
+        $.ajax({
+            url: '{{ path('deleteSubLicense') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    $("#delSubLicense").modal("hide");
+                    $("#delSubLicenseID").val("");
+                    var table = $('#sublicenseRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    alert(status.message);
+                }
+            }
+        });
+
+    });
+</script>
+
+
+<script>
+
+    $('#sublicenseRecords').on( 'change', 'input.editor-active', function () {
+
+        var table = $('#sublicenseRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        var isActive = $(this).prop( 'checked' ) ? 1 : 0;
+        $.ajax({
+            url: '{{ path('changeSubLicenseStatus') }}',
+            data: {"editSubLicenseID":data.id,"isActive":isActive},
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    var table = $('#sublicenseRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    alert(status.message);
+                }
+            }
+        });
+
+
+    } );
+</script>
+
+{{ include(':agriApp:base_foot.html.twig') }}

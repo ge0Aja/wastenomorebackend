@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\License;
+use AppBundle\Entity\SubLicense;
 use Doctrine\DBAL\DBALException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -43,8 +44,8 @@ class LicenseController extends Controller
     public function DeleteLogAction(Request $request){
         try {
             $em = $this->getDoctrine()->getManager();
-            $AppRoleRecord = $em->getRepository('AppBundle:License')->find($request->request->get('delLicenseID'));
-            $em->remove($AppRoleRecord);
+            $LiceRecord = $em->getRepository('AppBundle:License')->find($request->request->get('delLicenseID'));
+            $em->remove($LiceRecord);
             $em->flush();
 
             return new JsonResponse(array('status' => 'success'));
@@ -60,23 +61,81 @@ class LicenseController extends Controller
     {
         if ($request->getMethod() === 'POST') {
             if ($request->request) {
+                $error = 0;
+                $error_messages = array("usercount" => "",
+                    "date" => "");
+                $em = $this->getDoctrine()->getManager();
+                $em->getConnection()->beginTransaction();
                 try {
-                    $em = $this->getDoctrine()->getManager();
+
                     $licenseRecord = new License();
-                    $licenseRecord->setLicense($request->request->get('licenseadd'));
-                    $licenseRecord->setUserCount($request->request->get('usercountadd'));
+                    $users_count = $request->request->get('usercountadd');
 
-                    /*var_dump(date("Y-m-d",strtotime($request->request->get('startDateadd'))));
-                    var_dump(date("Y-m-d",strtotime($request->request->get('expiryDateadd'))));
+                    if($users_count == 0){
+                        $error = 1;
+                        $error_messages["usercount"] = "User Count Can't be 0";
+                    }
 
-                    exit();*/
+                    $licenseString = $request->request->get('licenseadd');
+
+                    $licenseRecord->setLicense($licenseString);
+                    $licenseRecord->setUserCount($users_count);
+
+                    if(isset($_POST['isActiveadd']))
+                        $licenseRecord->setActive(1);
+                    else
+                        $licenseRecord->setActive(0);
+
+                    $start_date = strtotime($request->request->get('startDateadd'));
+                    $expiry_date = strtotime($request->request->get('expiryDateadd'));
+                    $today = date("Y-m-d");
+                    $today_time = strtotime($today);
+
+                    if($expiry_date < $start_date){
+                        $error = 1;
+                        $error_messages["date"] = "Expiry Date Can't be less than Starting Date";
+                    }
+
+                    if( $expiry_date < $today_time){ //$start_date < $today_time ||
+                        $error = 1;
+                        if($error_messages["date"] != "")
+                            $error_messages["date"] = $error_messages["date"]." And  Expiry Dates Can't be less than today's date";
+                        else
+                            $error_messages["date"] = "Expiry Dates Can't be less than today's date";
+                    }
 
                     $licenseRecord->setStartDate(new \DateTime($request->request->get('startDateadd')));
                     $licenseRecord->setExpiryDate(new \DateTime($request->request->get('expiryDateadd')));
-                    $em->persist($licenseRecord);
-                    $em->flush();
-                    return new JsonResponse(array('status' => 'success'));
+
+                    if(isset($_POST['isPremiumadd']))
+                        $licenseRecord->setPremium(1);
+                    else
+                        $licenseRecord->setPremium(0);
+
+                    if($error == 0) {
+                        $em->persist($licenseRecord);
+                        $em->flush();
+
+                        for ($i = 1; $i < $users_count; $i++) {
+                            $sublicenseRecord = new SubLicense();
+                            $sublicenseRecord->setUsed(0);
+                            $sublicenseRecord->setLicense($licenseRecord);
+                            if ($licenseRecord->getActive() == 1)
+                                $sublicenseRecord->setActive(1);
+                            else
+                                $sublicenseRecord->setActive(0);
+                            $sublicenseRecord->setSubLicenseString(hash('md5', $licenseString . $i));
+                            $em->persist($sublicenseRecord);
+                            $em->flush();
+                        }
+                        $em->getConnection()->commit();
+                        return new JsonResponse(array('status' => 'success'));
+                    }else{
+                        $em->getConnection()->rollBack();
+                        return new JsonResponse(array('status' => 'form_error', 'message' => $error_messages));
+                    }
                 } catch (DBALException $e) {
+                    $em->getConnection()->rollBack();
                     return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add License','info' =>$e->getMessage()));
                 }
             }
@@ -92,14 +151,85 @@ class LicenseController extends Controller
     {
         if ($request->getMethod() === 'POST') {
             if ($request->request) {
+                $em = $this->getDoctrine()->getManager();
+                $em->getConnection()->beginTransaction();
                 try {
-                    $em = $this->getDoctrine()->getManager();
+                    $error = 0;
+                    $error_messages = array("usercount" => "",
+                        "date" => "");
+
                     $licenseRecord = $em->getRepository('AppBundle:License')->find($request->request->get('editLicenseID'));
-                    $licenseRecord->setUserCount($request->request->get('usercountedit'));
-                    $em->persist($licenseRecord);
-                    $em->flush();
-                    return new JsonResponse(array('status' => 'success'));
+
+                    if(isset($_POST['isActiveedit']))
+                        $licenseRecord->setActive(1);
+                    else
+                        $licenseRecord->setActive(0);
+
+                    if(isset($_POST['isPremiumedit']))
+                        $licenseRecord->setPremium(1);
+                    else
+                        $licenseRecord->setPremium(0);
+
+
+                    $newUserCount = $request->request->get('usercountedit');
+                    $oldUserCount = $licenseRecord->getUserCount();
+
+
+                    if($newUserCount < $oldUserCount){
+                        $error = 1;
+                        $error_messages["usercount"] = "The New User Count Can't be less than the Old User Count";
+                    }
+                    else
+                        $licenseRecord->setUserCount($request->request->get('usercountedit'));
+
+                    $new_start_date = strtotime($request->request->get('startDateedit'));
+                    $new_expiry_date = strtotime($request->request->get('expiryDateedit'));
+
+                    $today = date("Y-m-d");
+                    $today_time = strtotime($today);
+
+
+                    if($new_expiry_date < $new_start_date){
+                        $error = 1;
+                        $error_messages["date"] = "Expiry Date Can't be less than Starting Date";
+                    }
+
+                    if( $new_expiry_date < $today_time){ //$new_start_date < $today_time ||
+                        $error = 1;
+                        if ($error_messages["date"] != "")
+                            $error_messages["date"] = $error_messages["date"]." And New Expiry Date Can't be Less than Today's Date";
+                        else
+                            $error_messages["date"] = "New Expiry Dates Can't be Less than Today's Date";
+                    }
+
+                    $licenseRecord->setStartDate(new \DateTime($request->request->get('startDateedit')));
+                    $licenseRecord->setExpiryDate(new \DateTime($request->request->get('expiryDateedit')));
+
+                    if($error == 0) {
+                        $em->persist($licenseRecord);
+                        $em->flush();
+                        if($newUserCount > $oldUserCount){
+                            for ($i = $oldUserCount; $i < $newUserCount; $i++) {
+                                $sublicenseRecord = new SubLicense();
+                                $sublicenseRecord->setUsed(0);
+                                $sublicenseRecord->setLicense($licenseRecord);
+                                if ($licenseRecord->getActive() == 1)
+                                    $sublicenseRecord->setActive(1);
+                                else
+                                    $sublicenseRecord->setActive(0);
+                                $sublicenseRecord->setSubLicenseString(hash('md5', $licenseRecord->getLicense() . $i));
+                                $em->persist($sublicenseRecord);
+                                $em->flush();
+                            }
+                        }
+                        $em->getConnection()->commit();
+                        return new JsonResponse(array('status' => 'success'));
+                    }else{
+                        $em->getConnection()->rollBack();
+                        return new JsonResponse(array('status' => 'form_error', 'message' => $error_messages));
+                    }
                 } catch (DBALException $e) {
+                    $em->getConnection()->rollBack();
                     return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t update License'));
                 }
             }
@@ -116,7 +246,8 @@ class LicenseController extends Controller
         try {
             $em = $this->getDoctrine()->getManager();
             $branch = $em->getRepository("AppBundle:Branch")->find($id);
-            $license = $branch->getCompany()->getCompanyLicense();
+
+            $license = $branch->getBranchSubLicense()->getLicense();
 
             return new JsonResponse(array("status" => "success", "license" => array("id" => $license->getId(), "licecode" => $license->getLicense())));
         } catch (DBALException $e) {

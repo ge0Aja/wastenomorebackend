@@ -12,7 +12,9 @@
         <th>User Count</th>
         <th>Start Date</th>
         <th>Expiry Date</th>
-        <th>Users Remaining</th>
+        <th>Premium</th>
+        <th>Active</th>
+        <th>SubLicenses Remaining</th>
         <th></th>
         </thead>
         <tbody>
@@ -36,20 +38,33 @@
                     <form id="addLicenseForm" role="form" action="">
                         <div class="box-body">
                             <div class="form-group">
+                                <div class="form-group">
                                 <label for="licenseadd">License</label>
                                 <input type="text" class="form-control" id="licenseadd"
                                        name="licenseadd" value="{{ licenseKey }}"
                                        placeholder="" disabled>
-                                <label for="usercountadd">User Count</label>
-                                <input type="number" class="form-control" id="usercountadd"
-                                       name="usercountadd" required>
-                                <label for="startDateadd">Start Date</label>
-                                <input type="date" class="form-control datepicker" id="startDateadd"
-                                       name="startDateadd" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="usercountadd">User Count</label>
+                                    <input type="number" class="form-control" id="usercountadd"
+                                           name="usercountadd" required>
+                                    <label id="usercountadd_error" style="color: red"></label>
+                                </div>
+                                <div>
+                                    <label for="startDateadd">Start Date</label>
+                                    <input type="date" class="form-control datepicker" id="startDateadd"
+                                           name="startDateadd" required>
 
-                                <label for="expiryDateadd">Expiry Date</label>
-                                <input type="date" class="form-control datepicker" id="expiryDateadd"
-                                       name="expiryDateadd" required>
+                                    <label for="expiryDateadd">Expiry Date</label>
+                                    <input type="date" class="form-control datepicker" id="expiryDateadd"
+                                           name="expiryDateadd" required>
+                                    <label id="dateadd_error" style="color: red"></label>
+                                </div>
+                                <label for="isPremiumadd">Premium</label>
+                                <input type="checkbox" value="1" name="isPremiumadd" id="isPremiumadd">
+
+                                <label for="isActiveadd">Active</label>
+                                <input type="checkbox" value="1" name="isActiveadd" id="isActiveadd">
                             </div>
                         </div>
                         <div class="box-footer">
@@ -76,23 +91,37 @@
                     <form id="editLicenseForm" role="form" action="">
                         <div class="box-body">
                             <div class="form-group">
+                                <div class="form-group">
                                 <label for="licenseedit">License</label>
                                 <input type="text" class="form-control " id="licenseedit"
                                        name="licenseedit"
                                        placeholder="" disabled>
-                                <label for="usercountedit">User Count</label>
-                                <input type="number" class="form-control" id="usercountedit"
-                                       name="usercountedit" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="usercountedit">User Count</label>
+                                    <input type="number" class="form-control" id="usercountedit"
+                                           name="usercountedit" required>
+                                    <label id="usercountedit_error" style="color: red"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="startDateedit">Start Date</label>
+                                    <input type="date" class="form-control datepicker" id="startDateedit"
+                                           name="startDateedit" required>
 
-                                <label for="startDateedit">Start Date</label>
-                                <input type="date" class="form-control datepicker" id="startDateedit"
-                                       name="startDateedit" required>
+                                    <label for="expiryDateedit">Expiry Date</label>
+                                    <input type="date" class="form-control datepicker" id="expiryDateedit"
+                                           name="expiryDateedit" required>
 
-                                <label for="expiryDateedit">Expiry Date</label>
-                                <input type="date" class="form-control datepicker" id="expiryDateedit"
-                                       name="expiryDateedit" required>
+
+                                    <label id="dateedit_error" style="color: red"></label>
+                                </div>
+                                <label for="isPremiumedit">Premium</label>
+                                <input type="checkbox" value="1" name="isPremiumedit" id="isPremiumedit">
+
+                                <label for="isActiveedit">Active</label>
+                                <input type="checkbox" value="1" name="isActiveedit" id="isActiveedit">
+
                                 <input type="hidden" id="editLicenseID" name="editLicenseID">
-
                             </div>
                         </div>
 
@@ -147,7 +176,7 @@
     $(document).ready(function () {
 
         var tHead = $('#licenseRecords thead th');
-        tHead.not(":eq(0),:eq(6)").each(function () {
+        tHead.not(":eq(0),:eq(8)").each(function () {
             var title = $(this).text();
             //console.log(title);
             $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
@@ -169,6 +198,8 @@
                 {"data": "userCount"},
                 {"data": "startDate"},
                 {"data": "expiryDate"},
+                {"data": "ispremium"},
+                {"data": "isactive"},
                 {"data": "usersOnLicense"}
 
 
@@ -184,11 +215,11 @@
                 "visible": false
             },
                 {
-                    "targets": [1,2,3,4,5],
+                    "targets": [1,2,3,4,5,6,7],
                     "orderable": false
                 },
                 {
-                    "targets":[6],
+                    "targets":[8],
                     "data": null,
                     "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delLicense" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editLicense" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
                     "orderable":false
@@ -233,18 +264,28 @@
         var table = $('#licenseRecords').DataTable();
         var data = table.row( $(this).parents('tr') ).data();
 //        console.log($.parseHTML(data.range)[0].data);
-        editRow(data.id,$.parseHTML(data.userCount)[0].data,$.parseHTML(data.license)[0].data,$.parseHTML(data.startDate)[0].data,$.parseHTML(data.expiryDate)[0].data);
+        editRow(data.id,$.parseHTML(data.userCount)[0].data,$.parseHTML(data.license)[0].data,$.parseHTML(data.startDate)[0].data,$.parseHTML(data.expiryDate)[0].data,$.parseHTML(data.ispremium)[0].data,$.parseHTML(data.isactive)[0].data);
     });
 
-    function editRow(e,f,g,h,i)
+    function editRow(e,f,g,h,i,j,k)
     {
         var table = $('#licenseRecords').DataTable();
 //        editCompanyAnnualSalesForm
+        console.log(j);
         $("#usercountedit").val(f);
         $("#editLicenseID").val(e);
         $("#licenseedit").val(g);
         $("#startDateedit").val(h);
         $("#expiryDateedit").val(i);
+        if(j == 1)
+            $("#isPremiumedit").prop('checked', true);
+        else
+            $("#isPremiumedit").prop('checked', false);
+
+        if(k == 1)
+            $("#isActiveedit").prop('checked', true);
+        else
+            $("#isActiveedit").prop('checked', false);
 
     }
 
@@ -269,12 +310,21 @@
                     $("#addLicense").modal("hide");
                     $("#usercountadd").val("");
                     $("#licenseadd").val("");
+                    $("#isPremiumadd").prop("checked",false);
+                    $("#isActiveadd").prop("checked",false);
                     $("#startDateadd").val("");
+                    $("#dateadd_error").text("");
+                    $("#usercountadd_error").text("");
                     $("#expiryDateadd").val("");
                     var table = $('#licenseRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
-                    //display the message
+                    alert(data.message);
+                }if(data.status == 'form_error'){
+                    //alert(data.message.usercount +" "+data.message.date );
+                    $("#usercountadd_error").text(data.message.usercount);
+                    $("#dateadd_error").text(data.message.date);
+
                 }
 
             }
@@ -300,11 +350,20 @@
                     $("#usercountedit").val("");
                     $("#editlicenseid").val("");
                     $("#startDateedit").val("");
+                    $("#dateedit_error").text("");
+                    $("#usercountedit_error").text("");
                     $("#expiryDateedit").val("");
+                    $("#isPremiumedit").prop("checked",false);
+                    $("#isActiveedit").prop("checked",false);
                     var table = $('#licenseRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
-                    //display the message
+                    alert(data.message);
+                }if(data.status == 'form_error'){
+                    //alert(data.message.usercount +" "+data.message.date );
+                    $("#usercountedit_error").text(data.message.usercount);
+                    $("#dateedit_error").text(data.message.date);
+
                 }
 
             }
@@ -329,7 +388,7 @@
                     var table = $('#licenseRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
-                    //display the message
+                    alert(status.message);
                 }
             }
         });
@@ -344,5 +403,12 @@
         autoclose: true,
         format: 'dd-mm-yyyy'
     });
+</script>
+
+<script>
+  /*  $('#editLicense').on('hidden.bs.modal', function (e) {
+        // do something...
+        console.log("modal hidden");
+    })*/
 </script>
 {{ include(':agriApp:base_foot.html.twig') }}

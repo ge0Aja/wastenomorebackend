@@ -25,6 +25,14 @@ class SubLicense
     private $id;
 
     /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @ORM\Column(type="string")
      */
     private $subLicenseString;
@@ -37,9 +45,53 @@ class SubLicense
 
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", mappedBy="SubLicense", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", mappedBy="SubLincese", cascade={"persist"})
      */
     private $SubLicenseUser;
+
+    /**
+     * @return mixed
+     */
+    public function getUsed()
+    {
+        return $this->Used;
+    }
+
+    /**
+     * @param mixed $Used
+     */
+    public function setUsed($Used)
+    {
+        $this->Used = $Used;
+    }
+
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $Used;
+
+    /**
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param mixed $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $active;
 
     /**
      * @return mixed
@@ -107,7 +159,7 @@ class SubLicense
 
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Branch", mappedBy="BranchSubLicense", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Branch", inversedBy="BranchSubLicense")
      */
     private $SubLicenseBranch;
 

@@ -238,4 +238,47 @@ class User implements UserInterface
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Branch", inversedBy="branchUser")
      */
     private $companyBranch;
+
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Company", mappedBy="CompanyManager")
+     */
+    private $ManagedCompany;
+
+    /**
+     * @return mixed
+     */
+    public function getManagedCompany()
+    {
+        return $this->ManagedCompany;
+    }
+
+    /**
+     * @param mixed $ManagedCompany
+     */
+    public function setManagedCompany($ManagedCompany)
+    {
+        $this->ManagedCompany = $ManagedCompany;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubLincese()
+    {
+        return $this->SubLincese;
+    }
+
+    /**
+     * @param mixed $subLincese
+     */
+    public function setSubLincese($subLincese)
+    {
+        $this->SubLincese = $subLincese;
+    }
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\SubLicense", inversedBy="SubLicenseUser")
+     */
+    private $SubLincese;
 }
