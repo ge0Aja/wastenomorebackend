@@ -191,11 +191,6 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\License", inversedBy="licenseUser")
-     */
-    private $license;
-
-    /**
      * @return mixed
      */
     public function getAppRole()
@@ -211,21 +206,6 @@ class User implements UserInterface
         $this->appRole = $appRole;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLicense()
-    {
-        return $this->license;
-    }
-
-    /**
-     * @param mixed $license
-     */
-    public function setLicense($license)
-    {
-        $this->license = $license;
-    }
 
     /**
      * Removes sensitive data from the user.

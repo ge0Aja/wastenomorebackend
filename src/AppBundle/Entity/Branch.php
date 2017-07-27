@@ -46,6 +46,26 @@ class Branch
     private $opening_date;
 
     /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\SubLicense", inversedBy="SubLicenseBranch")
+     */
+    private $BranchSubLicense;
+
+    /**
+     * @return mixed
+     */
+    public function getBranchSubLicense()
+    {
+        return $this->BranchSubLicense;
+    }
+
+    /**
+     * @param mixed $BranchSubLicense
+     */
+    public function setBranchSubLicense($BranchSubLicense)
+    {
+        $this->BranchSubLicense = $BranchSubLicense;
+    }
+    /**
      * Branch constructor.
      */
     public function __construct()

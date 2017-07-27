@@ -42,7 +42,7 @@ class License
      */
     public function __construct()
     {
-        $this->licenseUser = new ArrayCollection();
+        $this->licenseSubLicense = new ArrayCollection();
         $this->Company = new ArrayCollection();
     }
 
@@ -95,16 +95,16 @@ class License
     }
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="license", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SubLicense", mappedBy="License", cascade={"persist"})
      */
-    private $licenseUser;
+    private $licenseSubLicense;
 
     /**
-     * @return ArrayCollection|User
+     * @return ArrayCollection|SubLicense[]
      */
-    public function getLicenseUser()
+    public function getLicenseSubLicense()
     {
-        return $this->licenseUser;
+        return $this->licenseSubLicense;
     }
 
 
