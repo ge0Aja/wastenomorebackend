@@ -13,8 +13,8 @@
         "username": "{{ appUsersRecord.username}}",
         "email": "{{ appUsersRecord.email}}",
         "approle": "{{ appUsersRecord.appRole.role}}",
-        "license": {% if appUsersRecord.license != null %} "{{ appUsersRecord.license.license}}" {% else %} " " {% endif %},
         "company": {% if appUsersRecord.companyBranch != null %} "{{ appUsersRecord.companyBranch.Company.name}}" {% else %} " " {% endif %},
+        "license": {% if appUsersRecord.getSubLicense() != null %} "{{ appUsersRecord.getSubLicense().subLicenseString}}" {% else %} " " {%  endif %},
         "branch": {% if appUsersRecord.companyBranch != null %}  "{{ appUsersRecord.companyBranch.location.name}}" {% else %} " " {% endif %},
         "active": "{{ appUsersRecord.getActiveUser() }}"
         }
@@ -24,8 +24,8 @@
         "username": "{{ appUsersRecord.username}}",
         "email": "{{ appUsersRecord.email}}",
         "approle": "{{ appUsersRecord.appRole.role}}",
-        "license": {% if appUsersRecord.license != null %} "{{ appUsersRecord.license.license}}" {% else %} " " {% endif %},
         "company": {% if appUsersRecord.companyBranch != null %} "{{ appUsersRecord.companyBranch.Company.name}}" {% else %} " " {% endif %},
+        "license": {% if appUsersRecord.getSubLicense() != null %} "{{ appUsersRecord.getSubLicense().subLicenseString}}" {% else %} " " {%  endif %},
         "branch": {% if appUsersRecord.companyBranch != null %}  "{{ appUsersRecord.companyBranch.location.name}}" {% else %} " " {% endif %},
         "active": "{{ appUsersRecord.getActiveUser() }}"
         },

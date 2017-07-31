@@ -28,15 +28,16 @@ security:
               always_use_default_target_path: true
             logout:     true
 
-        api:
-            pattern: ^/api/(?!token)
+        api_token:
+            pattern: ^/api/(?!token)(?!license)(?!signup)
             guard:
                 authenticators:
                     - app.jwt_token_authenticator
     access_control:
         - { path: ^/cms/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /api/token_authentication, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/api/token_authentication, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/license_authentication, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: [ROLE_USER] }
         - { path: ^/cms, roles: ROLE_ADMIN }
 
     encoders:

@@ -45,9 +45,47 @@ class SubLicense
 
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", mappedBy="SubLincese", cascade={"persist"})
+     * @ORM\Column(type="string")
      */
-    private $SubLicenseUser;
+    private $challangeDate;
+
+    /**
+     * @return mixed
+     */
+    public function getChallangeDate()
+    {
+        return $this->challangeDate;
+    }
+
+    /**
+     * @param mixed $challangeDate
+     */
+    public function setChallangeDate($challangeDate)
+    {
+        $this->challangeDate = $challangeDate;
+    }
+
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $challange;
+
+    /**
+     * @return mixed
+     */
+    public function getChallange()
+    {
+        return $this->challange;
+    }
+
+    /**
+     * @param mixed $challange
+     */
+    public function setChallange($challange)
+    {
+        $this->challange = $challange;
+    }
 
     /**
      * @return mixed
@@ -110,7 +148,7 @@ class SubLicense
     }
 
     /**
-     * @return mixed
+     * @return License
      */
     public function getLicense()
     {
@@ -123,22 +161,6 @@ class SubLicense
     public function setLicense($License)
     {
         $this->License = $License;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSubLicenseUser()
-    {
-        return $this->SubLicenseUser;
-    }
-
-    /**
-     * @param mixed $SubLicenseUser
-     */
-    public function setSubLicenseUser($SubLicenseUser)
-    {
-        $this->SubLicenseUser = $SubLicenseUser;
     }
 
     /**
@@ -162,5 +184,74 @@ class SubLicense
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Branch", inversedBy="BranchSubLicense")
      */
     private $SubLicenseBranch;
+
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $isCompanyManager;
+
+    /**
+     * @return mixed
+     */
+    public function getisCompanyManager()
+    {
+        return $this->isCompanyManager;
+    }
+
+    /**
+     * @param mixed $isCompanyManager
+     */
+    public function setIsCompanyManager($isCompanyManager)
+    {
+        $this->isCompanyManager = $isCompanyManager;
+    }
+
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", mappedBy="SubLicense", cascade={"persist"})
+     */
+    private $SubLicenseUser;
+
+    /**
+     * @return mixed
+     */
+    public function getSubLicenseUser()
+    {
+        return $this->SubLicenseUser;
+    }
+
+    /**
+     * @param mixed $SubLicenseUser
+     */
+    public function setSubLicenseUser($SubLicenseUser)
+    {
+        $this->SubLicenseUser = $SubLicenseUser;
+    }
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AppRole", inversedBy="RoleSubLicense")
+     */
+    private $SubLicenseAppRole;
+
+    /**
+     * @return mixed
+     */
+    public function getSubLicenseAppRole()
+    {
+        return $this->SubLicenseAppRole;
+    }
+
+    /**
+     * @param mixed $SubLicenseAppRole
+     */
+    public function setSubLicenseAppRole($SubLicenseAppRole)
+    {
+        $this->SubLicenseAppRole = $SubLicenseAppRole;
+    }
+
+
+
 
 }

@@ -22,6 +22,9 @@ use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
  */
 class User implements UserInterface
 {
+
+    CONST USER_ROLE_ADMIN = "ROLE_ADMIN";
+    CONST USER_ROLE_USER = "ROLE_USER";
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -69,7 +72,7 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer")
      */
     private $activeUser;
 
@@ -262,23 +265,24 @@ class User implements UserInterface
     }
 
     /**
-     * @return mixed
-     */
-    public function getSubLincese()
-    {
-        return $this->SubLincese;
-    }
-
-    /**
-     * @param mixed $subLincese
-     */
-    public function setSubLincese($subLincese)
-    {
-        $this->SubLincese = $subLincese;
-    }
-
-    /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\SubLicense", inversedBy="SubLicenseUser")
      */
-    private $SubLincese;
+    private $SubLicense;
+
+    /**
+     * @return SubLicense
+     */
+    public function getSubLicense()
+    {
+        return $this->SubLicense;
+    }
+
+    /**
+     * @param mixed $SubLicense
+     */
+    public function setSubLicense($SubLicense)
+    {
+        $this->SubLicense = $SubLicense;
+    }
+
 }

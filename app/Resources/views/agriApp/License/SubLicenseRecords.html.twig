@@ -8,6 +8,7 @@
         <th>License</th>
         <th>User</th>
         <th>Used?</th>
+        <th>Company Manager?</th>
         <th>Active?</th>
         <th></th>
         </thead>
@@ -58,7 +59,7 @@
     $(document).ready(function () {
 
         var tHead = $('#sublicenseRecords thead th');
-        tHead.not(":eq(0),:eq(6),:eq(5)").each(function () {
+        tHead.not(":eq(0),:eq(5),:eq(6),:eq(7)").each(function () {
             var title = $(this).text();
             //console.log(title);
             $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
@@ -80,6 +81,15 @@
                 {"data": "license"},
                 {"data": "user"},
                 {"data": "used"},
+                {"data": "company",
+                    render: function ( data, type, row ) {
+                        if ( type === 'display' ) {
+                            return '<input type="checkbox" class="editor-active-company">';
+                        }
+                        return data;
+                    },
+                    className: "dt-body-center"
+                },
                 {
                     "data":   "active",
                     render: function ( data, type, row ) {
@@ -103,11 +113,11 @@
                 "visible": false
             },
                 {
-                    "targets": [1,2,3,4,5],
+                    "targets": [1,2,3,4],
                     "orderable": false
                 },
                 {
-                    "targets":[6],
+                    "targets":[7],
                     "data": null,
                     "defaultContent":'<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delSubLicense" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span>',
                     "orderable":false
@@ -116,6 +126,7 @@
             rowCallback: function ( row, data ) {
                 // Set the checked state of the checkbox in the table
                 $('input.editor-active', row).prop( 'checked', data.active == 1 );
+                $('input.editor-active-company', row).prop( 'checked', data.company == 1 );
             }
         });
         table.columns().every(function () {
@@ -190,6 +201,30 @@
         $.ajax({
             url: '{{ path('changeSubLicenseStatus') }}',
             data: {"editSubLicenseID":data.id,"isActive":isActive},
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                    var table = $('#sublicenseRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    alert(status.message);
+                }
+            }
+        });
+
+
+    } );
+
+
+
+    $('#sublicenseRecords').on( 'change', 'input.editor-active-company', function () {
+
+        var table = $('#sublicenseRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        var isManager = $(this).prop( 'checked' ) ? 1 : 0;
+        $.ajax({
+            url: '{{ path('changeSubLicenseIsManager') }}',
+            data: {"editSubLicenseID":data.id,"isManager":isManager},
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {

@@ -26,7 +26,7 @@ class UserController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $criteria = array('role' => RegistrationController::ROLE_ADMIN);
+        $criteria = array('role' => User::USER_ROLE_ADMIN);
         $cmsUsers = $em->getRepository('AppBundle:User')->findBy($criteria);
         return $this->render("agriApp/Users/cmsUsersInJson.html.twig", ['cmsUsersRecords' => $cmsUsers]);
     }
@@ -38,7 +38,7 @@ class UserController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $criteria = array('role' => RegistrationController::ROLE_USER);
+        $criteria = array('role' => User::USER_ROLE_USER);
         $appUsers = $em->getRepository('AppBundle:User')->findBy($criteria);
         return $this->render("agriApp/Users/appUsersInJson.html.twig", ['appUsersRecords' => $appUsers]);
     }
@@ -76,7 +76,7 @@ class UserController extends Controller
                 try {
                     $id = $request->request->get('h_resetpassworduserid');
                     $user = $em->getRepository('AppBundle:User')->find($id);
-                    if($user->getRole() == RegistrationController::ROLE_USER) {
+                    if($user->getRole() == User::USER_ROLE_USER) {
                         $password = $passwordEncoder->encodePassword($user, $request->request->get('plainpasswordreset'));
                         $user->setPassword($password);
                         $em->persist($user);
@@ -97,69 +97,69 @@ class UserController extends Controller
     /**
      * @Route("/cms/appUserAdd", name="appUserAdd")
      */
-    public function addAppUser(Request $request, UserPasswordEncoderInterface $passwordEncoder)
-    {
-        if ($request->getMethod() == 'POST') {
-            if ($request->request) {
-
-                $em = $this->getDoctrine()->getManager();
-                try {
-                    $LicenseRecord = $em->getRepository('AppBundle:License')->find($request->request->get('licenseadd'));
-                    if($LicenseRecord != null && $LicenseRecord->getLicenseUser()->count() >= $LicenseRecord->getUserCount()) {
-                        return new JsonResponse(array("status"=>"invalidLicense", "error" => "No more Users for this License"));
-                    }else{
-
-                        $userRecord = new User();
-                        $userRecord->setRole(RegistrationController::ROLE_USER);
-
-                        $validator = $this->get('validator');
-
-                        $userRecord->setUsername($request->request->get('usernameadd'));
-                        $userRecord->setEmail($request->request->get('emailadd'));
-
-                        $userRecord->setPlainPassword($request->request->get('plainPasswordadd'));
-                        $password = $passwordEncoder->encodePassword($userRecord, $request->request->get('plainPasswordadd'));
-                        $userRecord->setPassword($password);
-
-                        $userRecord->setAppRole($em->getRepository('AppBundle:AppRole')->find($request->request->get('approleadd')));
-
-                        $companyBranch = $em->getRepository('AppBundle:Branch')->find($request->request->get('branchadd'));
-                        $userRecord->setCompanyBranch($companyBranch);
-
-                        if($companyBranch != null && $LicenseRecord == null){
-                            return new JsonResponse(array("status"=>"missingLicense", "error" => "You have to select a license"));
-
-                        }
-                        $userRecord->setLicense($LicenseRecord);
-
-
-                        $userRecord->setActiveUser(true);
-                        $errors = $validator->validate($userRecord);
-                        if (count($errors) > 0) {
-                            $str_arr_errors = array();
-
-                            foreach ($errors as $error)
-                            {
-                                $str_arr_errors[$error->getPropertyPath()] = $error->getMessage();
-                            }
-
-                            return new JsonResponse(array("status"=>"invalid", "errors" => $str_arr_errors));
-                        }else {
-                            $em->persist($userRecord);
-                            $em->flush();
-                            return new JsonResponse(array('status' => 'success'));
-                        }
-                    }
-
-                } catch (DBALException $e) {
-
-                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add User', 'info' => $e->getMessage()));
-
-                }
-            }
-        }
-        return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add User'));
-    }
+//    public function addAppUser(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+//    {
+//        if ($request->getMethod() == 'POST') {
+//            if ($request->request) {
+//
+//                $em = $this->getDoctrine()->getManager();
+//                try {
+//                    $LicenseRecord = $em->getRepository('AppBundle:License')->find($request->request->get('licenseadd'));
+//                    if($LicenseRecord != null && $LicenseRecord->getLicenseUser()->count() >= $LicenseRecord->getUserCount()) {
+//                        return new JsonResponse(array("status"=>"invalidLicense", "error" => "No more Users for this License"));
+//                    }else{
+//
+//                        $userRecord = new User();
+//                        $userRecord->setRole(RegistrationController::ROLE_USER);
+//
+//                        $validator = $this->get('validator');
+//
+//                        $userRecord->setUsername($request->request->get('usernameadd'));
+//                        $userRecord->setEmail($request->request->get('emailadd'));
+//
+//                        $userRecord->setPlainPassword($request->request->get('plainPasswordadd'));
+//                        $password = $passwordEncoder->encodePassword($userRecord, $request->request->get('plainPasswordadd'));
+//                        $userRecord->setPassword($password);
+//
+//                        $userRecord->setAppRole($em->getRepository('AppBundle:AppRole')->find($request->request->get('approleadd')));
+//
+//                        $companyBranch = $em->getRepository('AppBundle:Branch')->find($request->request->get('branchadd'));
+//                        $userRecord->setCompanyBranch($companyBranch);
+//
+//                        if($companyBranch != null && $LicenseRecord == null){
+//                            return new JsonResponse(array("status"=>"missingLicense", "error" => "You have to select a license"));
+//
+//                        }
+//                        $userRecord->setLicense($LicenseRecord);
+//
+//
+//                        $userRecord->setActiveUser(true);
+//                        $errors = $validator->validate($userRecord);
+//                        if (count($errors) > 0) {
+//                            $str_arr_errors = array();
+//
+//                            foreach ($errors as $error)
+//                            {
+//                                $str_arr_errors[$error->getPropertyPath()] = $error->getMessage();
+//                            }
+//
+//                            return new JsonResponse(array("status"=>"invalid", "errors" => $str_arr_errors));
+//                        }else {
+//                            $em->persist($userRecord);
+//                            $em->flush();
+//                            return new JsonResponse(array('status' => 'success'));
+//                        }
+//                    }
+//
+//                } catch (DBALException $e) {
+//
+//                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add User', 'info' => $e->getMessage()));
+//
+//                }
+//            }
+//        }
+//        return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add User'));
+//    }
 
 
     /**
@@ -171,26 +171,26 @@ class UserController extends Controller
             if ($request->request) {
                 $em = $this->getDoctrine()->getManager();
                 try {
-                    $LicenseRecord = $em->getRepository('AppBundle:License')->find($request->request->get('licenseedit'));
-                    if($LicenseRecord != null && $LicenseRecord->getLicenseUser()->count() >= $LicenseRecord->getUserCount()) {
-                        return new JsonResponse(array("status"=>"invalidLicense", "error" => "No more Users for this License"));
-                    }else{
+                   // $LicenseRecord = $em->getRepository('AppBundle:License')->find($request->request->get('licenseedit'));
+                  //  if($LicenseRecord != null && $LicenseRecord->getLicenseUser()->count() >= $LicenseRecord->getUserCount()) {
+                   //     return new JsonResponse(array("status"=>"invalidLicense", "error" => "No more Users for this License"));
+                  //  }else{
                         $userRecord = $em->getRepository('AppBundle:User')->find($request->request->get('h_usereditid'));
                         $validator = $this->get('validator');
 
                         $userRecord->setUsername($request->request->get('usernameedit'));
                         $userRecord->setEmail($request->request->get('emailedit'));
 
-                        $userRecord->setAppRole($em->getRepository('AppBundle:AppRole')->find($request->request->get('approleedit')));
+                      //  $userRecord->setAppRole($em->getRepository('AppBundle:AppRole')->find($request->request->get('approleedit')));
 
-                        $companyBranch = $em->getRepository('AppBundle:Branch')->find($request->request->get('branchedit'));
-                        $userRecord->setCompanyBranch($companyBranch);
+                     //   $companyBranch = $em->getRepository('AppBundle:Branch')->find($request->request->get('branchedit'));
+                      //  $userRecord->setCompanyBranch($companyBranch);
 
-                        if($companyBranch != null && $LicenseRecord == null){
-                            return new JsonResponse(array("status"=>"missingLicense", "error" => "You have to select a license"));
+                      //  if($companyBranch != null && $LicenseRecord == null){
+                      //      return new JsonResponse(array("status"=>"missingLicense", "error" => "You have to select a license"));
 
-                        }
-                        $userRecord->setLicense($LicenseRecord);
+                      //  }
+                       // $userRecord->setLicense($LicenseRecord);
                         $userRecord->setPlainPassword('test123');
                         $errors = $validator->validate($userRecord);
                         if (count($errors) > 0) {
@@ -207,7 +207,7 @@ class UserController extends Controller
                             $em->flush();
                             return new JsonResponse(array('status' => 'success'));
                         }
-                    }
+                 //   }
 
                 }catch (DBALException $e){
 
@@ -231,7 +231,7 @@ class UserController extends Controller
                 try {
                     $id = $request->request->get('deluserid');
                     $userRecord = $em->getRepository('AppBundle:User')->find($id);
-                    if ($userRecord->getRole() == RegistrationController::ROLE_USER) {
+                    if ($userRecord->getRole() == User::USER_ROLE_USER) {
                         $em->remove($userRecord);
                         $em->flush();
                         return new JsonResponse(array('status' => 'success'));
@@ -262,7 +262,7 @@ class UserController extends Controller
                     $activateOrDeactivateBool = $activateOrDeactivate === 'true'? true: false;
 
                     $userRecord = $em->getRepository('AppBundle:User')->find($id);
-                    if ($userRecord->getRole() == RegistrationController::ROLE_USER) {
+                    if ($userRecord->getRole() == User::USER_ROLE_USER) {
                        /* var_dump($activateOrDeactivate);
                         exit();*/
                         $userRecord->setActiveUser($activateOrDeactivateBool);

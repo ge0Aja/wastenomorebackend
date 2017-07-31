@@ -116,10 +116,20 @@ class LicenseController extends Controller
                         $em->persist($licenseRecord);
                         $em->flush();
 
-                        for ($i = 1; $i < $users_count; $i++) {
+                        for ($i = 1; $i <= $users_count; $i++) {
                             $sublicenseRecord = new SubLicense();
                             $sublicenseRecord->setUsed(0);
                             $sublicenseRecord->setLicense($licenseRecord);
+
+                            if($i == 1) {
+                                $sublicenseRecord->setIsCompanyManager(1);
+                                $sublicenseRecord->setSubLicenseAppRole($em->getRepository("AppBundle:AppRole")->findOneBy(["role" => "COMPANY_MANAGER"]));
+                            }
+                            else {
+                                $sublicenseRecord->setIsCompanyManager(0);
+                                $sublicenseRecord->setSubLicenseAppRole($em->getRepository("AppBundle:AppRole")->findOneBy(["role" => "BRANCH_MANAGER"]));
+                            }
+
                             if ($licenseRecord->getActive() == 1)
                                 $sublicenseRecord->setActive(1);
                             else
@@ -209,7 +219,7 @@ class LicenseController extends Controller
                         $em->persist($licenseRecord);
                         $em->flush();
                         if($newUserCount > $oldUserCount){
-                            for ($i = $oldUserCount; $i < $newUserCount; $i++) {
+                            for ($i = $oldUserCount+1; $i <= $newUserCount; $i++) {
                                 $sublicenseRecord = new SubLicense();
                                 $sublicenseRecord->setUsed(0);
                                 $sublicenseRecord->setLicense($licenseRecord);
