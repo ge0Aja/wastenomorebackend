@@ -60,6 +60,28 @@ class Company
     /**
      * @return mixed
      */
+    public function getCompanyManager()
+    {
+        return $this->CompanyManager;
+    }
+
+    /**
+     * @param mixed $CompanyManager
+     */
+    public function setCompanyManager($CompanyManager)
+    {
+        $this->CompanyManager = $CompanyManager;
+    }
+
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", inversedBy="ManagedCompany")
+     */
+    private $CompanyManager;
+
+    /**
+     * @return mixed
+     */
     public function getName()
     {
         return $this->name;
@@ -188,7 +210,7 @@ class Company
     }
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\License", inversedBy="")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\License", inversedBy="Company")
      */
     private $companyLicense;
 

@@ -22,6 +22,9 @@ use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
  */
 class User implements UserInterface
 {
+
+    CONST USER_ROLE_ADMIN = "ROLE_ADMIN";
+    CONST USER_ROLE_USER = "ROLE_USER";
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -69,7 +72,7 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer")
      */
     private $activeUser;
 
@@ -191,11 +194,6 @@ class User implements UserInterface
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\License", inversedBy="licenseUser")
-     */
-    private $license;
-
-    /**
      * @return mixed
      */
     public function getAppRole()
@@ -211,21 +209,6 @@ class User implements UserInterface
         $this->appRole = $appRole;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLicense()
-    {
-        return $this->license;
-    }
-
-    /**
-     * @param mixed $license
-     */
-    public function setLicense($license)
-    {
-        $this->license = $license;
-    }
 
     /**
      * Removes sensitive data from the user.
@@ -258,4 +241,48 @@ class User implements UserInterface
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Branch", inversedBy="branchUser")
      */
     private $companyBranch;
+
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Company", mappedBy="CompanyManager")
+     */
+    private $ManagedCompany;
+
+    /**
+     * @return mixed
+     */
+    public function getManagedCompany()
+    {
+        return $this->ManagedCompany;
+    }
+
+    /**
+     * @param mixed $ManagedCompany
+     */
+    public function setManagedCompany($ManagedCompany)
+    {
+        $this->ManagedCompany = $ManagedCompany;
+    }
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\SubLicense", inversedBy="SubLicenseUser")
+     */
+    private $SubLicense;
+
+    /**
+     * @return SubLicense
+     */
+    public function getSubLicense()
+    {
+        return $this->SubLicense;
+    }
+
+    /**
+     * @param mixed $SubLicense
+     */
+    public function setSubLicense($SubLicense)
+    {
+        $this->SubLicense = $SubLicense;
+    }
+
 }

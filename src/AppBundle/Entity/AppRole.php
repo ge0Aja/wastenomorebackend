@@ -18,6 +18,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AppRole
 {
+    CONST COMPANY_MANAGER = "COMPANY_MANAGER";
+    CONST BRANCH_MANAGER = "BRANCH_MANAGER";
 
     /**
      * @ORM\Id
@@ -37,6 +39,7 @@ class AppRole
     public function __construct()
     {
         $this->roleUser = new ArrayCollection();
+        $this->RoleSubLicense = new ArrayCollection();
     }
 
 
@@ -79,11 +82,24 @@ class AppRole
     private $roleUser;
 
     /**
-     * @return ArrayCollection|User
+     * @return ArrayCollection|User[]
      */
     public function getRoleUser()
     {
         return $this->roleUser;
+    }
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SubLicense", mappedBy="SubLicenseAppRole", cascade={"persist"})
+     */
+    private $RoleSubLicense;
+
+    /**
+     * @return ArrayCollection|SubLicense[]
+     */
+    public function getRoleSubLicense()
+    {
+        return $this->RoleSubLicense;
     }
 
 }

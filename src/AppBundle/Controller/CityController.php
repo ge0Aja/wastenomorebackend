@@ -19,7 +19,7 @@ class CityController extends Controller
 
 
     /**
-     * @Route("/CitiesRecords",name="CitiesRecords")
+     * @Route("/cms/CitiesRecords",name="CitiesRecords")
      */
     public function getCitiesRecords()
     {
@@ -32,7 +32,7 @@ class CityController extends Controller
 
 
     /**
-     * @Route("/Cities",name="CitiesRecordsPage")
+     * @Route("/cms/Cities",name="CitiesRecordsPage")
      */
     public function CitiesRecords()
     {
@@ -44,7 +44,7 @@ class CityController extends Controller
 
 
     /**
-     * @Route("/addCity",name="addCity")
+     * @Route("/cms/addCity",name="addCity")
      */
     public function addCity(Request $request){
         if ($request->getMethod() === 'POST') {
@@ -70,7 +70,7 @@ class CityController extends Controller
     }
 
     /**
-     * @Route("/deleteCity", name="deleteCity")
+     * @Route("/cms/deleteCity", name="deleteCity")
      */
     public function DeleteLogAction(Request $request)
     {
@@ -87,7 +87,7 @@ class CityController extends Controller
     }
 
     /**
-     * @Route("/editCity", name="editCity")
+     * @Route("/cms/editCity", name="editCity")
      */
     public function editCities(Request $request)
     {

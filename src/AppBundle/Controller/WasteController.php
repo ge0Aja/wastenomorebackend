@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class WasteController extends Controller
 {
     /**
-     * @Route("/WasteLogs",name="wasteLogs")
+     * @Route("/cms/WasteLogs",name="wasteLogs")
      */
     public function WasteLogs()
     {
@@ -22,7 +22,7 @@ class WasteController extends Controller
     }
 
     /**
-     * @Route("/renderWasteLogs",name="renderWasteLogs")
+     * @Route("/cms/renderWasteLogs",name="renderWasteLogs")
      */
     public function renderWasteLogs()
     {
@@ -33,9 +33,9 @@ class WasteController extends Controller
 
 
     /**
-     * @Route("/deleteWasteLog/{id}", name="delete")
+     * @Route("/cms/deleteWasteLog/{id}", name="delete")
      */
-    public function DeleteLogAction($id){
+    public function deleteWasteLog($id){
         try {
             $em = $this->getDoctrine()->getManager();
             $wasteLog = $em->getRepository('AppBundle:Waste')->find($id);

@@ -19,7 +19,7 @@ class CollectingCompanyController extends Controller
 
 
     /**
-     * @Route("/CollectingCompanyRecords",name="CollectingCompanyRecords")
+     * @Route("/cms/CollectingCompanyRecords",name="CollectingCompanyRecords")
      */
     public function getCollectingCompaniesRecords()
     {
@@ -32,7 +32,7 @@ class CollectingCompanyController extends Controller
 
 
     /**
-     * @Route("/CollectingCompanies",name="CollectingCompaniesPage")
+     * @Route("/cms/CollectingCompanies",name="CollectingCompaniesPage")
      */
     public function CollectingCompaniesRecords()
     {
@@ -44,7 +44,7 @@ class CollectingCompanyController extends Controller
 
 
     /**
-     * @Route("/addCollectingCompany",name="addCollectingCompany")
+     * @Route("/cms/addCollectingCompany",name="addCollectingCompany")
      */
     public function addCollectingCompany(Request $request){
         if ($request->getMethod() === 'POST') {
@@ -73,7 +73,7 @@ class CollectingCompanyController extends Controller
 
 
     /**
-     * @Route("/editCollectingCompany", name="editCollectingCompany")
+     * @Route("/cms/editCollectingCompany", name="editCollectingCompany")
      */
     public function editCollectingCompanies(Request $request)
     {
@@ -100,7 +100,7 @@ class CollectingCompanyController extends Controller
 
 
     /**
-     * @Route("/deleteCollectingCompany", name="deleteCollectingCompany")
+     * @Route("/cms/deleteCollectingCompany", name="deleteCollectingCompany")
      */
     public function DeleteLogAction(Request $request)
     {

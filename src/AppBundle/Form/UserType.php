@@ -22,7 +22,6 @@ class UserType extends AbstractType
             ->add('username', TextType::class)
             ->add('role',ChoiceType::class,['choices'=>[
                 'ROLE_ADMIN' => RegistrationController::ROLE_ADMIN,
-                /*'ROLE_USER' => RegistrationController::ROLE_USER,*/
             ]])
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,

@@ -17,7 +17,7 @@ class AppRoleController extends Controller
     }
 
     /**
-     * @Route("/AppRolesRecords",name="AppRolesRecords")
+     * @Route("/cms/AppRolesRecords",name="AppRolesRecords")
      */
     public function getAppRolesRecords()
     {
@@ -28,7 +28,7 @@ class AppRoleController extends Controller
 
 
     /**
-     * @Route("/appRoles",name="appRoles")
+     * @Route("/cms/appRoles",name="appRoles")
      */
     public function AppRolesRecords()
     {
@@ -36,7 +36,7 @@ class AppRoleController extends Controller
     }
 
     /**
-     * @Route("/deleteAppRole", name="deleteAppRole")
+     * @Route("/cms/deleteAppRole", name="deleteAppRole")
      */
     public function DeleteLogAction(Request $request){
         try {
@@ -52,7 +52,7 @@ class AppRoleController extends Controller
     }
 
     /**
-     * @Route("/addAppRole",name="addAppRole")
+     * @Route("/cms/addAppRole",name="addAppRole")
      */
     public function addAppRole(Request $request)
     {
@@ -74,7 +74,7 @@ class AppRoleController extends Controller
     }
 
     /**
-     * @Route("/editAppRole",name="editAppRole")
+     * @Route("/cms/editAppRole",name="editAppRole")
      */
     public function editAnnualSales(Request $request)
     {

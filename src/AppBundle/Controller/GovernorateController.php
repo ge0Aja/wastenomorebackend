@@ -19,7 +19,7 @@ class GovernorateController extends Controller
 
 
     /**
-     * @Route("/GovernoratesRecords",name="GovernoratesRecords")
+     * @Route("/cms/GovernoratesRecords",name="GovernoratesRecords")
      */
     public function getGovernoratesRecords()
     {
@@ -32,7 +32,7 @@ class GovernorateController extends Controller
 
 
     /**
-     * @Route("/Governorates",name="GovernoratesRecordsPage")
+     * @Route("/cms/Governorates",name="GovernoratesRecordsPage")
      */
     public function CitiesRecords()
     {
@@ -41,7 +41,7 @@ class GovernorateController extends Controller
 
 
     /**
-     * @Route("/deleteGovernorate", name="deleteGovernorate")
+     * @Route("/cms/deleteGovernorate", name="deleteGovernorate")
      */
     public function DeleteLogAction(Request $request)
     {
@@ -59,7 +59,7 @@ class GovernorateController extends Controller
 
 
     /**
-     * @Route("/editGovernorate", name="editGovernorate")
+     * @Route("/cms/editGovernorate", name="editGovernorate")
      */
     public function editGovernorates(Request $request)
     {
@@ -84,7 +84,7 @@ class GovernorateController extends Controller
 
 
     /**
-     * @Route("/addGovernorate",name="addGovernorate")
+     * @Route("/cms/addGovernorate",name="addGovernorate")
      */
     public function addUnits(Request $request)
     {

@@ -18,7 +18,7 @@ class BranchController extends Controller
 
 
     /**
-     * @Route("/BranchRecords",name="BranchRecords")
+     * @Route("/cms/BranchRecords",name="BranchRecords")
      */
     public function getBranchRecords()
     {
@@ -31,7 +31,7 @@ class BranchController extends Controller
 
 
     /**
-     * @Route("/Branches",name="Branches")
+     * @Route("/cms/Branches",name="Branches")
      */
     public function BranchRecords()
     {
@@ -41,7 +41,7 @@ class BranchController extends Controller
 
 
     /**
-     * @Route("/deleteBranch", name="deleteBranch")
+     * @Route("/cms/deleteBranch", name="deleteBranch")
      */
     public function DeleteLogAction(Request $request){
         try {

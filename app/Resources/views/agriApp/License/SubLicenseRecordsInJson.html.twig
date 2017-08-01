@@ -1,0 +1,36 @@
+{% set SubLicenseRecordsArrayLength = SubLicenseRecords |length %}
+{% set counter = 0 %}
+
+{
+
+"data":[
+
+{% for SubLicenseRecord in SubLicenseRecords %}
+
+    {%  if counter == SubLicenseRecordsArrayLength-1 %}
+        {
+        "id": "{{ SubLicenseRecord.id }}",
+        "sublicense": "{{ SubLicenseRecord.subLicenseString}}",
+        "license": "{{ SubLicenseRecord.License.getLicense()}}",
+        "user": "{{ (SubLicenseRecord.SubLicenseUser != null)? SubLicenseRecord.SubLicenseUser.username : ""}}",
+        "used": "{{ SubLicenseRecord.Used}}",
+        "company": "{{ SubLicenseRecord.isCompanyManager}}",
+        "active": "{{ SubLicenseRecord.active}}"
+        }
+    {%  else %}
+        {
+        "id": "{{ SubLicenseRecord.id }}",
+        "sublicense": "{{ SubLicenseRecord.subLicenseString}}",
+        "license": "{{ SubLicenseRecord.License.getLicense()}}",
+        "user": "{{ (SubLicenseRecord.SubLicenseUser != null)? SubLicenseRecord.SubLicenseUser.username : ""}}",
+        "used": "{{ SubLicenseRecord.Used}}",
+        "company": "{{ SubLicenseRecord.isCompanyManager}}",
+        "active": "{{ SubLicenseRecord.active}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

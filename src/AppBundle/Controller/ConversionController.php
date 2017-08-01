@@ -23,7 +23,7 @@ class ConversionController extends Controller
     }
 
     /**
-     * @Route("/ConversionRecords",name="ConversionRecords")
+     * @Route("/cms/ConversionRecords",name="ConversionRecords")
      */
     public function getCoversionRecords()
     {
@@ -33,7 +33,7 @@ class ConversionController extends Controller
     }
 
     /**
-     * @Route("/Conversions",name="Conversions")
+     * @Route("/cms/Conversions",name="Conversions")
      */
     public function getConversions(){
 
@@ -43,7 +43,7 @@ class ConversionController extends Controller
 
 
     /**
-     * @Route("/getSubCatsForConversion",name="getSubCatsForConversion")
+     * @Route("/cms/getSubCatsForConversion",name="getSubCatsForConversion")
      */
     public function getSubCatsToUpdateDDl(){
         $subcats = $this->getSubCatsRecordsNotInConversion();
@@ -60,7 +60,7 @@ class ConversionController extends Controller
     }
 
     /**
-     * @Route("/editConversion",name="editConversion")
+     * @Route("/cms/editConversion",name="editConversion")
      */
     public function editConversion(Request $request)
 {
@@ -94,7 +94,7 @@ class ConversionController extends Controller
 }
 
     /**
-     * @Route("/delConversion", name="delConversion")
+     * @Route("/cms/delConversion", name="delConversion")
      */
     public function delConversion(Request $request){
         if($request->getMethod() == "POST"){
@@ -118,7 +118,7 @@ class ConversionController extends Controller
 
 
     /**
-     * @Route("/addConversion", name="addConversion")
+     * @Route("/cms/addConversion", name="addConversion")
      */
     public function addConversion(Request $request)
     {
@@ -163,7 +163,7 @@ class ConversionController extends Controller
     }
 
     /**
-     * @Route("/getUnitsUpdateDDL/{id}",name="getUnitsUpdateDDL")
+     * @Route("/cms/getUnitsUpdateDDL/{id}",name="getUnitsUpdateDDL")
      */
     public function getUnitsToUpdateDDl($id)
     {

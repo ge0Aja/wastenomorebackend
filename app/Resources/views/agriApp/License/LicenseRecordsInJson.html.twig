@@ -16,7 +16,9 @@
         "userCount" : "{{ LicenseRecord.userCount }}",
         "startDate" : "{{ LicenseRecord.startDate|date('d-m-Y')}}",
         "expiryDate" : "{{ LicenseRecord.expiryDate|date('d-m-Y')}}",
-        "usersOnLicense" : "{{LicenseRecord.userCount - LicenseRecord.licenseUser.count }}"
+        "ispremium" : "{{ LicenseRecord.premium}}",
+        "isactive" : "{{ LicenseRecord.active}}",
+        "usersOnLicense" : "{{LicenseRecord.getLicenseSubLicense().count - LicenseRecord.licenseSubLicenseUsed.count }}"
         }
     {%  else %}
         {
@@ -25,7 +27,9 @@
         "userCount" : "{{ LicenseRecord.userCount }}",
         "startDate" : "{{ LicenseRecord.startDate|date('d-m-Y')}}",
         "expiryDate" : "{{ LicenseRecord.expiryDate|date('d-m-Y')}}",
-        "usersOnLicense" : "{{LicenseRecord.userCount - LicenseRecord.licenseUser.count }}"
+        "ispremium" : "{{ LicenseRecord.premium}}",
+        "isactive" : "{{ LicenseRecord.active}}",
+        "usersOnLicense" : "{{LicenseRecord.getLicenseSubLicense().count - LicenseRecord.licenseSubLicenseUsed.count }}"
         },
     {% endif %}
 

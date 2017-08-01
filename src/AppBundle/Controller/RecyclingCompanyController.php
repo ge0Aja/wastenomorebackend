@@ -18,7 +18,7 @@ class RecyclingCompanyController extends Controller
 
 
     /**
-     * @Route("/RecyclingCompanyRecords",name="RecyclingCompanyRecords")
+     * @Route("/cms/RecyclingCompanyRecords",name="RecyclingCompanyRecords")
      */
     public function getRecyclingCompaniesRecords()
     {
@@ -31,7 +31,7 @@ class RecyclingCompanyController extends Controller
 
 
     /**
-     * @Route("/RecyclingCompanies",name="RecyclingCompanies")
+     * @Route("/cms/RecyclingCompanies",name="RecyclingCompanies")
      */
     public function RecyclingCompaniesRecords()
     {
@@ -43,7 +43,7 @@ class RecyclingCompanyController extends Controller
 
 
     /**
-     * @Route("/addRecyclingCompany",name="addRecyclingCompany")
+     * @Route("/cms/addRecyclingCompany",name="addRecyclingCompany")
      */
     public function addRecyclingCompany(Request $request){
         if ($request->getMethod() === 'POST') {
@@ -73,7 +73,7 @@ class RecyclingCompanyController extends Controller
 
 
     /**
-     * @Route("/editRecyclingCompany", name="editRecyclingCompany")
+     * @Route("/cms/editRecyclingCompany", name="editRecyclingCompany")
      */
     public function editRecyclingCompanies(Request $request)
     {
@@ -103,7 +103,7 @@ class RecyclingCompanyController extends Controller
 
 
     /**
-     * @Route("/deleteRecyclingCompany", name="deleteRecyclingCompany")
+     * @Route("/cms/deleteRecyclingCompany", name="deleteRecyclingCompany")
      */
     public function DeleteLogAction(Request $request)
     {

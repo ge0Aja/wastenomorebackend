@@ -4,16 +4,16 @@
 
     <table id="appUsersRecords"  style="width: 100%" class="display table table-striped table-bordered">
         <h1>App Users</h1>
-        <h2><button type="button" data-toggle="modal" data-target="#addAppUser"
-                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add App User</b></button></h2>
+        {#<h2><button type="button" data-toggle="modal" data-target="#addAppUser"#}
+                    {#class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add App User</b></button></h2>#}
         <thead>
         <th>ID</th>
         <th>Username</th>
         <th>Email</th>
         <th>Role</th>
-        <th>License</th>
         <th>Company</th>
         <th>Branch</th>
+        <th>License</th>
         <th>Active</th>
         <th></th>
         </thead>
@@ -142,7 +142,7 @@
 
                                 <div class="input-group full-width">
                                     <label for="approleedit">Role</label>
-                                    <select id="approleedit" name="approleedit" class="form-control">
+                                    <select id="approleedit" name="approleedit" class="form-control" disabled>
                                         <option value="default">Select Role</option>
                                         {% for Role in Roles %}
                                             <option value="{{ Role.id }}">{{ Role.role }}</option>
@@ -153,7 +153,7 @@
 
                                 <div class="input-group full-width">
                                     <label for="branchedit">Company/Branch</label>
-                                    <select id="branchedit" name="branchedit" class="form-control">
+                                    <select id="branchedit" name="branchedit" class="form-control" disabled>
                                         <option value="default">Select Branch</option>
                                         {% for Branch in Branches %}
                                             <option value="{{ Branch.id }}">{{ Branch.company.name ~ "  " ~ Branch.location.name}}</option>
@@ -162,16 +162,16 @@
                                     <span class="ug-error-message" id="branchedit_lbl"></span>
                                 </div>
 
-                                <div class="input-group full-width">
+                               {# <div class="input-group full-width">
                                     <label for="licenseedit">License</label>
                                     <select id="licenseedit" name="licenseedit" class="form-control">
                                         <option value="default">Select License</option>
-                                        {#{% for License in Licenses %}
+                                        {% for License in Licenses %}
                                             <option value="{{ License.id }}">{{ License.license }}</option>
-                                        {% endfor %}#}
+                                        {% endfor %}
                                     </select>
                                     <span class="ug-error-message" id="licenseedit_lbl"></span>
-                                </div>
+                                </div>#}
                                 <input type="hidden" id="h_usereditid" name="h_usereditid">
                             </div>
                         </div>
@@ -286,10 +286,11 @@
                 {"data": "username"},
                 {"data": "email"},
                 {"data": "approle"},
-                {"data": "license"},
+
                 {"data": "company"},
 
                 {"data": "branch"},
+                {"data": "license"},
                 {
                     data:   "active",
                     render: function ( data, type, row ) {
@@ -427,7 +428,7 @@
 
         //console.log($("select#branchedit option:selected" ).val());
 
-        $(function(){
+      /*  $(function(){
             getCLicenses($("select#branchedit option:selected" ).val(),"#licenseedit","#licenseedit_lbl").done(function() {
 
                 $("#licenseedit option").filter(function () {
@@ -435,13 +436,13 @@
                 }).prop('selected', 'selected');
             });
         });
-
+*/
 
     }
 
     $(document).on("submit", "#editAppUserForm", function (e)
     {
-        e.defaultPrevented();
+        e.preventDefault();
 
         var data_array = $('#editAppUserForm').serialize();
         $.ajax({
@@ -584,14 +585,14 @@
 
 <script>
 
-    $(document).on("submit", "#addAppUserForm", function (e) {
+   /* $(document).on("submit", "#addAppUserForm", function (e) {
 
         e.defaultPrevented();
 
         var data_array = $('#addAppUserForm').serialize();
 
         $.ajax({
-            url: '{{ path('appUserAdd') }}',
+            url: ,
             data: data_array,
             type: "POST",
             success: function (data) {
@@ -622,7 +623,7 @@
                 }
             }
         });
-    });
+    });*/
 </script>
 
 
@@ -665,13 +666,14 @@
 
 <script>
 
+/*
     function getCLicenses(comp_id,elemnt,error_lbl){
 
         var dfrd1 = $.Deferred();
 
         if(comp_id != "default"){
             $.ajax({
-                url: '/getCompanyLicense/'+comp_id,
+                url: '/cms/getCompanyLicenses/'+comp_id, //
                 type: "GET",
                 success: function (data) {
                     if(data.status == "success"){
@@ -697,9 +699,10 @@
 
         }).promise();
     }
+*/
 
 
-    $(document).on('change',"#branchadd",function () {
+  /*  $(document).on('change',"#branchadd",function () {
       var comp_id =   this.value;
        getCLicenses(comp_id,"#licenseadd","#licenseadd_lbl");
 
@@ -710,7 +713,7 @@
        var comp_id =   this.value;
        getCLicenses(comp_id,"#licenseedit","#licenseedit_lbl");
    });
-
+*/
 </script>
 
 {{ include(':agriApp:base_foot.html.twig') }}

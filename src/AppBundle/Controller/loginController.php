@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class loginController extends Controller
 {
     /**
-     * @Route("/login", name="login")
+     * @Route("/cms/login", name="login")
      */
     public function loginAction(Request $request, AuthenticationUtils $authUtils)
     {
@@ -33,19 +33,19 @@ class loginController extends Controller
     }
 
     /**
-     * @Route("/")
+     * @Route("/cms/")
      */
     public function lgg()
     {
-        return $this->redirectToRoute('login');
+        return $this->redirectToRoute('/cms/login');
     }
 
     /**
-     * @Route("/logout",name="logout")
+     * @Route("/cms/logout",name="logout")
      */
     public function lgout()
     {
-        return $this->redirectToRoute('login');
+        return $this->redirectToRoute('/cms/login');
     }
 
 

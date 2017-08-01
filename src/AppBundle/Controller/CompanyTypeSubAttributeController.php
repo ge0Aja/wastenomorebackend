@@ -6,6 +6,7 @@ use AppBundle\Entity\CompanyTypeAttributeSubAttribute;
 use Doctrine\DBAL\DBALException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,7 @@ class CompanyTypeSubAttributeController extends Controller
 
 
     /**
-     * @Route("/CompanyTypeSubAttributes",name="CompanyTypeSubAttributes")
+     * @Route("/cms/CompanyTypeSubAttributes",name="CompanyTypeSubAttributes")
      */
     public function CompanyTypeSubAttributes()
     {
@@ -29,7 +30,7 @@ class CompanyTypeSubAttributeController extends Controller
     }
 
     /**
-     * @Route("/CompanyTypeSubAttributesRecords", name="CompanyTypeSubAttributesRecords")
+     * @Route("/cms/CompanyTypeSubAttributesRecords", name="CompanyTypeSubAttributesRecords")
      */
     public function getCompanyTypeSubAttributeRecords(){
         $em = $this->getDoctrine()->getManager();
@@ -39,7 +40,7 @@ class CompanyTypeSubAttributeController extends Controller
 
 
     /**
-     * @Route("/deleteCompanyTypeSubAttribute/{id}", name="deleteCompanyTypeSubAttribute")
+     * @Route("/cms/deleteCompanyTypeSubAttribute/{id}", name="deleteCompanyTypeSubAttribute")
      */
     public function DeleteLogAction($id){
         try {
@@ -55,7 +56,7 @@ class CompanyTypeSubAttributeController extends Controller
     }
 
     /**
-     * @Route("/addSubAttribute",name="addSubAttribute")
+     * @Route("/cms/addSubAttribute",name="addSubAttribute")
      */
     public function addSubAttribute(Request $request)
     {
@@ -78,7 +79,7 @@ class CompanyTypeSubAttributeController extends Controller
     }
 
     /**
-     * @Route("/deleteCompanyTypeAttributeSubAttribute/", name="deleteCompanyTypeAttributeSubAttribute")
+     * @Route("/cms/deleteCompanyTypeAttributeSubAttribute/", name="deleteCompanyTypeAttributeSubAttribute")
      */
     public function deleteCompanyTypeAttributeSubAttribute(Request $request){
         try {
@@ -94,7 +95,7 @@ class CompanyTypeSubAttributeController extends Controller
     }
 
     /**
-     * @Route("/editCompanyTypeAttributeSubAttribute",name="editCompanyTypeAttributeSubAttribute")
+     * @Route("/cms/editCompanyTypeAttributeSubAttribute",name="editCompanyTypeAttributeSubAttribute")
      */
     public function editCompanyTypeAttributeSubAttribute(Request $request)
     {
@@ -115,6 +116,38 @@ class CompanyTypeSubAttributeController extends Controller
         }
         return new Response ('SUBAttribute Edit Failed');
 
+    }
+
+
+    /**
+     * @Route(path="api/getCompanyTypeSubAttrApi", name="getCompanyTypeSubAttrApi")
+     */
+    public function getCompanyTypesAttr(Request $request) {
+        $content = $request->getContent();
+        $attrs = array();
+        if(!empty($content)) {
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $params = json_decode($content, true);
+
+                if(!isset($params["company_type_attr"]))
+                    return new JsonResponse(array());
+
+                $company_type_attr = (int)$params["company_type_attr"];
+
+                $company_attrs = $em->getRepository('AppBundle:CompanyTypeAttributeSubAttribute')->findBy(["company_type_attribute" => $company_type_attr]);
+
+                foreach (
+                    $company_attrs as $company_attr
+                ) {
+                    $attrs[$company_attr->getId()] = $company_attr->getName();
+                }
+            }catch(Exception $e) {
+
+            }
+        }
+
+        return new JsonResponse($attrs);
     }
 
 

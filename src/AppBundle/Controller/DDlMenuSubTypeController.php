@@ -17,7 +17,7 @@ class DDlMenuSubTypeController extends Controller
     }
 
     /**
-     * @Route("/MenuSubTypes",name="MenuSubTypes")
+     * @Route("/cms/MenuSubTypes",name="MenuSubTypes")
      */
     public function getMenuSubTypes()
     {
@@ -29,7 +29,7 @@ class DDlMenuSubTypeController extends Controller
 
 
     /**
-     * @Route("/MenuSubTypeRecords", name="MenuSubTypeRecords")
+     * @Route("/cms/MenuSubTypeRecords", name="MenuSubTypeRecords")
      */
     public function getMenuSubTypeRecords()
     {
@@ -40,7 +40,7 @@ class DDlMenuSubTypeController extends Controller
 
 
     /**
-     * @Route("/deleteMenuSubType", name="deleteMenuSubType")
+     * @Route("/cms/deleteMenuSubType", name="deleteMenuSubType")
      */
     public function DeleteLogAction(Request $request){
         try {
@@ -57,7 +57,7 @@ class DDlMenuSubTypeController extends Controller
 
 
     /**
-     * @Route("/addMenuSubType",name="addMenuSubType")
+     * @Route("/cms/addMenuSubType",name="addMenuSubType")
      */
     public function addCompanyType(Request $request)
     {
@@ -86,7 +86,7 @@ class DDlMenuSubTypeController extends Controller
     }
 
     /**
-     * @Route("/editMenuSubType",name="editMenuSubType")
+     * @Route("/cms/editMenuSubType",name="editMenuSubType")
      */
     public function editCompanyType(Request $request)
     {

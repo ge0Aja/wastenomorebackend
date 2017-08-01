@@ -37,12 +37,34 @@ class License
      */
     private $userCount;
 
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $premium;
+
+    /**
+     * @return mixed
+     */
+    public function getPremium()
+    {
+        return $this->premium;
+    }
+
+    /**
+     * @param mixed $premium
+     */
+    public function setPremium($premium)
+    {
+        $this->premium = $premium;
+    }
+
     /**
      * License constructor.
      */
     public function __construct()
     {
-        $this->licenseUser = new ArrayCollection();
+        $this->licenseSubLicense = new ArrayCollection();
         $this->Company = new ArrayCollection();
     }
 
@@ -95,18 +117,50 @@ class License
     }
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="license", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SubLicense", mappedBy="License", cascade={"persist"})
      */
-    private $licenseUser;
+    private $licenseSubLicense;
+
 
     /**
-     * @return ArrayCollection|User
+     * @ORM\Column(type="integer")
      */
-    public function getLicenseUser()
+    private $active;
+
+    /**
+     * @return mixed
+     */
+    public function getActive()
     {
-        return $this->licenseUser;
+        return $this->active;
     }
 
+    /**
+     * @param mixed $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
+
+    /**
+     * @return ArrayCollection|SubLicense[]
+     */
+    public function getLicenseSubLicense()
+    {
+        return $this->licenseSubLicense;
+    }
+
+    /**
+     * @return ArrayCollection|SubLicense[]
+     */
+    public function getLicenseSubLicenseUsed()
+    {
+        return $this->licenseSubLicense->filter(function ($entry){
+            return $entry->getUsed() == 1;
+        });
+    }
 
     /**
      * @ORM\Column(type="date")
@@ -162,4 +216,6 @@ class License
     {
         return $this->Company;
     }
+
+
 }

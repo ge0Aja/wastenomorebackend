@@ -37,7 +37,7 @@
 
             "ajax" :
                 {
-                    "url": "/CompanyRecords",
+                    "url": {{ path('CompanyRecords') }},
                     "type": "GET"
                 },
 
@@ -111,7 +111,7 @@
         var table = $('#companyRecords').DataTable();
         if (confirm('Are you sure you want to delete this?')) {
             $.ajax({
-                url: '/deleteCompany/'+e,
+                url: {{ path('deleteCompany') }}+e,
                 type: 'POST',
                 success: function (data) {
                     if(data.status == 'success') {

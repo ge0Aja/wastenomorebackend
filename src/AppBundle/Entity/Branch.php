@@ -46,6 +46,20 @@ class Branch
     private $opening_date;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SubLicense", mappedBy="SubLicenseBranch", cascade={"persist"})
+     */
+    private $BranchSubLicense;
+
+    /**
+     * @return ArrayCollection|SubLicense[]
+     */
+    public function getBranchSubLicense()
+    {
+        return $this->BranchSubLicense;
+    }
+
+
+    /**
      * Branch constructor.
      */
     public function __construct()
@@ -53,6 +67,7 @@ class Branch
         $this->purchases = new ArrayCollection();
         $this->surveyAnswerBranch = new ArrayCollection();
         $this->branchUser = new ArrayCollection();
+        $this->BranchSubLicense = new ArrayCollection();
     }
 
     /**
