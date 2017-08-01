@@ -97,4 +97,33 @@ class CompanyTypeAttributeController extends Controller
 
     }
 
+
+
+    /**
+     * @Route(path="api/getCompanyTypeAttrApi", name="getCompanyTypeAttrApi")
+     */
+    public function getCompanyTypesAttr(Request $request) {
+        $content = $request->getContent();
+        $attrs = array();
+        if(!empty($content)) {
+            $em = $this->getDoctrine()->getManager();
+            $params = json_decode($content, true);
+
+            if(!isset($params["company_type"]))
+                return new JsonResponse(array());
+
+            $company_type = (int) $params["company_type"];
+
+            $company_attrs = $em->getRepository('AppBundle:CompanyTypeAttribute')->findBy(["company_type" => $company_type]);
+
+            foreach (
+                $company_attrs as $company_attr
+            ){
+                $attrs[$company_attr->getId()] = $company_attr->getName();
+            }
+        }
+
+        return new JsonResponse($attrs);
+    }
+
 }

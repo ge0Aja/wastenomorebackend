@@ -6,6 +6,7 @@ use AppBundle\Entity\CompanyTypeAttributeSubAttribute;
 use Doctrine\DBAL\DBALException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -115,6 +116,38 @@ class CompanyTypeSubAttributeController extends Controller
         }
         return new Response ('SUBAttribute Edit Failed');
 
+    }
+
+
+    /**
+     * @Route(path="api/getCompanyTypeSubAttrApi", name="getCompanyTypeSubAttrApi")
+     */
+    public function getCompanyTypesAttr(Request $request) {
+        $content = $request->getContent();
+        $attrs = array();
+        if(!empty($content)) {
+            try {
+                $em = $this->getDoctrine()->getManager();
+                $params = json_decode($content, true);
+
+                if(!isset($params["company_type_attr"]))
+                    return new JsonResponse(array());
+
+                $company_type_attr = (int)$params["company_type_attr"];
+
+                $company_attrs = $em->getRepository('AppBundle:CompanyTypeAttributeSubAttribute')->findBy(["company_type_attribute" => $company_type_attr]);
+
+                foreach (
+                    $company_attrs as $company_attr
+                ) {
+                    $attrs[$company_attr->getId()] = $company_attr->getName();
+                }
+            }catch(Exception $e) {
+
+            }
+        }
+
+        return new JsonResponse($attrs);
     }
 
 
