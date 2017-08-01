@@ -17,11 +17,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraints\DateTime;
 
+use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
+use Symfony\Component\HttpFoundation\Response;
+
 class RegistrationController extends Controller
 {
 
-    //CONST ROLE_ADMIN = 'ROLE_ADMIN';
-   // CONST ROLE_USER = 'ROLE_USER';
     /**
      * @Route("cms/register", name="registerCMSUser")
      */
@@ -110,12 +111,10 @@ class RegistrationController extends Controller
                     $response = array();
                     $sublicense = $em->getRepository("AppBundle:SubLicense")->findOneBy(["challange" => $challange]);
                     $registeredTime = $sublicense->getChallangeDate();
-                   // $date = new DateTime();
 
                     $timeDiff =  time() - (int)$registeredTime; //$date->getTimestamp()
-                   // var_dump($timeDiff);
                     if((($sublicense != null && $sublicense->getSubLicenseAppRole()->getRole() == AppRole::COMPANY_MANAGER) ||
-                        ($sublicense != null && $sublicense->getSubLicenseAppRole()->getRole() != AppRole::COMPANY_MANAGER && $sublicense->getSubLicenseBranch() != null)) ){ //&& $timeDiff < 300
+                        ($sublicense != null && $sublicense->getSubLicenseAppRole()->getRole() != AppRole::COMPANY_MANAGER && $sublicense->getSubLicenseBranch() != null)) && $timeDiff < 600 ){ //
                         $username = $params["username"];
                         $password = $params["password"];
                         $email = $params["email"];
@@ -126,7 +125,6 @@ class RegistrationController extends Controller
                             $error_input = 1;
                             $error_message["username"] = "username already exists";
                         }
-                          //  return new JsonResponse(array("status" => "error", "username already exists"));
 
                         $user_check2 = $em->getRepository("AppBundle:User")->findOneBy(["email" => $email]);
 
@@ -136,7 +134,6 @@ class RegistrationController extends Controller
                         }
 
                         $email_error = filter_var($email, FILTER_VALIDATE_EMAIL);
-
                         if($email_error == false){
                             $error_input = 1;
                             $error_message["email"] = "Please enter a valid email";
@@ -146,14 +143,12 @@ class RegistrationController extends Controller
                             return new JsonResponse(array("status" => "inputerror", "message" => $error_message));
 
                         $user_new = new User();
-
                         $user_new->setActiveUser(1);
                         $user_new->setEmail($email);
                         $user_new->setPlainPassword("test123");
 
                         $password_encoded  = $this->get('security.password_encoder')->encodePassword($user_new, $password);
                         $user_new->setPassword($password_encoded);
-
                         $user_new->setUsername($username);
                         $user_new->setAppRole($sublicense->getSubLicenseAppRole());
                         $user_new->setSubLicense($sublicense);
@@ -168,15 +163,18 @@ class RegistrationController extends Controller
                         $em->persist($user_new);
                         $em->persist($sublicense);
 
+                        $responsea = new Response();
+                        $event = new AuthenticationSuccessEvent(array(), $user_new, $responsea);
+                        $token = $this->get('lexik_jwt_authentication.jwt_manager')->create($user_new);
+                        $this->get('gesdinet.jwtrefreshtoken.send_token')->attachRefreshToken($event);
+                        $refresh_token = $this->get('gesdinet.jwtrefreshtoken.refresh_token_manager')->getLastFromUsername($user_new->getUsername());
+
                         $em->flush();
                         $em->getConnection()->commit();
 
-
-                        $token = $this->get('lexik_jwt_authentication.encoder.default')
-                            ->encode(['username' => $user_new->getUsername()]);
-
                         $response["status"] = "success";
                         $response["token"] = $token;
+                        $response["refresh_token"] = $refresh_token->getRefreshToken();
                         $response["username"] = $user_new->getUsername();
                         return new JsonResponse($response);
 
@@ -184,7 +182,7 @@ class RegistrationController extends Controller
                 }catch (DBALException $e){
                     $em->getConnection()->rollBack();
 
-                    return new JsonResponse(array(["status" => "error", "where" => "dbal", "what" => $e->getMessage()]));
+                    return new JsonResponse(array(["status" => "error", "where" => "dbal"])); //, "what" => $e->getMessage()
                 }
             }
         }
@@ -264,7 +262,6 @@ class RegistrationController extends Controller
     public function tokenAuthentication(Request $request)
     {
         if ($request->request) {
-
             $params = array();
             $content = $request->getContent();
 
@@ -274,6 +271,13 @@ class RegistrationController extends Controller
                 $username = $params["username"];//$request->request->get('username');
                 $password = $params["password"];//$request->request->get('password');
                 $timestamp = $params["timestamp"];
+
+
+                $request_time = substr($timestamp, 0, -3);
+                $request_time = (int)($request_time);
+
+                if(time() - $request_time > 300)
+                    throw $this->createAccessDeniedException();
 
                 $em = $this->getDoctrine()->getManager();
                 $user = $em->getRepository('AppBundle:User')->findOneBy(['username' => $username, "activeUser" => 1]);
@@ -287,8 +291,6 @@ class RegistrationController extends Controller
 
                 $start_time = strtotime($license->getStartDate()->format('Y-m-d H:i:s'));
                 $expiry_time = strtotime($license->getExpiryDate()->format('Y-m-d H:i:s'));
-                $request_time = substr($timestamp, 0, -3);
-                $request_time = (int)($request_time);
 
 
                 if ($request_time < $start_time && $request_time > $expiry_time)
@@ -303,15 +305,77 @@ class RegistrationController extends Controller
                 }
 
                 // Use LexikJWTAuthenticationBundle to create JWT token that hold only information about user name
-                $token = $this->get('lexik_jwt_authentication.encoder.default')
-                    ->encode(['username' => $user->getUsername()]);
+                $responsea = new Response();
+                $event = new AuthenticationSuccessEvent(array(), $user, $responsea);
+                $token = $this->get('lexik_jwt_authentication.jwt_manager')->create($user);
+                $this->get('gesdinet.jwtrefreshtoken.send_token')->attachRefreshToken($event);
+                $refresh_token = $this->get('gesdinet.jwtrefreshtoken.refresh_token_manager')->getLastFromUsername($user->getUsername());
+
 
                 if($token == null)
                     throw $this->createAccessDeniedException();
 
                 // Return genereted tocken
-                return new JsonResponse(array(["status" => "granted","token" => $token]));
+                return new JsonResponse(array(["status" => "granted","token" => $token, "refresh_token" => $refresh_token->getRefreshToken()]));
             }
+        }
+        throw $this->createAccessDeniedException();
+    }
+
+
+    /**
+     * @Route(path="api/token_refresh", name="token_refresh")
+     */
+    public function tokenRefresh(Request $request)
+    {
+        $content = $request->getContent();
+
+        if (!empty($content)) {
+            $em = $this->getDoctrine()->getManager();
+            $params = json_decode($content, true);
+            $refresh_token = $params["refresh_token"];
+            $timestamp = $params["timestamp"];
+
+            $request_time = substr($timestamp, 0, -3);
+            $request_time = (int)($request_time);
+
+            if(time() - $request_time > 300)
+                throw $this->createAccessDeniedException();
+
+            $ref_token_obj = $this->get('gesdinet.jwtrefreshtoken.refresh_token_manager')->get($refresh_token);
+
+            if(null === $ref_token_obj || !$ref_token_obj->isValid())
+                throw $this->createAccessDeniedException();
+
+            $user = $em->getRepository('AppBundle:User')->findOneBy(['username' => $ref_token_obj->getUsername(), "activeUser" => 1]);
+
+            if (null === $user) {
+                throw $this->createNotFoundException();
+            }
+
+            $license = $user->getSubLicense()->getLicense();
+
+            $start_time = strtotime($license->getStartDate()->format('Y-m-d H:i:s'));
+            $expiry_time = strtotime($license->getExpiryDate()->format('Y-m-d H:i:s'));
+
+
+            if ($request_time < $start_time && $request_time > $expiry_time)
+                throw $this->createAccessDeniedException();
+
+            //$em->getConnection()->beginTransaction();
+            try{
+                $new_expiry = new \DateTime();
+
+                $new_expiry->modify('+2592000 seconds'); //One day
+                $ref_token_obj->setValid($new_expiry);
+                $this->get('gesdinet.jwtrefreshtoken.refresh_token_manager')->save($ref_token_obj);
+                $token = $this->get('lexik_jwt_authentication.jwt_manager')->create($user);
+
+                return new JsonResponse(array(["status" => "granted","token" => $token, "refresh_token" => $ref_token_obj->getRefreshToken()]));
+            }catch (DBALException $e){
+                return new JsonResponse(array("status" => "error", "where" => "dbal"));
+            }
+
         }
         throw $this->createAccessDeniedException();
     }

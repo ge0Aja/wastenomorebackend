@@ -27,6 +27,7 @@ class AnnualSalesController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $AnnualSalesRecords = $em->getRepository('AppBundle:AnnualSalesRanges')->findAll();
+
         return $this->render("agriApp/AnnualSales/AnnualSalesRecordsInJson.html.twig", ['AnnualSalesRecords' => $AnnualSalesRecords]);
     }
 
