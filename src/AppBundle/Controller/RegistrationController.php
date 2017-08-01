@@ -23,6 +23,17 @@ use Symfony\Component\HttpFoundation\Response;
 class RegistrationController extends Controller
 {
 
+    CONST REQUEST_STATUS_DENIED = "DENIED";
+    CONST REQUEST_STATUS_GRANTED = "GRANTED";
+    CONST REQUEST_STATUS_INPUT = "INPUTERROR";
+    CONST REQUEST_STATUS_ERROR = "ERROR";
+
+    CONST DENIED_REASON_LICENSE = "1";
+    CONST DENIED_REASON_TOKEN = "2";
+    CONST DENIED_REASON_REFRESH_TOKEN = "3";
+    CONST DENIED_REASON_USER = "4";
+    CONST DENIED_REASON_DBAL = "5";
+
     /**
      * @Route("cms/register", name="registerCMSUser")
      */
@@ -114,7 +125,7 @@ class RegistrationController extends Controller
 
                     $timeDiff =  time() - (int)$registeredTime; //$date->getTimestamp()
                     if((($sublicense != null && $sublicense->getSubLicenseAppRole()->getRole() == AppRole::COMPANY_MANAGER) ||
-                        ($sublicense != null && $sublicense->getSubLicenseAppRole()->getRole() != AppRole::COMPANY_MANAGER && $sublicense->getSubLicenseBranch() != null)) && $timeDiff < 600 ){ //
+                        ($sublicense != null && $sublicense->getSubLicenseAppRole()->getRole() != AppRole::COMPANY_MANAGER && $sublicense->getSubLicenseBranch() != null)) && $timeDiff < 300 ){ //
                         $username = $params["username"];
                         $password = $params["password"];
                         $email = $params["email"];
@@ -140,7 +151,7 @@ class RegistrationController extends Controller
                         }
 
                         if($error_input != 0)
-                            return new JsonResponse(array("status" => "inputerror", "message" => $error_message));
+                            return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_INPUT, "message" => $error_message));
 
                         $user_new = new User();
                         $user_new->setActiveUser(1);
@@ -182,11 +193,11 @@ class RegistrationController extends Controller
                 }catch (DBALException $e){
                     $em->getConnection()->rollBack();
 
-                    return new JsonResponse(array(["status" => "error", "where" => "dbal"])); //, "what" => $e->getMessage()
+                    return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::DENIED_REASON_DBAL])); //, "what" => $e->getMessage()
                 }
             }
         }
-        return new JsonResponse(array(["status" => "error"]));
+        return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED , "reason" => RegistrationController::DENIED_REASON_LICENSE]));
     }
 
     /**
@@ -223,7 +234,7 @@ class RegistrationController extends Controller
 
 
                             if ($request_time >= $start_time && $request_time <= $expiry_time) {
-                                $response["status"] = "granted";
+                                $response["status"] = RegistrationController::REQUEST_STATUS_GRANTED;
 
                                 if($sublicense->getisCompanyManager() == 1)
                                     $response["role"] = AppRole::COMPANY_MANAGER;
@@ -234,7 +245,7 @@ class RegistrationController extends Controller
                                 $challange = (string)bin2hex(random_bytes(10));
                                 $response["random"] = $challange;
                                 $sublicense->setChallange($challange);
-                                $date = new DateTime();
+                                //$date = new DateTime();
                                 $sublicense->setChallangeDate((string) time()); //$date->getTimestamp()
                                 $em->persist($sublicense);
                                 $em->flush();
@@ -242,18 +253,18 @@ class RegistrationController extends Controller
                             }
                         }
                     }
-                    $response["status"] = "denied";
-                    $response["where"] = "sublicense";
+                    $response["status"] = RegistrationController::REQUEST_STATUS_DENIED;
+                    $response["reason"] = RegistrationController::DENIED_REASON_LICENSE;
                     return new JsonResponse($response);
                 }
                 else{
-                    $response["status"] = "denied";
-                    $response["where"] = "else";
+                    $response["status"] = RegistrationController::REQUEST_STATUS_DENIED;
+                    $response["reason"] = RegistrationController::DENIED_REASON_LICENSE;
                     return new JsonResponse($response);
                 }
             }
         }
-        return new JsonResponse(array(["status" => "error"]));
+        return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_ERROR]));
     }
 
     /**
@@ -283,7 +294,8 @@ class RegistrationController extends Controller
                 $user = $em->getRepository('AppBundle:User')->findOneBy(['username' => $username, "activeUser" => 1]);
 
                 if (!$user) {
-                    throw $this->createNotFoundException();
+                    //throw $this->createNotFoundException();
+                    return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_USER]));
                 }
 
 
@@ -294,7 +306,7 @@ class RegistrationController extends Controller
 
 
                 if ($request_time < $start_time && $request_time > $expiry_time)
-                    throw $this->createAccessDeniedException();
+                    return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_LICENSE]));
 
                 if($license->getActive() == 0)
                     throw $this->createAccessDeniedException();
@@ -313,10 +325,10 @@ class RegistrationController extends Controller
 
 
                 if($token == null)
-                    throw $this->createAccessDeniedException();
+                    return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_TOKEN]));
 
                 // Return genereted tocken
-                return new JsonResponse(array(["status" => "granted","token" => $token, "refresh_token" => $refresh_token->getRefreshToken()]));
+                return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_GRANTED,"token" => $token, "refresh_token" => $refresh_token->getRefreshToken()]));
             }
         }
         throw $this->createAccessDeniedException();
@@ -345,12 +357,12 @@ class RegistrationController extends Controller
             $ref_token_obj = $this->get('gesdinet.jwtrefreshtoken.refresh_token_manager')->get($refresh_token);
 
             if(null === $ref_token_obj || !$ref_token_obj->isValid())
-                throw $this->createAccessDeniedException();
+                return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_REFRESH_TOKEN]));
 
             $user = $em->getRepository('AppBundle:User')->findOneBy(['username' => $ref_token_obj->getUsername(), "activeUser" => 1]);
 
             if (null === $user) {
-                throw $this->createNotFoundException();
+                return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_USER]));
             }
 
             $license = $user->getSubLicense()->getLicense();
@@ -360,7 +372,7 @@ class RegistrationController extends Controller
 
 
             if ($request_time < $start_time && $request_time > $expiry_time)
-                throw $this->createAccessDeniedException();
+                return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_LICENSE]));
 
             //$em->getConnection()->beginTransaction();
             try{
@@ -371,9 +383,9 @@ class RegistrationController extends Controller
                 $this->get('gesdinet.jwtrefreshtoken.refresh_token_manager')->save($ref_token_obj);
                 $token = $this->get('lexik_jwt_authentication.jwt_manager')->create($user);
 
-                return new JsonResponse(array(["status" => "granted","token" => $token, "refresh_token" => $ref_token_obj->getRefreshToken()]));
+                return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_GRANTED,"token" => $token, "refresh_token" => $ref_token_obj->getRefreshToken()]));
             }catch (DBALException $e){
-                return new JsonResponse(array("status" => "error", "where" => "dbal"));
+                return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::DENIED_REASON_DBAL));
             }
 
         }
