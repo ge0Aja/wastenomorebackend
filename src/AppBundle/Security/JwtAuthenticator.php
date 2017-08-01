@@ -9,12 +9,15 @@
 namespace AppBundle\Security;
 use Doctrine\ORM\EntityManager;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\DefaultEncoder;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\ExpiredTokenException;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\InvalidTokenException;
 use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\AuthorizationHeaderTokenExtractor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
@@ -53,27 +56,35 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
             return;
         }
 
+
         return $token;
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $data = $this->jwtEncoder->decode($credentials);
 
-        if(!$data){
-            return;
+        try {
+            $data = $this->jwtEncoder->decode($credentials);
+
+            if(!$data){
+                return;
+            }
+
+            $username = $data['username'];
+
+            $user = $this->em->getRepository('AppBundle:User')
+                ->findOneBy(['username' => $username, "activeUser" => 1]);
+
+            if(!$user){
+                return;
+            }
+
+            return $user;
+
+        }catch (\Exception $e){
+            throw new  BadCredentialsException("Bad Token", 401, $e);
         }
 
-        $username = $data['username'];
-
-        $user = $this->em->getRepository('AppBundle:User')
-            ->findOneBy(['username' => $username, "activeUser" => 1]);
-
-        if(!$user){
-            return;
-        }
-
-        return $user;
     }
 
 
@@ -85,7 +96,7 @@ class JwtAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         return new JsonResponse([
-            'message' => $exception->getMessage()
+            'message' => "Access Denied" // $exception->getMessage()
         ], 401);
     }
 

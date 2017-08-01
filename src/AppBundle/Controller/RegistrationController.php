@@ -383,6 +383,7 @@ class RegistrationController extends Controller
                 $this->get('gesdinet.jwtrefreshtoken.refresh_token_manager')->save($ref_token_obj);
                 $token = $this->get('lexik_jwt_authentication.jwt_manager')->create($user);
 
+
                 return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_GRANTED,"token" => $token, "refresh_token" => $ref_token_obj->getRefreshToken()]));
             }catch (DBALException $e){
                 return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::DENIED_REASON_DBAL));
