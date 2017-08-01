@@ -390,5 +390,7 @@ class RegistrationController extends Controller
 
         }
         throw $this->createAccessDeniedException();
+        // testing
+        // testing
     }
 }
