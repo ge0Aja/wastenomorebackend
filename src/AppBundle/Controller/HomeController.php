@@ -112,7 +112,7 @@ class HomeController extends Controller
 
             $purchcaseCategoryTotalQuantity = 0;
 
-            $purchases = $em->getRepository('AppBundle:Purchases')->findBy(['type'=>$category->getId()]);
+            $purchases = $em->getRepository('AppBundle:Purchases')->findBy(["type" => $category->getId()]);
             foreach ($purchases as $purchase)
             {
                 $purchcaseCategoryTotalQuantity += $purchase->getQuantity();

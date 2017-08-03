@@ -6,6 +6,7 @@ use AppBundle\Entity\AnnualSalesRanges;
 use Doctrine\DBAL\DBALException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -102,5 +103,26 @@ class AnnualSalesController extends Controller
         }
 
         return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t update range'));
+    }
+
+
+    /**
+     * @Route(path="api/getAnnualSalesApi", name="getAnnualSalesApi")
+     */
+    public function getAnnualSalesApi(){
+
+        try{
+            $annual_sales = array();
+            $em = $this->getDoctrine()->getManager();
+            $AnnualSalesRecs = $em->getRepository('AppBundle:AnnualSalesRanges')->findAll();
+
+            foreach ($AnnualSalesRecs as $annualSaleRec){
+                array_push($annual_sales,$annualSaleRec->getSalesRange());
+            }
+
+            return new JsonResponse(array("status" => "success", "ranges" => $annual_sales));
+        }catch (Exception $e){
+            return new JsonResponse(array("status"=> "error"));
+        }
     }
 }

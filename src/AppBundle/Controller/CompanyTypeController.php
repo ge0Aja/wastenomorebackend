@@ -6,6 +6,7 @@ use AppBundle\Entity\CompanyType;
 use Doctrine\DBAL\DBALException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -95,6 +96,25 @@ class CompanyTypeController extends Controller
         }
 
         return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t edit Company Type'));
+    }
+
+    /**
+     * @Route(path="api/getCompanyTypesApi", name="getCompanyTypesApi")
+     */
+    public function getCompanyTypesApi() {
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $company_types = array();
+            $CompanyTypes = $em->getRepository('AppBundle:CompanyType')->findAll();
+
+            foreach ($CompanyTypes as $type) {
+                // $company_types[$type->getId()] = $type->getTypeName();
+                array_push($company_types, $type->getTypeName());
+            }
+            return new JsonResponse(array("status" =>"success", "types" => $company_types));
+        }catch(Exception $e){
+            return new JsonResponse(array("status" => "error"));
+        }
     }
 
 
