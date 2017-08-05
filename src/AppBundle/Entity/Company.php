@@ -165,7 +165,7 @@ class Company
     }
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Branch",inversedBy="Company")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Branch",inversedBy="CompMainBranch")
      */
     private $mainBranch;
 

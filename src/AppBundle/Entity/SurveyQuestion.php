@@ -74,7 +74,6 @@ class SurveyQuestion
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\SurveyQuestionAnswer", mappedBy="question", cascade={"persist"})
-     * @ORM\Column(type="string")
      */
     private $questionAnswer;
 
@@ -166,7 +165,7 @@ class SurveyQuestion
     private $detailshint;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\DDlMenuType", inversedBy="")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\DDlMenuType", inversedBy="surveyQuestion")
      */
     private $dropdowntable;
 

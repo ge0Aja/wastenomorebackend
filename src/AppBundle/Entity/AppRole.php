@@ -19,8 +19,11 @@ use Doctrine\ORM\Mapping as ORM;
 class AppRole
 {
     CONST COMPANY_MANAGER = "COMPANY_MANAGER";
+<<<<<<< Updated upstream
     CONST BRANCH_MANAGER = "BRANCH_MANAGER";
 
+=======
+>>>>>>> Stashed changes
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")

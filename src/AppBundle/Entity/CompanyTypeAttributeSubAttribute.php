@@ -95,20 +95,7 @@ class CompanyTypeAttributeSubAttribute
 
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Company", mappedBy="company_type_attribute_sub_attribute", cascade={"persist"})
-     */
-    private $Company;
-
-    /**
-     * @return ArrayCollection|Company[]
-     */
-    public function getCompany()
-    {
-        return $this->Company;
-    }
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CompanyTypeAttributeSubAttribute", mappedBy="company_attributes_and_subattributes", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CompanyAttributesAndSubAttributes", mappedBy="sub_attribute", cascade={"persist"})
      */
     private $company_attributes_and_subattributes;
 

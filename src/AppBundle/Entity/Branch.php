@@ -227,4 +227,10 @@ class Branch
     {
         $this->branchUser = $branchUser;
     }
+
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Company", mappedBy="mainBranch")
+     */
+    private $CompMainBranch;
 }

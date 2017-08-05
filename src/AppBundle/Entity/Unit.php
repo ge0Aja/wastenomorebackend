@@ -107,7 +107,7 @@ class Unit
     private $conversionT;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SubCategoryUnit", mappedBy="subcategory", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SubCategoryUnit", mappedBy="unit", cascade={"persist"})
      */
     private $subcatunit;
 
