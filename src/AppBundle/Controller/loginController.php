@@ -37,7 +37,16 @@ class loginController extends Controller
      */
     public function lgg()
     {
-        return $this->redirectToRoute('/cms/login');
+        return $this->redirectToRoute('cms/login');
+    }
+
+
+    /**
+     * @Route("/")
+     */
+    public function lgg2()
+    {
+        return $this->render('agriApp/Welcome.html.twig');
     }
 
     /**
