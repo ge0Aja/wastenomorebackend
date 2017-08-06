@@ -225,7 +225,7 @@ class RegistrationController extends Controller
                 if($sublicense != null ){ // && $sublicense->getUsed() != 1
 
                     if($sublicense->getActive() == 1){
-                        if(($sublicense->getSubLicenseBranch() != null && $sublicense->getSubLicenseAppRole()->getRole() == AppRole::BRANCH_MANAGER) ||
+                        if(($sublicense->getSubLicenseBranch() != null && $sublicense->getSubLicenseAppRole()->getRole() != AppRole::BRANCH_MANAGER) ||
                         $sublicense->getSubLicenseAppRole()->getRole() == AppRole::COMPANY_MANAGER) {
                             $parent_license = $sublicense->getLicense();
 
@@ -362,7 +362,7 @@ class RegistrationController extends Controller
             $user = $em->getRepository('AppBundle:User')->findOneBy(['username' => $ref_token_obj->getUsername(), "activeUser" => 1]);
 
             if (null === $user) {
-                return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_USER]));
+                return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_USER));
             }
 
             $license = $user->getSubLicense()->getLicense();

@@ -19,6 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 class AppRole
 {
     CONST COMPANY_MANAGER = "COMPANY_MANAGER";
+    CONST BRANCH_MANAGER = "BRANCH_MANAGER";
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")

@@ -103,4 +103,26 @@ class CompanyAttributesAndSubAttributes
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CompanyTypeAttributeSubAttribute", inversedBy="company_attributes_and_subattributes")
      */
     private $sub_attribute;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SubAttributeValues", inversedBy="attrSubAttrRecord")
+     */
+    private $subAttrVal;
+
+    /**
+     * @return mixed
+     */
+    public function getSubAttrVal()
+    {
+        return $this->subAttrVal;
+    }
+
+    /**
+     * @param mixed $subAttrVal
+     */
+    public function setSubAttrVal($subAttrVal)
+    {
+        $this->subAttrVal = $subAttrVal;
+    }
 }

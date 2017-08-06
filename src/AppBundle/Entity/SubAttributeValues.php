@@ -18,6 +18,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SubAttributeValues
 {
+    /**
+     * SubAttributeValues constructor.
+     */
+    public function __construct()
+    {
+        $this->attrSubAttrRecord = new ArrayCollection();
+    }
 
     /**
      * @return CompanyTypeAttributeSubAttribute
@@ -83,6 +90,20 @@ class SubAttributeValues
     public function setSubAttribute($subAttribute)
     {
         $this->subAttribute = $subAttribute;
+    }
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CompanyAttributesAndSubAttributes", mappedBy="subAttrVal", cascade={"persist"})
+     */
+    private $attrSubAttrRecord;
+
+    /**
+     * @return ArrayCollection|CompanyAttributesAndSubAttributes[]
+     */
+    public function getAttrSubAttrRecord()
+    {
+        return $this->attrSubAttrRecord;
     }
 
 }
