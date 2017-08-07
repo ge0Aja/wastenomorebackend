@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\AppRole;
 use AppBundle\Entity\CityTown;
 use Doctrine\DBAL\DBALException;
+use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\PreAuthenticationJWTUserToken;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -110,6 +112,87 @@ class CityController extends Controller
         }
 
         return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t update city'));
+    }
+
+
+    /**
+     * @Route(path="api/getLocations", name="getLocations")
+     */
+    public function getLocationsApi(Request $request){
+        $locations = array();
+        try{
+
+            $user = $this->getLoggedUser($request);
+
+            if (null === $user)
+                throw new \Exception("User Error", 401);
+
+            if ($user->getAppRole()->getRole() != AppRole::COMPANY_MANAGER)
+                throw new \Exception("User Error", 401);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $company = $user->getManagedCompany();
+
+
+            if (null === $company)
+                throw new \Exception("Company Error", 666);
+
+
+            $locations_records = $em->getRepository('AppBundle:CityTown')->findAll();
+
+            foreach ($locations_records as $locations_record) {
+                $loc = array("city" => $locations_record->getName(),
+                    "district" => $locations_record->getDistrict()->getName(),
+                    "governorate" => $locations_record->getDistrict()->getGovernorate()->getName());
+
+                array_push($locations,$loc);
+            }
+
+            return new JsonResponse(array("status" => "success", "location" => $locations));
+        }catch (\Exception $e) {
+            return new JsonResponse(array("status" => "error", "reason" => "Params error"));
+        } catch (DBALException $e){
+            return new JsonResponse(array("status" => "error", "reason" => "DB error"));
+        }
+        catch (\Throwable $t) {
+            return new JsonResponse(array("status" => "error", "reason" => "Null Error"));
+        }
+
+    }
+
+
+    private function getLoggedUser(Request $request)
+    {
+        try {
+            $token = $this->get('app.jwt_token_authenticator')->getCredentials($request);
+
+            if (null === $token)
+                throw new \Exception("Invalid token", 401);
+
+            $usr = $this->get('lexik_jwt_authentication.jwt_manager')->decode(new PreAuthenticationJWTUserToken($token));
+
+
+            //var_dump($usr);
+
+            //var_dump($usr["username"]);
+
+            if (null === $usr)
+                throw new \Exception("Invalid User", 401);
+
+            if (null === $usr)
+                throw new \Exception("Invalid User", 401);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $user = $em->getRepository('AppBundle:User')->findOneBy(["username" => $usr["username"]]);
+
+            return $user;
+
+        } catch (\Exception $e) {
+            return null;
+        }
+
     }
 
 }
