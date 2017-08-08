@@ -85,6 +85,12 @@ class BranchController extends Controller
 
             $branchesRecords = $em->getRepository('AppBundle:Branch')->findBy(["Company" => $company->getId()]);
 
+
+            if($company->getMainBranch() != null)
+                $mainBranchId = $company->getMainBranch()->getId();
+            else
+                $mainBranchId = 00;
+
             foreach ($branchesRecords as $branchesRecord){
                 $branch = array("BranchId" => $branchesRecord->getId(),"location" => $branchesRecord->getLocation()->getName(),
                     "location_district" => $branchesRecord->getLocation()->getDistrict()->getName(),
@@ -92,7 +98,7 @@ class BranchController extends Controller
                     "staff_count" => $branchesRecord->getStaffCount(),
                     "opening_date" => $branchesRecord->getOpeningDate(),
                     "address" => $branchesRecord->getAddress(),
-                    "mainBranch" => ($company->getMainBranch()->getId() == $branchesRecord->getId())? true : false);
+                    "mainBranch" => ($mainBranchId == $branchesRecord->getId())? true : false);
 
                 array_push($branches,$branch);
             }
@@ -104,9 +110,9 @@ class BranchController extends Controller
         } catch (DBALException $e){
             return new JsonResponse(array("status" => "error", "reason" => "DB error"));
         }
-        catch (\Throwable $t) {
-            return new JsonResponse(array("status" => "error", "reason" => "Null Error"));
-        }
+//        catch (\Throwable $t) {
+//            return new JsonResponse(array("status" => "error", "reason" => "Null Error"));
+//        }
     }
 
     private function getLoggedUser(Request $request)

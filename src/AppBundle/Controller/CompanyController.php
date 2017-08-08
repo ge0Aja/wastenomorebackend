@@ -419,7 +419,7 @@ class CompanyController extends Controller
             $params = json_decode($content, true);
 
             $em = $this->getDoctrine()->getManager();
-
+            $em->getConnection()->beginTransaction();
             try {
                 $company = $user->getManagedCompany();
 
@@ -463,23 +463,94 @@ class CompanyController extends Controller
                 if ($main_branch == "true")
                     $company->setMainBranch($branch);
                 else
-                    $company->setMainBranch(null);
+                   // $company->setMainBranch(null);
 
 
                 $em->persist($company);
 
                 $em->flush();
 
+                $em->getConnection()->commit();
+
                 return new JsonResponse(array("status" => "success"));
 
             } catch (DBALException $e) {
+                $em->getConnection()->rollBack();
                 throw new Exception("DB Error", 777);
             } catch (Exception $e) {
+                $em->getConnection()->rollBack();
                 throw  new Exception("Params Error", 666);
             } catch (\Throwable $t) {
+                $em->getConnection()->rollBack();
                 throw  new Exception("Null Error", 666);
             }
         } catch (Exception $e) {
+            return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
+        }
+
+    }
+
+
+    /**
+     * @Route(path="api/deleteBranchApi", name="deleteBranchApi")
+     */
+    public function deleteCompanyBranch(Request $request){
+
+
+        try {
+            $user = $this->getLoggedUser($request);
+
+            if (null === $user)
+                throw new Exception("User Error", 401);
+
+
+            if ($user->getAppRole()->getRole() != AppRole::COMPANY_MANAGER)
+                throw new Exception("User Error", 401);
+
+            $content = $request->getContent();
+
+            if (empty($content))
+                throw new Exception("Content Error", 666);
+
+            $params = json_decode($content, true);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->getConnection()->beginTransaction();
+            try {
+                $company = $user->getManagedCompany();
+
+                $branch_id = $params["branch"];
+
+                $branch = $em->getRepository("AppBundle:Branch")->findOneBy(["id" => $branch_id, "Company" => $company->getId()]);
+
+                if($company->getMainBranch()->getId() == $branch_id)
+                    $company->setMainBranch(null);
+
+                $em->persist($company);
+                $em->flush();
+
+                $em->remove($branch);
+
+                $em->flush();
+
+
+                $em->getConnection()->commit();
+                return new JsonResponse(array("status" => "success"));
+
+            }catch (DBALException $e){
+                $em->getConnection()->rollBack();
+                throw new Exception("DB Error", 777);
+            }catch (Exception $e){
+                $em->getConnection()->rollBack();
+                throw  new Exception("Params Error", 666);
+            }catch (\Throwable $t) {
+                $em->getConnection()->rollBack();
+                throw  new Exception("Null Error", 666);
+            }
+
+
+        }catch (Exception $e){
             return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
         }
 
