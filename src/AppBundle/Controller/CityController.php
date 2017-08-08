@@ -139,7 +139,7 @@ class CityController extends Controller
                 throw new \Exception("Company Error", 666);
 
 
-            $locations_records = $em->getRepository('AppBundle:CityTown')->findAll();
+            $locations_records = $em->getRepository('AppBundle:CityTown')->findBy(array(),array('name' => 'ASC'));
 
             foreach ($locations_records as $locations_record) {
                 $loc = array("city" => $locations_record->getName(),

@@ -86,12 +86,13 @@ class BranchController extends Controller
             $branchesRecords = $em->getRepository('AppBundle:Branch')->findBy(["Company" => $company->getId()]);
 
             foreach ($branchesRecords as $branchesRecord){
-                $branch = array("location" => $branchesRecord->getLocation()->getName(),
+                $branch = array("BranchId" => $branchesRecord->getId(),"location" => $branchesRecord->getLocation()->getName(),
                     "location_district" => $branchesRecord->getLocation()->getDistrict()->getName(),
                     "location_governorate" => $branchesRecord->getLocation()->getDistrict()->getGovernorate()->getName(),
                     "staff_count" => $branchesRecord->getStaffCount(),
                     "opening_date" => $branchesRecord->getOpeningDate(),
-                    "mainBranch" => ($company->getMainBranch() == $branchesRecord->getId())? true : false);
+                    "address" => $branchesRecord->getAddress(),
+                    "mainBranch" => ($company->getMainBranch()->getId() == $branchesRecord->getId())? true : false);
 
                 array_push($branches,$branch);
             }
@@ -118,10 +119,6 @@ class BranchController extends Controller
 
             $usr = $this->get('lexik_jwt_authentication.jwt_manager')->decode(new PreAuthenticationJWTUserToken($token));
 
-
-            //var_dump($usr);
-
-            //var_dump($usr["username"]);
 
             if (null === $usr)
                 throw new \Exception("Invalid User", 401);

@@ -14,7 +14,6 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Config\DefinitionExceptionException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class CompanyController extends Controller
 {
@@ -311,6 +310,9 @@ class CompanyController extends Controller
             $params = json_decode($content, true);
 
             $em = $this->getDoctrine()->getManager();
+
+
+
             $em->getConnection()->beginTransaction();
 
             try {
@@ -318,9 +320,13 @@ class CompanyController extends Controller
                 $opening_date = $params["opening_date"];
                 $main_branch = $params["main_branch"];
                 $location = $params["location"];
-                //$sub_license = $params["license"];
+                $addrr = $params["address"];
+
+                $location_arr = explode('/',$location);
 
                 $company = $user->getManagedCompany();
+
+
 
                 if (null === $company)
                     throw  new Exception("No Managed Company", 666);
@@ -331,24 +337,43 @@ class CompanyController extends Controller
                 $branch->setCompany($company);
                 $branch->setStaffCount($staff_count);
                 $branch->setOpeningDate(new \DateTime($opening_date));
-                $branch->setLocation($em->getRepository('AppBundle:CityTown')->findOneBy(["id" => $location]));
+                $branch->setAddress($addrr);
 
 
-                if ($main_branch === true)
-                    $company->setMainBranch($branch);
 
-                //  $subLicense = $em->getRepository('AppBundle:SubLicense')->findOneBy(["id" => $sub_license]);
+                $qb = $em->createQueryBuilder();
 
-//                if(null === $subLicense)
-//                    throw  new Exception("Sub License Error",666);
-//
-//                $subLicense->setSubLicenseBranch($branch);
+                 $qb->select('c')
+                    ->from('AppBundle:CityTown', 'c')
+                    ->join('c.district', 'd')
+                    ->join('d.governorate', 'g')
+                    ->where('c.name = :CityName and d.name = :DistName and g.name = :GovName')
+                ->setParameter('CityName',$location_arr[0])
+                ->setParameter('DistName',$location_arr[1])
+                ->setParameter('GovName',$location_arr[2]);
+
+                $query = $qb->getQuery();
+                $single = $query->getSingleResult();
+
+
+
+                $branch->setLocation($single);
 
                 $em->persist($branch);
-                $em->persist($company);
-                // $em->persist($subLicense);
 
                 $em->flush();
+
+
+                if ($main_branch == "true")
+                    $company->setMainBranch($branch);
+
+
+                $em->persist($company);
+
+
+                $em->flush();
+
+
 
                 $em->getConnection()->commit();
                 return new JsonResponse(array("status" => "success"));
@@ -359,7 +384,8 @@ class CompanyController extends Controller
             } catch (Exception $e2) {
                 $em->getConnection()->rollBack();
                 throw  new Exception("Params Error", 666);
-            } catch (\Throwable $t) {
+            }
+            catch (\Throwable $t) {
                 throw  new Exception("Null Error", 666);
             }
 
@@ -402,21 +428,44 @@ class CompanyController extends Controller
                 $opening_date = $params["opening_date"];
                 $location = $params["location"];
                 $main_branch = $params["main_branch"];
-                // $sub_license_id = $params["sub_license"];
+                $addrr = $params["address"];
+
+                $location_arr = explode('/',$location);
 
                 $branch = $em->getRepository("AppBundle:Branch")->findOneBy(["id" => $branch_id, "Company" => $company->getId()]);
-                //  $sublicense = $em->getRepository('AppBundle:SubLicense')->findOneBy(["id" => $sub_license_id,"License" => $company->getCompanyLicense(), "Used" => 0, "active" => 1]);
 
                 $branch->setStaffCount($staff_count);
                 $branch->setOpeningDate(new \DateTime($opening_date));
-                $branch->setLocation($em->getRepository('AppBundle:CityTown')->findOneBy(["id" => $location]));
+                $branch->setAddress($addrr);
 
-                //$branch->get
 
-                if ($main_branch === true)
-                    $company->setMainBranch($branch);
+                $qb = $em->createQueryBuilder();
 
+
+                $qb->select('c')
+                    ->from('AppBundle:CityTown', 'c')
+                    ->join('c.district', 'd')
+                    ->join('d.governorate', 'g')
+                    ->where('c.name = :CityName and d.name = :DistName and g.name = :GovName')
+                    ->setParameter('CityName',$location_arr[0])
+                    ->setParameter('DistName',$location_arr[1])
+                    ->setParameter('GovName',$location_arr[2]);
+
+                $query = $qb->getQuery();
+                $single = $query->getSingleResult();
+
+
+                $branch->setLocation($single);
                 $em->persist($branch);
+                $em->flush();
+
+
+                if ($main_branch == "true")
+                    $company->setMainBranch($branch);
+                else
+                    $company->setMainBranch(null);
+
+
                 $em->persist($company);
 
                 $em->flush();

@@ -233,4 +233,34 @@ class Branch
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Company", mappedBy="mainBranch")
      */
     private $CompMainBranch;
+
+    /**
+     * @return mixed
+     */
+    public function getCompMainBranch()
+    {
+        return $this->CompMainBranch;
+    }
+
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $address;
+
+    /**
+     * @return mixed
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param mixed $address
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+    }
 }
