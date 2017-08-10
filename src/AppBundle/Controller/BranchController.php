@@ -18,7 +18,6 @@ class BranchController extends Controller
     }
 
 
-
     /**
      * @Route("/cms/BranchRecords",name="BranchRecords")
      */
@@ -110,9 +109,59 @@ class BranchController extends Controller
         } catch (DBALException $e){
             return new JsonResponse(array("status" => "error", "reason" => "DB error"));
         }
-//        catch (\Throwable $t) {
-//            return new JsonResponse(array("status" => "error", "reason" => "Null Error"));
-//        }
+        catch (\Throwable $t) {
+            return new JsonResponse(array("status" => "error", "reason" => "Null Error"));
+        }
+    }
+
+    /**
+     * @Route(path="api/getCompanyBranchesDDl", name="getCompanyBranchesDDl")
+     */
+    public function getCompanyBranchesDDl(Request $request){
+
+        $branches = array();
+        try{
+
+            $user = $this->getLoggedUser($request);
+
+            if (null === $user)
+                throw new \Exception("User Error", 401);
+
+            if ($user->getAppRole()->getRole() != AppRole::COMPANY_MANAGER)
+                throw new \Exception("User Error", 401);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $company = $user->getManagedCompany();
+
+
+            if (null === $company)
+                throw new \Exception("Company Error", 666);
+
+
+            $branchesRecords = $em->getRepository('AppBundle:Branch')->findBy(["Company" => $company->getId()]);
+
+
+            foreach ($branchesRecords as $branchesRecord){
+                $branch = array("BranchId" => $branchesRecord->getId(),"location" => $branchesRecord->getLocation()->getName(),
+                    "location_district" => $branchesRecord->getLocation()->getDistrict()->getName(),
+                    "location_governorate" => $branchesRecord->getLocation()->getDistrict()->getGovernorate()->getName(),
+                    "address" => $branchesRecord->getAddress());
+
+                array_push($branches,$branch);
+            }
+
+            return new JsonResponse(array("status" => "success" , "branches" => $branches));
+
+        }catch (\Exception $e) {
+            return new JsonResponse(array("status" => "error", "reason" => "Params error"));
+        } catch (DBALException $e){
+            return new JsonResponse(array("status" => "error", "reason" => "DB error"));
+        }
+        catch (\Throwable $t) {
+            return new JsonResponse(array("status" => "error", "reason" => "Null Error"));
+        }
+
     }
 
     private function getLoggedUser(Request $request)

@@ -172,7 +172,7 @@ class SubLicense
     }
 
     /**
-     * @param mixed $SubLicenseBranch
+     * @param mixed
      */
     public function setSubLicenseBranch($SubLicenseBranch)
     {

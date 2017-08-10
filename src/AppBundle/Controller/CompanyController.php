@@ -373,8 +373,6 @@ class CompanyController extends Controller
 
                 $em->flush();
 
-
-
                 $em->getConnection()->commit();
                 return new JsonResponse(array("status" => "success"));
 
@@ -556,93 +554,8 @@ class CompanyController extends Controller
 
     }
 
-    /**
-     * @Route(path="api/getCompanyBranchLicensesFree", name="getCompanyBranchLicensesFree")
-     */
-
-    public function getCompanyBranchSubLicensesFree(Request $request)
-    {
-        $sub_licenses = array();
-        try {
-            $user = $this->getLoggedUser($request);
-
-            if (null === $user)
-                throw new Exception("User Error", 401);
 
 
-            if ($user->getAppRole()->getRole() != AppRole::COMPANY_MANAGER)
-                throw new Exception("User Error", 401);
-
-            $em = $this->getDoctrine()->getManager();
-
-            $company = $user->getManagedCompany();
-
-
-            if (null === $company)
-                throw new Exception("Company Error", 666);
-
-            $subLicenses = $em->getRepository("AppBundle:SubLicense")->findBy(["License" => $company->getCompanyLicense()->getId(), "Used" => 0, "active" => 1, "isCompanyManager" => 0, "SubLicenseBranch" => null]);
-
-
-            foreach ($subLicenses as $sublicense) {
-
-                $sub_licenses[$sublicense->getId()] = $sublicense->getSubLicenseString();
-            }
-
-
-            return new JsonResponse(array("status" => "success", "sublicenses" => $sub_licenses));
-
-
-        } catch (Exception $e) {
-            return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
-        } catch (\Throwable $t) {
-            // throw  new Exception("Null Error", 666);
-            return new JsonResponse(array("status" => "error", "reason" => "Null Error"));
-        }
-    }
-
-
-    /**
-     * @Route(path="api/getCompanyBranchLicensesUsed", name="getCompanyBranchLicensesUsed")
-     */
-
-    public function getCompanyBranchSubLicensesUsed(Request $request)
-    {
-        $sub_licenses = array();
-        try {
-            $user = $this->getLoggedUser($request);
-
-            if (null === $user)
-                throw new Exception("User Error", 401);
-
-            if ($user->getAppRole()->getRole() != AppRole::COMPANY_MANAGER)
-                throw new Exception("User Error", 401);
-
-            $em = $this->getDoctrine()->getManager();
-
-            $company = $user->getManagedCompany();
-
-
-            if (null === $company)
-                throw new Exception("Company Error", 666);
-
-            $subLicenses = $em->getRepository("AppBundle:SubLicense")->findBy(["License" => $company->getCompanyLicense()->getId(), "Used" => 1, "active" => 1, "isCompanyManager" => 0, "SubLicenseBranch" != null]);
-
-            foreach ($subLicenses as $sublicense) {
-
-                $sub_licenses[$sublicense->getId()] = $sublicense->getSubLicenseString();
-            }
-
-            return new JsonResponse(array("status" => "success", "sublicenses" => $sub_licenses));
-
-
-        } catch (Exception $e) {
-            return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
-        } catch (\Throwable $t) {
-            // throw  new Exception("Null Error", 666);
-            return new JsonResponse(array("status" => "error", "reason" => "Null Error"));
-        }
-    }
 
 
     /**
@@ -679,9 +592,15 @@ class CompanyController extends Controller
 
                 $sub_license = $em->getRepository("AppBundle:SubLicense")->findOneBy(["isCompanyManager" => 0, "Used" => 0, "active" => 1, "id" => $sub_license_id, "License" => $company->getCompanyLicense()->getId()]);
 
+               // var_dump($sub_license->getId().' '.$sub_license->getSubLicenseString());
+
                 $branch = $em->getRepository("AppBundle:Branch")->findOneBy(["id" => $branch_id, "Company" => $company->getId()]);
 
                 $sub_license->setSubLicenseBranch($branch);
+
+                $em->persist($sub_license);
+
+                $em->flush();
 
                 return new JsonResponse(array("status" => "success"));
 
