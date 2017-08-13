@@ -752,10 +752,6 @@ class CompanyController extends Controller
 
                 $attr = $params["company_type_attr"];
 
-//                $test = $em->getRepository('AppBundle:CompanyTypeAttribute')->findBy(["name" => $attr, "company_type" => $company-> getType()]);
-//
-//                if(null === $test)
-//                    throw new Exception("User Error", 401);
 
                 $company_subattrs = $em->getRepository('AppBundle:CompanyTypeAttributeSubAttribute')->findBy(["company_type_attribute" => $attr]);
 

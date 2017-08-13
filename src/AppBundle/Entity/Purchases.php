@@ -151,4 +151,26 @@ class Purchases
      * @ORM\Column(type="date")
      */
     private $date;
+
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $timestamp;
+
+    /**
+     * @return mixed
+     */
+    public function getTimestamp()
+    {
+        return $this->timestamp;
+    }
+
+    /**
+     * @param mixed $timestamp
+     */
+    public function setTimestamp($timestamp)
+    {
+        $this->timestamp = $timestamp;
+    }
 }
