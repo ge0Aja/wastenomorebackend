@@ -37,6 +37,8 @@ class Unit
     {
         $this->conversionT = new ArrayCollection();
         $this->subcatunit = new ArrayCollection();
+        $this->purchaseUnit = new ArrayCollection();
+        $this->waste = new ArrayCollection();
     }
 
     /**
@@ -78,20 +80,13 @@ class Unit
     private $waste;
 
     /**
-     * @return mixed
+     * @return ArrayCollection|Waste[]
      */
     public function getWaste()
     {
         return $this->waste;
     }
 
-    /**
-     * @param mixed $waste
-     */
-    public function setWaste($waste)
-    {
-        $this->waste = $waste;
-    }
 
     /**
      * @return ArrayCollection|Conversion[]
@@ -117,6 +112,21 @@ class Unit
     public function getSubcatunit()
     {
         return $this->subcatunit;
+    }
+
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Purchases", mappedBy="unit", cascade={"persist"})
+     */
+    private $purchaseUnit;
+
+    /**
+     * @return ArrayCollection|Purchases[]
+     */
+    public function getPurchaseUnit()
+    {
+        return $this->purchaseUnit;
     }
 
 }

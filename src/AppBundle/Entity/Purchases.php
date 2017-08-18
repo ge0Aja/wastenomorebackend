@@ -173,4 +173,26 @@ class Purchases
     {
         $this->timestamp = $timestamp;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUnit()
+    {
+        return $this->unit;
+    }
+
+    /**
+     * @param mixed $unit
+     */
+    public function setUnit($unit)
+    {
+        $this->unit = $unit;
+    }
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Unit", inversedBy="purchaseUnit")
+     */
+    private $unit;
 }
