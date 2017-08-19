@@ -91,7 +91,9 @@ class BranchController extends Controller
                 $mainBranchId = 00;
 
             foreach ($branchesRecords as $branchesRecord){
-                $branch = array("BranchId" => $branchesRecord->getId(),"location" => $branchesRecord->getLocation()->getName(),
+                $branch = array("BranchId" => $branchesRecord->getId(),
+                    "locationId" => $branchesRecord->getLocation()->getId(),
+                    "location" => $branchesRecord->getLocation()->getName(),
                     "location_district" => $branchesRecord->getLocation()->getDistrict()->getName(),
                     "location_governorate" => $branchesRecord->getLocation()->getDistrict()->getGovernorate()->getName(),
                     "staff_count" => $branchesRecord->getStaffCount(),
@@ -141,14 +143,16 @@ class BranchController extends Controller
 
             $branchesRecords = $em->getRepository('AppBundle:Branch')->findBy(["Company" => $company->getId()]);
 
-
+            array_push($branches,array("key" => 0, "label" => "Choose Branch"));
             foreach ($branchesRecords as $branchesRecord){
-                $branch = array("BranchId" => $branchesRecord->getId(),"location" => $branchesRecord->getLocation()->getName(),
-                    "location_district" => $branchesRecord->getLocation()->getDistrict()->getName(),
-                    "location_governorate" => $branchesRecord->getLocation()->getDistrict()->getGovernorate()->getName(),
-                    "address" => $branchesRecord->getAddress());
+//                $branch = array("BranchId" => $branchesRecord->getId(),"location" => $branchesRecord->getLocation()->getName(),
+//                    "location_district" => $branchesRecord->getLocation()->getDistrict()->getName(),
+//                    "location_governorate" => $branchesRecord->getLocation()->getDistrict()->getGovernorate()->getName(),
+//                    "address" => $branchesRecord->getAddress());
 
-                array_push($branches,$branch);
+               // array_push($branches,$branch);
+
+                array_push($branches,array("key" => $branchesRecord->getId(), "label" => $branchesRecord->getLocation()->getName().'-'.$branchesRecord->getAddress()));
             }
 
             return new JsonResponse(array("status" => "success" , "branches" => $branches));

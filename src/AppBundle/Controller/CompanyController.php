@@ -77,34 +77,50 @@ class CompanyController extends Controller
             if (empty($content))
                 throw new Exception("Content Error", 666);
 
-
             $params = json_decode($content, true);
 
             $em = $this->getDoctrine()->getManager();
             $em->getConnection()->beginTransaction();
             try {
+                $company_e = $user->getManagedCompany();
+
                 $company_name = $params["company_name"];
                 $est_date = $params["est_date"];
                 $company_type = $params["company_type"];
                 $annual_sales = $params["annual_sales"];
 
-                $Company = new Company();
+                if(null == $company_e) {
 
-                $Company->setName($company_name);
-                $Company->setCompanyManager($user);
-                $Company->setCompanyLicense($user->getSubLicense()->getLicense());
-                $Company->setDateOfEstablishment(new \DateTime($est_date));
-                $Company->setTotalAnnualSales($em->getRepository('AppBundle:AnnualSalesRanges')->findOneBy(['salesRange' => $annual_sales]));
-                $Company->setType($em->getRepository('AppBundle:CompanyType')->findOneBy(["typeName" => $company_type]));
+                    $Company = new Company();
 
-                $user->setManagedCompany($Company);
+                    $Company->setName($company_name);
+                    $Company->setCompanyManager($user);
+                    $Company->setCompanyLicense($user->getSubLicense()->getLicense());
+                    $Company->setDateOfEstablishment(new \DateTime($est_date));
+                    $Company->setTotalAnnualSales($em->getRepository('AppBundle:AnnualSalesRanges')->findOneBy(['id' => $annual_sales]));
+                    $Company->setType($em->getRepository('AppBundle:CompanyType')->findOneBy(["id" => $company_type]));
 
-                $em->persist($Company);
-                $em->persist($user);
+                    $user->setManagedCompany($Company);
 
-                $em->flush();
-                $em->getConnection()->commit();
-                return new JsonResponse(array("status" => "success"));
+                    $em->persist($Company);
+                    $em->persist($user);
+
+                    $em->flush();
+                    $em->getConnection()->commit();
+                    return new JsonResponse(array("status" => "success"));
+                }else{
+
+                    $company_e->setName($company_name);
+
+                    $company_e->setDateOfEstablishment(new \DateTime($est_date));
+                    $company_e->setTotalAnnualSales($em->getRepository('AppBundle:AnnualSalesRanges')->findOneBy(['id' => $annual_sales]));
+                    $company_e->setType($em->getRepository('AppBundle:CompanyType')->findOneBy(["id" => $company_type]));
+
+                    $em->persist($company_e);
+                    $em->flush();
+                    $em->getConnection()->commit();
+                    return new JsonResponse(array("status" => "success"));
+                }
 
 
             } catch (DBALException $e2) {
@@ -293,6 +309,8 @@ class CompanyController extends Controller
 
     public function addCompanyBranch(Request $request)
     {
+        //$logger = $this->get('logger');
+
         try {
             $user = $this->getLoggedUser($request);
 
@@ -311,9 +329,9 @@ class CompanyController extends Controller
 
             $em = $this->getDoctrine()->getManager();
 
-
-
             $em->getConnection()->beginTransaction();
+
+            // $logger->info($content);
 
             try {
                 $staff_count = $params["staff_count"];
@@ -322,10 +340,9 @@ class CompanyController extends Controller
                 $location = $params["location"];
                 $addrr = $params["address"];
 
-                $location_arr = explode('/',$location);
+                // $location_arr = explode('/',$location);
 
                 $company = $user->getManagedCompany();
-
 
 
                 if (null === $company)
@@ -339,25 +356,7 @@ class CompanyController extends Controller
                 $branch->setOpeningDate(new \DateTime($opening_date));
                 $branch->setAddress($addrr);
 
-
-
-                $qb = $em->createQueryBuilder();
-
-                 $qb->select('c')
-                    ->from('AppBundle:CityTown', 'c')
-                    ->join('c.district', 'd')
-                    ->join('d.governorate', 'g')
-                    ->where('c.name = :CityName and d.name = :DistName and g.name = :GovName')
-                ->setParameter('CityName',$location_arr[0])
-                ->setParameter('DistName',$location_arr[1])
-                ->setParameter('GovName',$location_arr[2]);
-
-                $query = $qb->getQuery();
-                $single = $query->getSingleResult();
-
-
-
-                $branch->setLocation($single);
+                $branch->setLocation($em->getRepository("AppBundle:CityTown")->findOneBy(["id" => $location]));
 
                 $em->persist($branch);
 
@@ -382,8 +381,7 @@ class CompanyController extends Controller
             } catch (Exception $e2) {
                 $em->getConnection()->rollBack();
                 throw  new Exception("Params Error", 666);
-            }
-            catch (\Throwable $t) {
+            } catch (\Throwable $t) {
                 throw  new Exception("Null Error", 666);
             }
 
@@ -428,7 +426,7 @@ class CompanyController extends Controller
                 $main_branch = $params["main_branch"];
                 $addrr = $params["address"];
 
-                $location_arr = explode('/',$location);
+                //$location_arr = explode('/', $location);
 
                 $branch = $em->getRepository("AppBundle:Branch")->findOneBy(["id" => $branch_id, "Company" => $company->getId()]);
 
@@ -437,23 +435,23 @@ class CompanyController extends Controller
                 $branch->setAddress($addrr);
 
 
-                $qb = $em->createQueryBuilder();
+//                $qb = $em->createQueryBuilder();
+//
+//
+//                $qb->select('c')
+//                    ->from('AppBundle:CityTown', 'c')
+//                    ->join('c.district', 'd')
+//                    ->join('d.governorate', 'g')
+//                    ->where('c.name = :CityName and d.name = :DistName and g.name = :GovName')
+//                    ->setParameter('CityName', $location_arr[0])
+//                    ->setParameter('DistName', $location_arr[1])
+//                    ->setParameter('GovName', $location_arr[2]);
+//
+//                $query = $qb->getQuery();
+//                $single = $query->getSingleResult();
 
 
-                $qb->select('c')
-                    ->from('AppBundle:CityTown', 'c')
-                    ->join('c.district', 'd')
-                    ->join('d.governorate', 'g')
-                    ->where('c.name = :CityName and d.name = :DistName and g.name = :GovName')
-                    ->setParameter('CityName',$location_arr[0])
-                    ->setParameter('DistName',$location_arr[1])
-                    ->setParameter('GovName',$location_arr[2]);
-
-                $query = $qb->getQuery();
-                $single = $query->getSingleResult();
-
-
-                $branch->setLocation($single);
+                $branch->setLocation($em->getRepository("AppBundle:CityTown")->findOneBy(["id" => $location]));
                 $em->persist($branch);
                 $em->flush();
 
@@ -461,10 +459,10 @@ class CompanyController extends Controller
                 if ($main_branch == "true")
                     $company->setMainBranch($branch);
                 else
-                   // $company->setMainBranch(null);
+                    // $company->setMainBranch(null);
 
 
-                $em->persist($company);
+                    $em->persist($company);
 
                 $em->flush();
 
@@ -492,7 +490,8 @@ class CompanyController extends Controller
     /**
      * @Route(path="api/deleteBranchApi", name="deleteBranchApi")
      */
-    public function deleteCompanyBranch(Request $request){
+    public function deleteCompanyBranch(Request $request)
+    {
 
 
         try {
@@ -522,7 +521,7 @@ class CompanyController extends Controller
 
                 $branch = $em->getRepository("AppBundle:Branch")->findOneBy(["id" => $branch_id, "Company" => $company->getId()]);
 
-                if($company->getMainBranch()->getId() == $branch_id)
+                if ($company->getMainBranch() != null && $company->getMainBranch()->getId() == $branch_id)
                     $company->setMainBranch(null);
 
                 $em->persist($company);
@@ -536,26 +535,24 @@ class CompanyController extends Controller
                 $em->getConnection()->commit();
                 return new JsonResponse(array("status" => "success"));
 
-            }catch (DBALException $e){
+            } catch (DBALException $e) {
                 $em->getConnection()->rollBack();
                 throw new Exception("DB Error", 777);
-            }catch (Exception $e){
+            } catch (Exception $e) {
                 $em->getConnection()->rollBack();
                 throw  new Exception("Params Error", 666);
-            }catch (\Throwable $t) {
-                $em->getConnection()->rollBack();
-                throw  new Exception("Null Error", 666);
             }
+//            catch (\Throwable $t) {
+//                $em->getConnection()->rollBack();
+//                throw  new Exception("Null Error", 666);
+//            }
 
 
-        }catch (Exception $e){
+        } catch (Exception $e) {
             return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
         }
 
     }
-
-
-
 
 
     /**
@@ -592,7 +589,7 @@ class CompanyController extends Controller
 
                 $sub_license = $em->getRepository("AppBundle:SubLicense")->findOneBy(["isCompanyManager" => 0, "Used" => 0, "active" => 1, "id" => $sub_license_id, "License" => $company->getCompanyLicense()->getId()]);
 
-               // var_dump($sub_license->getId().' '.$sub_license->getSubLicenseString());
+                // var_dump($sub_license->getId().' '.$sub_license->getSubLicenseString());
 
                 $branch = $em->getRepository("AppBundle:Branch")->findOneBy(["id" => $branch_id, "Company" => $company->getId()]);
 
@@ -803,6 +800,14 @@ class CompanyController extends Controller
 
                 foreach ($company_attrs as $company_attr) {
 
+                    $selected_subattr_val = 0;
+
+                    $selected_val_record = $em->getRepository("AppBundle:CompanyAttributesAndSubAttributes")->findOneBy(["attribute" => $company_attr->getId(), "company" => $company->getId()]);
+
+                    if ($selected_val_record != null)
+                        $selected_subattr_val = $selected_val_record->getSubAttribute()->getId();
+
+
                     $sub_attrs = $em->getRepository('AppBundle:CompanyTypeAttributeSubAttribute')->findBy(["company_type_attribute" => $company_attr->getId()]);
 
                     $inner_array = array();
@@ -820,13 +825,13 @@ class CompanyController extends Controller
                                 array_push($inner_inner, $possible_val->getValue());
                             }
 
-                            array_push($inner_array, array("Name" => $sub_attr->getName(), "possible_vals" => $inner_inner));
+                            array_push($inner_array, array("Id" => $sub_attr->getId(), "Name" => $sub_attr->getName(), "possible_vals" => $inner_inner));
 
                         } else {
-                            array_push($inner_array, array("Name" => $sub_attr->getName(), "possible_vals" => array()));
+                            array_push($inner_array, array("Id" => $sub_attr->getId(), "Name" => $sub_attr->getName(), "possible_vals" => array()));
                         }
                     }
-                    array_push($attrs, array("Name" => $company_attr->getname(), "sub_attrs" => $inner_array));
+                    array_push($attrs, array("Id" => $company_attr->getId(), "Name" => $company_attr->getname(), "selected_sub_attr" => $selected_subattr_val, "sub_attrs" => $inner_array));
                 }
 
                 return new JsonResponse(array("status" => "success", "attrs" => $attrs));
@@ -841,6 +846,53 @@ class CompanyController extends Controller
         } catch (Exception $e) {
             return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
         }
+    }
+
+
+    /**
+     * @Route(path="api/getCompanyInfo", name="getCompanyInfo")
+     */
+    public function getCompanyInfo(Request $request)
+    {
+        try {
+
+            $user = $this->getLoggedUser($request);
+
+            if (null === $user)
+                throw new Exception("User Error", 401);
+
+            if ($user->getAppRole()->getRole() != AppRole::COMPANY_MANAGER)
+                throw new Exception("User Error", 401);
+
+            //$em = $this->getDoctrine()->getManager();
+
+            try {
+                $company = $user->getManagedCompany();
+
+                if (null == $company)
+                    return new JsonResponse(array("status" => "new"));
+                else {
+                    return new JsonResponse(array("status" => "success", "company_name" => $company->getName(),
+                        "company_type" => $company->getType()->getId(),
+                        "company_type_st" => $company->getType()->gettypeName(),
+                        "annual_sales" => $company->getTotalAnnualSales()->getId(),
+                        "annual_sales_st" => $company->getTotalAnnualSales()->getsalesRange(),
+                        "establishment_date" => $company->getDateOfEstablishment()));
+                }
+
+            } catch (Exception $e) {
+                throw  new Exception("Params Error", 666);
+
+            }
+            catch (\Throwable $t) {
+                throw  new Exception("Null Error", 666);
+            }
+
+
+        } catch (Exception $e) {
+            return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
+        }
+
     }
 
 

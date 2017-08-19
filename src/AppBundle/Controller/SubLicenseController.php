@@ -129,7 +129,7 @@ class SubLicenseController extends Controller
                     "used" => $subLicenseRecord->getUsed(),
                     "userEmail" => ($subLicenseRecord->getUsed() == 1)? $subLicenseRecord->getSubLicenseUser()->getEmail() : "NA",
                     "branchId" => ($subLicenseRecord->getSubLicenseBranch() != null)? $subLicenseRecord->getSubLicenseBranch()->getId() : "NA",
-                    "branchLocation" => ($subLicenseRecord->getSubLicenseBranch() != null)? $subLicenseRecord->getSubLicenseBranch()->getLocation()->getName()."/".$subLicenseRecord->getSubLicenseBranch()->getAddress() : "NA");
+                    "branchLocation" => ($subLicenseRecord->getSubLicenseBranch() != null)? $subLicenseRecord->getSubLicenseBranch()->getLocation()->getName()."-".$subLicenseRecord->getSubLicenseBranch()->getAddress() : "NA");
 
                 array_push($subLicenses,$sublic);
             }

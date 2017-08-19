@@ -109,7 +109,9 @@ class CompanyTypeController extends Controller
 
             foreach ($CompanyTypes as $type) {
                 // $company_types[$type->getId()] = $type->getTypeName();
-                array_push($company_types, $type->getTypeName());
+               // array_push($company_types, $type->getTypeName());
+
+                array_push($company_types, array("key" => $type->getId(),"label" => $type->getTypeName()));
             }
             return new JsonResponse(array("status" =>"success", "types" => $company_types));
         }catch(Exception $e){

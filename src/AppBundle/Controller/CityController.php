@@ -141,12 +141,16 @@ class CityController extends Controller
 
             $locations_records = $em->getRepository('AppBundle:CityTown')->findBy(array(),array('name' => 'ASC'));
 
-            foreach ($locations_records as $locations_record) {
-                $loc = array("city" => $locations_record->getName(),
-                    "district" => $locations_record->getDistrict()->getName(),
-                    "governorate" => $locations_record->getDistrict()->getGovernorate()->getName());
+            array_push($locations,array("key" => 0 , "label" => "Choose Location"));
 
-                array_push($locations,$loc);
+            foreach ($locations_records as $locations_record) {
+//                $loc = array("city" => $locations_record->getName(),
+//                    "district" => $locations_record->getDistrict()->getName(),
+//                    "governorate" => $locations_record->getDistrict()->getGovernorate()->getName());
+//
+//                array_push($locations,$loc);
+
+                array_push($locations,array("key" => $locations_record->getId() , "label" => $locations_record->getDistrict()->getGovernorate()->getName().'-'.$locations_record->getDistrict()->getName().'-'.$locations_record->getName()));
             }
 
             return new JsonResponse(array("status" => "success", "location" => $locations));

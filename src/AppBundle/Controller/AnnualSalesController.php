@@ -117,7 +117,8 @@ class AnnualSalesController extends Controller
             $AnnualSalesRecs = $em->getRepository('AppBundle:AnnualSalesRanges')->findAll();
 
             foreach ($AnnualSalesRecs as $annualSaleRec){
-                array_push($annual_sales,$annualSaleRec->getSalesRange());
+              //  array_push($annual_sales,$annualSaleRec->getSalesRange());
+                array_push($annual_sales,array("key" => $annualSaleRec->getId(), "label" => $annualSaleRec->getSalesRange()));
             }
 
             return new JsonResponse(array("status" => "success", "ranges" => $annual_sales));

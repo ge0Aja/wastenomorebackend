@@ -85,9 +85,11 @@ class WasteController extends Controller
 
                         $branches_records = $em->getRepository("AppBundle:Branch")->findBy(["Company" => $user->getManagedCompany()->getId()]);
 
+                        array_push($branches_array,array("key" => 0, "label" => "Choose Branch"));
+
                         foreach ($branches_records as $branch) {
 
-                            array_push($branches_array, array("id" => $branch->getId(), "city" => $branch->getLocation()->getName(), "address" => $branch->getAddress()));
+                            array_push($branches_array, array("key" => $branch->getId(), "label" => $branch->getLocation()->getName().'-'.$branch->getAddress()));
                         }
 
                         $company_id = $user->getManagedCompany()->getId();
@@ -194,7 +196,7 @@ class WasteController extends Controller
                         array_push($categories, $tempas["Name"]);
                 }
 
-                if ($isPremiumLicense == 1) {
+                if ($isPremiumLicense == 1 && $branch_checked_id == null) {
 
                     foreach ($temparray as $item) {
                         if (count($data_array) > 0) {
@@ -252,7 +254,8 @@ class WasteController extends Controller
                 throw new Exception("DB Error", 777);
             } catch (Exception $e) {
                 throw  new Exception("Params Error", 666);
-            } catch (\Throwable $t) {
+            }
+            catch (\Throwable $t) {
                 throw  new Exception("Null Error", 666);
             }
         } catch (Exception $e) {
@@ -292,9 +295,11 @@ class WasteController extends Controller
 
                         $branches_records = $em->getRepository("AppBundle:Branch")->findBy(["Company" => $user->getManagedCompany()->getId()]);
 
+                        array_push($branches_array,array("key" => 0, "label" => "Choose Branch"));
+
                         foreach ($branches_records as $branch) {
 
-                            array_push($branches_array, array("id" => $branch->getId(), "city" => $branch->getLocation()->getName(), "address" => $branch->getAddress()));
+                            array_push($branches_array, array("key" => $branch->getId(), "label" => $branch->getLocation()->getName().'-'.$branch->getAddress()));
                         }
 
                         $company_id = $user->getManagedCompany()->getId();
@@ -461,7 +466,7 @@ class WasteController extends Controller
                         array_push($categories, $tempas["Name"]);
                 }
 
-                if ($isPremiumLicense == 1) {
+                if ($isPremiumLicense == 1 && $branch_checked_id == null) {
 
                     foreach ($temparray as $item) {
                         foreach ($temparray2 as $item2) {
