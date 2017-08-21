@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class loginController extends Controller
 {
     /**
-     * @Route("/cms/login", name="login")
+     * @Route("cms/login", name="login")
      */
     public function loginAction(Request $request, AuthenticationUtils $authUtils)
     {
@@ -37,7 +37,7 @@ class loginController extends Controller
      */
     public function lgg()
     {
-        return $this->redirectToRoute('cms/login');
+        return $this->redirectToRoute('login');
     }
 
 
@@ -50,11 +50,12 @@ class loginController extends Controller
     }
 
     /**
-     * @Route("/cms/logout",name="logout")
+     * @Route("/logout",name="logout")
      */
     public function lgout()
     {
-        return $this->redirectToRoute('/cms/login');
+        $this->get('session')->clear();
+        return $this->redirectToRoute('login');
     }
 
 

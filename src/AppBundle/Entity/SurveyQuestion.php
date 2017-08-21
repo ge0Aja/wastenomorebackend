@@ -86,9 +86,9 @@ class SurveyQuestion
     }
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
-    private $questionwithdropdown;
+    private $questionwithdropdown= 0;
 
     /**
      * @return mixed
@@ -155,9 +155,9 @@ class SurveyQuestion
     }
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
-    private $questionwithdetails;
+    private $questionwithdetails=  0;
 
     /**
      * @ORM\Column(type="string" , nullable=true)

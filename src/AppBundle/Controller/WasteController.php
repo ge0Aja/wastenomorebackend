@@ -38,7 +38,7 @@ class WasteController extends Controller
 
 
     /**
-     * @Route("/cms/deleteWasteLog/{id}", name="delete")
+     * @Route("cms/deleteWasteLog/{id}", name="deleteWasteLog")
      */
     public function deleteWasteLog($id)
     {

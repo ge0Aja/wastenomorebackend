@@ -65,7 +65,7 @@ class Branch
     public function __construct()
     {
         $this->purchases = new ArrayCollection();
-        $this->surveyAnswerBranch = new ArrayCollection();
+
         $this->branchUser = new ArrayCollection();
         $this->BranchSubLicense = new ArrayCollection();
     }
@@ -194,18 +194,6 @@ class Branch
     }
 
 
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SurveyQuestionAnswer", mappedBy="branch", cascade={"persist"})
-     */
-    private $surveyAnswerBranch;
-
-    /**
-     * @return ArrayCollection|SurveyQuestionAnswer[]
-     */
-    public function getSurveyAnswerBranch()
-    {
-        return $this->surveyAnswerBranch;
-    }
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="companyBranch", cascade={"persist"})

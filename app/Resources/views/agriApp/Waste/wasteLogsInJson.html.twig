@@ -19,7 +19,7 @@
         "wasteTypeCategory": "{{ wasteLog.wasteTypeCategory.name}}",
         "wasteTypeSubcategory": "{{ wasteLog.wasteTypeSubcategory.name}}",
         "unit": "{{ wasteLog.unit.name}}",
-        "branch": "{{ wasteLog.branch }}",
+        "branch": "{{ wasteLog.branch.location.name }} - {{ wasteLog.branch.address }}",
         {% if wasteLog.branch is not null %}
         "company": "{{ wasteLog.branch.Company.name }}",
         {% else %}
@@ -27,7 +27,7 @@
         {% endif %}
         "wasteDate": "{{ wasteLog.wasteDate|date('d-m-Y') }}",
         "quantity": "{{ wasteLog.quantity}}",
-        "reason": "{{ wasteLog.reason }}"
+        "reason": "{{ wasteLog.reason.reason }}"
         }
     {%  else %}
         {
@@ -36,11 +36,11 @@
         "wasteTypeCategory": "{{ wasteLog.wasteTypeCategory.name}}",
         "wasteTypeSubcategory": "{{ wasteLog.wasteTypeSubcategory.name}}",
         "unit": "{{ wasteLog.unit.name}}",
-        "branch": "{{ wasteLog.branch }}",
+        "branch": "{{ wasteLog.branch.location.name }} - {{ wasteLog.branch.address }}",
         "company": "{{ wasteLog.branch.Company.name }}",
         "wasteDate": "{{ wasteLog.wasteDate|date('d-m-Y') }}",
         "quantity": "{{ wasteLog.quantity}}",
-        "reason": "{{ wasteLog.reason }}"
+        "reason": "{{ wasteLog.reason.reason }}"
         },
     {% endif %}
 

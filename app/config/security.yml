@@ -26,7 +26,10 @@ security:
               check_path: /cms/login
               default_target_path: /cms/home
               always_use_default_target_path: true
-            logout:     true
+            logout:
+              invalidate_session: true
+              path: /logout
+              target: /
 
         api:
             pattern: ^/api/(?!token)(?!license)(?!signup)

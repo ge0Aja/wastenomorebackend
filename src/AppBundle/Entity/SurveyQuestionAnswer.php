@@ -25,10 +25,6 @@ class SurveyQuestionAnswer
      */
     private $id;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $answer;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -37,7 +33,7 @@ class SurveyQuestionAnswer
 
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\DDlMenuSubType", inversedBy="QAnswer")
      */
     private $dropdownanswer;
 
@@ -57,8 +53,6 @@ class SurveyQuestionAnswer
         $this->dropdownanswer = $dropdownanswer;
     }
 
-
-
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SurveyQuestion", inversedBy="questionAnswer")
      */
@@ -66,9 +60,25 @@ class SurveyQuestionAnswer
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Branch", inversedBy="surveyAnswerBranch")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Company", inversedBy="surveyAnswerCompany")
      */
-    private $branch;
+    private $company;
+
+    /**
+     * @return mixed
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    /**
+     * @param mixed $company
+     */
+    public function setCompany($company)
+    {
+        $this->company = $company;
+    }
 
     /**
      * @return mixed
@@ -86,21 +96,6 @@ class SurveyQuestionAnswer
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAnswer()
-    {
-        return $this->answer;
-    }
-
-    /**
-     * @param mixed $answer
-     */
-    public function setAnswer($answer)
-    {
-        $this->answer = $answer;
-    }
 
     /**
      * @return mixed
@@ -149,6 +144,28 @@ class SurveyQuestionAnswer
     {
         $this->branch = $branch;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTimestamp()
+    {
+        return $this->timestamp;
+    }
+
+    /**
+     * @param mixed $timestamp
+     */
+    public function setTimestamp($timestamp)
+    {
+        $this->timestamp = $timestamp;
+    }
+
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $timestamp;
 
 
 }

@@ -206,7 +206,7 @@
 
             "ajax" :
                 {
-                    "url": {{ path('SurveyQsRecords') }},
+                    "url": "{{ path('SurveyQsRecords') }}",
                     "type": "GET"
                 },
 
@@ -295,9 +295,6 @@
             }
 
         });
-
-        ////
-
 
         $('input[type=radio][name=surveywithdetailsedit]').change(function () {
 
@@ -433,7 +430,7 @@
         $("#surveyqEditID").val(e);
 
 
-        if(h =='Yes'){
+        if(h =='1'){
             console.log(h);
             $("#surveydetailshinteditlbl").removeClass("hidden");
             $("#surveydetailshintedit").removeClass("hidden");
@@ -442,7 +439,7 @@
 
         }
 
-         if(g == 'Yes'){
+         if(g == '1'){
             $("#surveydropdowneditlbl").removeClass("hidden");
             $("#surveydropdownedit").removeClass("hidden");
             $("#surveywithdropdowneditY").prop("checked","checked");
@@ -450,13 +447,13 @@
                 return $(this).text() == i;
             }).prop('selected','selected');
         }
-         if(g == 'No'){
+         if(g == '0'){
             $("#surveywithdropdowneditN").prop("checked","checked");
             $("#surveydropdowneditlbl").addClass("hidden");
             $("#surveydropdownedit").addClass("hidden");
         }
 
-        if(h == 'No'){
+        if(h == '0'){
            $("#surveywithdetailseditN").prop("checked","checked");
            $("#surveydetailshinteditlbl").addClass("hidden");
            $("#surveydetailshintedit").addClass("hidden");

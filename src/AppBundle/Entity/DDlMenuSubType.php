@@ -82,4 +82,26 @@ class DDlMenuSubType
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\DDlMenuType", inversedBy="subType")
      */
     private $type;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SurveyQuestionAnswer", mappedBy="dropdownanswer", cascade={"persist"})
+     */
+    private $QAnswer;
+
+    /**
+     * @return mixed
+     */
+    public function getQAnswer()
+    {
+        return $this->QAnswer;
+    }
+
+    /**
+     * @param mixed $QAnswer
+     */
+    public function setQAnswer($QAnswer)
+    {
+        $this->QAnswer = $QAnswer;
+    }
 }

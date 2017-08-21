@@ -22,6 +22,7 @@ class Company
     {
         $this->Branch = new ArrayCollection();
         $this->company_attributes_and_subattributes = new ArrayCollection();
+        $this->surveyAnswerCompany = new ArrayCollection();
     }
 
     /**
@@ -229,4 +230,19 @@ class Company
     {
         return $this->companyLicense;
     }
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SurveyQuestionAnswer", mappedBy="company", cascade={"persist"})
+     */
+    private $surveyAnswerCompany;
+
+    /**
+     * @return ArrayCollection|SurveyQuestionAnswer
+     */
+    public function getSurveyAnswerCompany()
+    {
+        return $this->surveyAnswerCompany;
+    }
+
 }

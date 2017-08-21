@@ -167,32 +167,43 @@ class CompanyController extends Controller
             try {
                 $company = $user->getManagedCompany();
 
-                $to_insert = array();
+               // $to_insert = array();
 
                 foreach ($params as $param) {
-                    // array_push($to_insert,$param);
 
                     $attrs = explode(":", $param);
-                    $attr_sub_attr = new CompanyAttributesAndSubAttributes();
-                    $attr_sub_attr->setAttribute($em->getRepository('AppBundle:CompanyTypeAttribute')->findOneBy(["name" => $attrs[0]]));
-                    $attr_sub_attr->setSubAttribute($em->getRepository('AppBundle:CompanyTypeAttributeSubAttribute')->findOneBy(["name" => $attrs[1]]));
+//
+                    $selected_attr = $em->getRepository('AppBundle:CompanyTypeAttribute')->findOneBy(["name" => $attrs[0]]);
+                    $selected_subattr = $em->getRepository('AppBundle:CompanyTypeAttributeSubAttribute')->findOneBy(["id" => $attrs[1]]);
 
-                    $attr_sub_attr->setCompany($company);
-                    $em->persist($attr_sub_attr);
+                    $check_attr_sub_attr = $em->getRepository('AppBundle:CompanyAttributesAndSubAttributes')->findOneBy(["company" => $company->getId(), "attribute" => $selected_attr->getId()]);
+
+                    if(null == $check_attr_sub_attr) {
+
+                        $attr_sub_attr = new CompanyAttributesAndSubAttributes();
+                        $attr_sub_attr->setAttribute($selected_attr);
+                        $attr_sub_attr->setSubAttribute($selected_subattr);
+
+                        $attr_sub_attr->setCompany($company);
+                        $em->persist($attr_sub_attr);
+
+                    }else{
+                        $check_attr_sub_attr->setAttribute($selected_attr);
+                        $check_attr_sub_attr->setSubAttribute($selected_subattr);
+                        $em->persist($check_attr_sub_attr);
+                    }
+
                     $em->flush();
                 }
-
-//                if (!null === $sub_attr_value)
-//                    $attr_sub_attr->setSubAttrVal($em->getRepository('AppBundle:SubAttributeValues')->findOneBy(["value" => $sub_attr_value]));
-
                 return new JsonResponse(array("status" => "success"));
 
             } catch (DBALException $e2) {
                 throw new Exception("DB Error", 777);
             } catch (Exception $e) {
                 throw  new Exception("Params Error", 666);
-            } catch (\Throwable $t) {
-                throw  new Exception("Null Error", 666);
+            }
+            catch (\Throwable $t) {
+                throw  new Exception($t->getMessage(), 666);
             }
         } catch (Exception $e) {
             return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
@@ -745,7 +756,7 @@ class CompanyController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             try {
-                $company = $user->getManagedCompany();
+              //  $company = $user->getManagedCompany();
 
                 $attr = $params["company_type_attr"];
 
@@ -794,6 +805,7 @@ class CompanyController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             try {
+
                 $company = $user->getManagedCompany();
 
                 $company_attrs = $em->getRepository('AppBundle:CompanyTypeAttribute')->findBy(["company_type" => $company->getType()]);
