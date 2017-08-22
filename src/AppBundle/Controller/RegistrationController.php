@@ -34,6 +34,8 @@ class RegistrationController extends Controller
     CONST DENIED_REASON_USER = "4";
     CONST DENIED_REASON_DBAL = "5";
 
+    CONST ROLE_ADMIN = "ROLE_ADMIN";
+
     /**
      * @Route("cms/register", name="registerCMSUser")
      */
@@ -222,10 +224,10 @@ class RegistrationController extends Controller
 
                 $response = array();
 
-                if($sublicense != null ){ // && $sublicense->getUsed() != 1
+                if($sublicense != null && $sublicense->getUsed() != 1){ // added the used chck to reject at first page
 
                     if($sublicense->getActive() == 1){
-                        if(($sublicense->getSubLicenseBranch() != null && $sublicense->getSubLicenseAppRole()->getRole() != AppRole::BRANCH_MANAGER) ||
+                        if(($sublicense->getSubLicenseBranch() != null && $sublicense->getSubLicenseAppRole()->getRole() != AppRole::COMPANY_MANAGER) ||
                         $sublicense->getSubLicenseAppRole()->getRole() == AppRole::COMPANY_MANAGER) {
                             $parent_license = $sublicense->getLicense();
 
@@ -252,9 +254,10 @@ class RegistrationController extends Controller
                                 return new JsonResponse($response);
                             }
                         }
-                    }
+                    }else {
                     $response["status"] = RegistrationController::REQUEST_STATUS_DENIED;
                     $response["reason"] = RegistrationController::DENIED_REASON_LICENSE;
+                    }
                     return new JsonResponse($response);
                 }
                 else{
@@ -371,7 +374,7 @@ class RegistrationController extends Controller
             $expiry_time = strtotime($license->getExpiryDate()->format('Y-m-d H:i:s'));
 
 
-            if ($request_time < $start_time && $request_time > $expiry_time)
+            if ($request_time < $start_time || $request_time > $expiry_time)
                 return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_LICENSE]));
 
             //$em->getConnection()->beginTransaction();

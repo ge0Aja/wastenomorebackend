@@ -164,6 +164,7 @@ class CompanyController extends Controller
             $params = json_decode($content, true);
             $em = $this->getDoctrine()->getManager();
 
+            $em->getConnection()->beginTransaction();
             try {
                 $company = $user->getManagedCompany();
 
@@ -195,14 +196,18 @@ class CompanyController extends Controller
 
                     $em->flush();
                 }
+                $em->getConnection()->commit();
                 return new JsonResponse(array("status" => "success"));
 
             } catch (DBALException $e2) {
+                $em->getConnection()->rollBack();
                 throw new Exception("DB Error", 777);
             } catch (Exception $e) {
+                $em->getConnection()->rollBack();
                 throw  new Exception("Params Error", 666);
             }
             catch (\Throwable $t) {
+                $em->getConnection()->rollBack();
                 throw  new Exception($t->getMessage(), 666);
             }
         } catch (Exception $e) {

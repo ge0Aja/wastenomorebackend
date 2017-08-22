@@ -129,21 +129,6 @@ class SurveyQuestionAnswer
         $this->question = $question;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getBranch()
-    {
-        return $this->branch;
-    }
-
-    /**
-     * @param mixed $branch
-     */
-    public function setBranch($branch)
-    {
-        $this->branch = $branch;
-    }
 
     /**
      * @return mixed

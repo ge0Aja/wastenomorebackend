@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\AppRole;
 use AppBundle\Entity\SurveyQuestion;
+use AppBundle\Entity\SurveyQuestionAnswer;
 use Doctrine\DBAL\DBALException;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\PreAuthenticationJWTUserToken;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -215,6 +216,9 @@ class SurveyQuestionController extends Controller
     }
 
 
+    /**
+     * @Route(path="api/answerSurvey",name="answerSurvey")
+     */
     public function submitSurveyAnswers(Request $request) {
 
         try{
@@ -227,6 +231,8 @@ class SurveyQuestionController extends Controller
             if ($user->getAppRole()->getRole() != AppRole::COMPANY_MANAGER)
                 throw new Exception("User Error", 401);
 
+            $content = $request->getContent();
+
             if (empty($content))
                 throw new Exception("Content Error", 666);
 
@@ -234,22 +240,85 @@ class SurveyQuestionController extends Controller
 
             $em = $this->getDoctrine()->getManager();
 
+
+            $em->getConnection()->beginTransaction();
             try{
 
                 $company = $user->getManagedCompany();
 
+                $answer_timestamp = '';
+                $answers = array();
+                foreach($params as $param){
 
+                    $attrs = explode(":", $param);
 
+                    if($attrs[0] == "timestamp"){
+                        $answer_timestamp = $attrs[1];
+
+                    }else {
+
+                        $answer_type = substr($attrs[0], 0, 1);
+                        $question_id = substr($attrs[0], 1, 1);
+
+                        if(!array_key_exists($question_id,$answers)) {
+                            $answer = new SurveyQuestionAnswer();
+
+                            if ($answer_type == "D") {
+                                $answer->setDetails($attrs[1]);
+                            }
+
+                            if ($answer_type == "P") {
+                                $answer->setDropdownanswer($em->getRepository("AppBundle:DDlMenuSubType")->findOneBy(["id" => (int)$attrs[1]]));
+                            }
+
+                            $answer->setCompany($company);
+                            $answer->setQuestion($em->getRepository("AppBundle:SurveyQuestion")->findOneBy(["id" => $question_id]));
+                            $answer->setTimestamp($answer_timestamp);
+
+                            $answers[$question_id] = $answer;
+                        }else{
+
+                            $current_answer = $answers[$question_id];
+
+                            if ($answer_type == "D") {
+                                $current_answer->setDetails($attrs[1]);
+                            }
+
+                            if ($answer_type == "P") {
+                                $current_answer->setDropdownanswer($em->getRepository("AppBundle:DDlMenuSubType")->findOneBy(["id" => (int)$attrs[1]]));
+                            }
+                        }
+
+                    }
+
+                }
+
+                foreach ($answers as $answerItem){
+                    $em->persist($answerItem);
+                }
+                $em->flush();
+                $em->getConnection()->commit();
+                return new JsonResponse(array("status" => "success"));
             }catch (Exception $e){
-
+                $em->getConnection()->rollBack();
+                Throw new Exception("Params Error",666);
+            }
+            catch (DBALException $e){
+                $em->getConnection()->rollBack();
+                Throw new Exception("DB Error",666);
+            }
+            catch (\Throwable $t){
+                $em->getConnection()->rollBack();
+                Throw  new Exception("Null Error",777);
             }
 
-
         }catch (Exception $e){
-
+            return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
         }
 
     }
+
+
 
     private function getLoggedUser(Request $request)
     {
