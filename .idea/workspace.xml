@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a9583298-da92-4637-a171-fefc01a8f53c" name="Default" comment="Added Full CRUD (annual sales, units, reasons, city, district, governorate, company type ) Views">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/.web-server-pid" afterPath="$PROJECT_DIR$/bin/.web-server-pid" />
-    </list>
+    <list default="true" id="a9583298-da92-4637-a171-fefc01a8f53c" name="Default" comment="" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -698,7 +695,7 @@
       <workItem from="1501500426301" duration="12646000" />
       <workItem from="1501581947397" duration="4262000" />
       <workItem from="1501587263177" duration="7336000" />
-      <workItem from="1503332160661" duration="11662000" />
+      <workItem from="1503332160661" duration="11675000" />
     </task>
     <task id="LOCAL-00001" summary="Added Users Module and Login page&#10;Enabled Doctrine Migrations">
       <created>1496833615386</created>
@@ -875,11 +872,18 @@
       <option name="project" value="LOCAL" />
       <updated>1503517600747</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Added Full CRUD (annual sales, units, reasons, city, district, governorate, company type ) Views">
+      <created>1503517673700</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1503517673700</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="289822000" />
+    <option name="totallyTimeSpent" value="289835000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1360" height="744" extended-state="6" />
@@ -947,7 +951,6 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="Added Users Module and Login page&#10;Enabled Doctrine Migrations" />
     <MESSAGE value="Added Full CRUD (annual sales, units, reasons, city, district, governorate, company type ) Controllers" />
-    <MESSAGE value="Added Full CRUD (annual sales, units, reasons, city, district, governorate, company type ) Views" />
     <MESSAGE value="Added Full CRUD (Recycling company, waste type, waste type cat, waste type subcat ) Views" />
     <MESSAGE value="Added Full CRUD (annual sales, units, reasons, city, district, governorate, company type ) Controller" />
     <MESSAGE value="Added Menus, SubMenus, Survey Question, Survey Answers Entities" />
@@ -970,7 +973,8 @@
     <MESSAGE value="edits for registration controller" />
     <MESSAGE value="add for full clone" />
     <MESSAGE value="Fixed graphs 1 and 2, used Geo's dql&#10;pending 3 and 4" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed graphs 1 and 2, used Geo's dql&#10;pending 3 and 4" />
+    <MESSAGE value="Added Full CRUD (annual sales, units, reasons, city, district, governorate, company type ) Views" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Full CRUD (annual sales, units, reasons, city, district, governorate, company type ) Views" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
