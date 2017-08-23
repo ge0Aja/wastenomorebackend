@@ -141,7 +141,7 @@ class WasteTypeSubCategoryController extends Controller
 
                 $qb = $em->createQueryBuilder();
 
-                $qb->select("wts.id, wts.name")
+                $qb->select("DISTINCT wts.id, wts.name")
                     ->from("AppBundle:WasteTypeCategorySubCategory", "wts")
                     ->join("wts.purchases","p")
                     ->where("p.branch = :branch")

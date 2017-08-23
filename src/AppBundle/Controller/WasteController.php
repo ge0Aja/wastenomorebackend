@@ -3,7 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\AppRole;
+use AppBundle\Entity\Waste;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\PreAuthenticationJWTUserToken;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -85,11 +87,11 @@ class WasteController extends Controller
 
                         $branches_records = $em->getRepository("AppBundle:Branch")->findBy(["Company" => $user->getManagedCompany()->getId()]);
 
-                        array_push($branches_array,array("key" => 0, "label" => "Choose Branch"));
+                        array_push($branches_array, array("key" => 0, "label" => "Choose Branch"));
 
                         foreach ($branches_records as $branch) {
 
-                            array_push($branches_array, array("key" => $branch->getId(), "label" => $branch->getLocation()->getName().'-'.$branch->getAddress()));
+                            array_push($branches_array, array("key" => $branch->getId(), "label" => $branch->getLocation()->getName() . '-' . $branch->getAddress()));
                         }
 
                         $company_id = $user->getManagedCompany()->getId();
@@ -254,8 +256,7 @@ class WasteController extends Controller
                 throw new Exception("DB Error", 777);
             } catch (Exception $e) {
                 throw  new Exception("Params Error", 666);
-            }
-            catch (\Throwable $t) {
+            } catch (\Throwable $t) {
                 throw  new Exception("Null Error", 666);
             }
         } catch (Exception $e) {
@@ -295,11 +296,11 @@ class WasteController extends Controller
 
                         $branches_records = $em->getRepository("AppBundle:Branch")->findBy(["Company" => $user->getManagedCompany()->getId()]);
 
-                        array_push($branches_array,array("key" => 0, "label" => "Choose Branch"));
+                        array_push($branches_array, array("key" => 0, "label" => "Choose Branch"));
 
                         foreach ($branches_records as $branch) {
 
-                            array_push($branches_array, array("key" => $branch->getId(), "label" => $branch->getLocation()->getName().'-'.$branch->getAddress()));
+                            array_push($branches_array, array("key" => $branch->getId(), "label" => $branch->getLocation()->getName() . '-' . $branch->getAddress()));
                         }
 
                         $company_id = $user->getManagedCompany()->getId();
@@ -344,8 +345,6 @@ class WasteController extends Controller
 
                 $qb = $em->createQueryBuilder();
                 $qb2 = $em->createQueryBuilder();
-
-                /// $rsm = new ResultSetMapping();
 
                 if ($branch_checked_id != null) {
 
@@ -463,14 +462,14 @@ class WasteController extends Controller
 
                     foreach ($temparray as $item) {
                         foreach ($temparray2 as $item2) {
-                            if($item["Branch"] == $item2["Branch"] && $item["Name"] == $item2["Name"]) {
+                            if ($item["Branch"] == $item2["Branch"] && $item["Name"] == $item2["Name"]) {
                                 if (count($data_array) > 0) {
                                     $found = false;
                                     foreach ($data_array as $inner_key => $inner_item) {
                                         if ($inner_item["name"] == $item["BranchCity"] . '-' . $item["BranchAddress"]) {
 
                                             $key = array_search($item["Name"], $categories);
-                                            $data_array[$inner_key]["data"][$key] =  round((floatval($item["QUpper"] / $item2["QLower"])) * 100, 2);
+                                            $data_array[$inner_key]["data"][$key] = round((floatval($item["QUpper"] / $item2["QLower"])) * 100, 2);
 
                                             $found = true;
                                         }
@@ -481,7 +480,7 @@ class WasteController extends Controller
 
                                         $key = array_search($item["Name"], $categories);
 
-                                        $tempi_d[$key] =  round((floatval($item["QUpper"] / $item2["QLower"])) * 100, 2);
+                                        $tempi_d[$key] = round((floatval($item["QUpper"] / $item2["QLower"])) * 100, 2);
 
                                         $tempi["name"] = $item["BranchCity"] . '-' . $item["BranchAddress"];
                                         $tempi["data"] = $tempi_d;
@@ -494,7 +493,7 @@ class WasteController extends Controller
 
                                     $key = array_search($item["Name"], $categories);
 
-                                    $tempi_d[$key] =  round((floatval($item["QUpper"] / $item2["QLower"])) * 100, 2);
+                                    $tempi_d[$key] = round((floatval($item["QUpper"] / $item2["QLower"])) * 100, 2);
 
                                     $tempi["name"] = $item["BranchCity"] . '-' . $item["BranchAddress"];
                                     $tempi["data"] = $tempi_d;
@@ -505,18 +504,18 @@ class WasteController extends Controller
                         }
                     }
 
-            }else {
-                foreach ($temparray as $item) {
+                } else {
+                    foreach ($temparray as $item) {
 
-                    foreach ($temparray2 as $item2) {
+                        foreach ($temparray2 as $item2) {
 
-                        if ($item["Name"] == $item2["Name"])
-                            array_push($data_array, round((floatval($item["QUpper"] / $item2["QLower"])) * 100, 2));
+                            if ($item["Name"] == $item2["Name"])
+                                array_push($data_array, round((floatval($item["QUpper"] / $item2["QLower"])) * 100, 2));
+
+                        }
 
                     }
-
                 }
-            }
 
                 if ($user->getAppRole()->getRole() == AppRole::COMPANY_MANAGER)
                     return new JsonResponse(array("status" => "success", "categories" => $categories, "data" => $data_array, "premium" => ($isPremiumLicense == 1) ? true : false, "branches" => $branches_array));
@@ -525,54 +524,192 @@ class WasteController extends Controller
 
 
             } catch (DBALException $e) {
-            throw new Exception("DB Error", 777);
+                throw new Exception("DB Error", 777);
+            } catch (Exception $e) {
+                throw  new Exception("Params Error", 666);
+            } catch (\Throwable $t) {
+                throw  new Exception("Null Error", 666);
+            }
         } catch (Exception $e) {
-            throw  new Exception("Params Error", 666);
+            return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
         }
-//            catch (\Throwable $t){
-//                throw  new Exception("Null Error", 666);
-//            }
-    }catch (Exception $e)
-{
-return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
-}
-}
-
-
-
-private
-function getLoggedUser(Request $request)
-{
-    try {
-        $token = $this->get('app.jwt_token_authenticator')->getCredentials($request);
-
-        if (null === $token)
-            throw new Exception("Invalid token", 401);
-
-        $usr = $this->get('lexik_jwt_authentication.jwt_manager')->decode(new PreAuthenticationJWTUserToken($token));
-
-
-        //var_dump($usr);
-
-        //var_dump($usr["username"]);
-
-        if (null === $usr)
-            throw new Exception("Invalid User", 401);
-
-        if (null === $usr)
-            throw new Exception("Invalid User", 401);
-
-        $em = $this->getDoctrine()->getManager();
-
-        $user = $em->getRepository('AppBundle:User')->findOneBy(["username" => $usr["username"]]);
-
-        return $user;
-
-    } catch (Exception $e) {
-        return null;
     }
 
-}
+
+    /**
+     * @Route(path="api/addBranchWaste",name="addBranchWaste")
+     */
+    public function insertWaste(Request $request)
+    {
+
+        try {
+
+            $user = $this->getLoggedUser($request);
+
+            if (null === $user)
+                throw new Exception("User Error", 401);
+
+            if ($user->getAppRole()->getRole() == AppRole::COMPANY_MANAGER)
+                throw new Exception("User Error", 401);
+
+            $content = $request->getContent();
+
+            if (null == $content)
+                throw  new Exception("Content Error", 666);
+
+            $params = json_decode($content, true);
+
+            $em = $this->getDoctrine()->getManager();
+
+            try {
+
+                $branch = $user->getCompanyBranch();
+
+                if (null == $branch)
+                    throw  new Exception("Params Error", 666);
+
+                if(!array_key_exists("item",$params) ||
+                    !array_key_exists("unit",$params) ||
+                    !array_key_exists("quantity",$params) ||
+                    !array_key_exists("reason",$params) ||
+                    !array_key_exists("company",$params) ||
+                    !array_key_exists("date",$params)){
+                    throw new Exception("Params Error",666);
+                }
+
+                $wasteItem = (int)$params["item"];
+                $wasteUnit = (int) $params["unit"];
+                $wasteQuantity = floatval($params["quantity"]);
+                $wasteReason = (int) $params["reason"];
+                $wasteCompany = (int) $params["company"];
+                $wasteDate = $params["date"];
+
+
+                $qb = $em->createQueryBuilder();
+
+                $qb2 = $em->createQueryBuilder();
+
+                $qb->select("wts.name as Name, case u.name when 'Kg' then sum(p.quantity) else sum(p.quantity*c.quanInKg)/c.quan END as Quan")
+                    ->from("AppBundle:Purchases", "p")
+                    ->join("p.unit", "u")
+                    ->join("p.type", "wts")
+                    ->leftJoin("wts.conversionT", "c")
+                    ->join("p.branch", "b")
+                    ->join("b.location", "l")
+                    ->join("wts.category_type", "wtc")
+                    ->groupBy("u.name")
+                    ->where("b.id = :branchId and wts.id = :wasteItem")
+                    ->setParameter("branchId", $branch->getId())
+                    ->setParameter("wasteItem", $wasteItem);
+
+                $qb2->select("wts.name as Name, case u.name when 'Kg' then sum(w.quantity) else sum(w.quantity*c.quanInKg)/c.quan END as Quan")
+                    ->from("AppBundle:Waste", "w")
+                    ->join("w.unit", "u")
+                    ->join("w.waste_type_subcategory", "wts")
+                    ->leftJoin("wts.conversionT", "c")
+                    ->join("w.branch", "b")
+                    ->join("b.location", "l")
+                    ->join("wts.category_type", "wtc")
+                    ->groupBy("u.name")
+                    ->where("b.id = :branchId and wts.id = :wasteItem")
+                    ->setParameter("branchId", $branch->getId())
+                    ->setParameter("wasteItem", $wasteItem);
+
+
+                $query = $qb->getQuery();
+                $query2 = $qb2->getQuery();
+
+                $res = $query->getResult();
+                $res2 = $query2->getResult();
+
+                $purchasesSum = 0.0;
+                $currentWasteSum = 0.0;
+
+                foreach ($res as $r) {
+                    $purchasesSum += floatval($r["Quan"]);
+                }
+
+                foreach ($res2 as $r2){
+                    $currentWasteSum+= floatval($r2["Quan"]);
+                }
+
+                $wasteCalculatedQuantity = 0.0;
+
+                $wasteUnitRecord = $em->getRepository("AppBundle:Unit")->findOneBy(["id" => $wasteUnit]);
+
+                if($wasteUnitRecord->getName() == "Kg")
+                    $wasteCalculatedQuantity = $wasteQuantity;
+
+                else{
+                    $wasteConversionRecord = $em->getRepository("AppBundle:Conversion")->findOneBy(["subcategory" => $wasteItem,"unit" => $wasteUnit]);
+
+                    $wasteCalculatedQuantity = ($wasteQuantity * $wasteConversionRecord->getQuanInKg() ) / $wasteConversionRecord->getQuan();
+                }
+
+                if($wasteCalculatedQuantity > ($purchasesSum - $currentWasteSum))
+                    throw new Exception("Waste Quantity Error",666);
+
+
+                $wasteRecord = new Waste();
+
+                $wasteRecord->setBranch($branch);
+                $wasteRecord->setQuantity($wasteCalculatedQuantity);
+                $wasteRecord->setUnit($em->getRepository("AppBundle:Unit")->findOneBy(['id' =>$wasteUnitRecord]));
+                $wasteRecord->setWasteTypeSubcategory($em->getRepository("AppBundle:WasteTypeCategorySubCategory")->findOneBy(["id" =>$wasteItem]));
+                $wasteRecord->setWasteDate(new \DateTime($wasteDate));
+                $wasteRecord->setTimestamp(strtotime($wasteDate));
+
+                $wasteRecord->setReason($em->getRepository("AppBundle:Reason")->findOneBy(["id" => $wasteReason]));
+                $wasteRecord->setCollectingCompany($em->getRepository("AppBundle:CollectingCompany")->findOneBy(["id" => $wasteCompany]));
+
+                $em->persist($wasteRecord);
+                $em->flush();
+
+                return new JsonResponse(array("status" => "success"));
+            } catch (Exception $e) {
+                throw new Exception($e->getMessage(),666);
+
+            } catch (DBALException $e) {
+                throw new Exception("DB Error",666);
+
+            }
+            catch (\Throwable $t) {
+                throw new Exception("Null Error",777);
+            }
+        } catch (Exception $e) {
+            return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
+        }
+
+    }
+
+
+    private function getLoggedUser(Request $request)
+    {
+        try {
+            $token = $this->get('app.jwt_token_authenticator')->getCredentials($request);
+
+            if (null === $token)
+                throw new Exception("Invalid token", 401);
+
+            $usr = $this->get('lexik_jwt_authentication.jwt_manager')->decode(new PreAuthenticationJWTUserToken($token));
+
+            if (null === $usr)
+                throw new Exception("Invalid User", 401);
+
+            if (null === $usr)
+                throw new Exception("Invalid User", 401);
+
+            $em = $this->getDoctrine()->getManager();
+
+            $user = $em->getRepository('AppBundle:User')->findOneBy(["username" => $usr["username"]]);
+
+            return $user;
+
+        } catch (Exception $e) {
+            return null;
+        }
+
+    }
 
 
 }

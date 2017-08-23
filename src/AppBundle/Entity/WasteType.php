@@ -86,5 +86,4 @@ class WasteType
         return $this->waste_type_category;
     }
 
-
 }

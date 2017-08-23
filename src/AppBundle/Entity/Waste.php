@@ -98,37 +98,6 @@ class Waste
         $this->id = $id;
     }
 
-//    /**
-//     * @return WasteType
-//     */
-//    public function getWasteType()
-//    {
-//        return $this->waste_type;
-//    }
-//
-//    /**
-//     * @param mixed $waste_type
-//     */
-//    public function setWasteType($waste_type)
-//    {
-//        $this->waste_type = $waste_type;
-//    }
-//
-//    /**
-//     * @return WasteTypeCategory
-//     */
-//    public function getWasteTypeCategory()
-//    {
-//        return $this->waste_type_category;
-//    }
-//
-//    /**
-//     * @param mixed $waste_type_category
-//     */
-//    public function setWasteTypeCategory($waste_type_category)
-//    {
-//        $this->waste_type_category = $waste_type_category;
-//    }
 
     /**
      * @return WasteTypeCategorySubCategory
