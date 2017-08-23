@@ -76,15 +76,15 @@
         yAxis: {
             allowDecimals: true,
             title: {
-                text: 'Normalized Weight (Kg)'
+                text: 'Normalized Waste Percentage (%)'
             }
         },
         tooltip: {
-         formatter: function () {
-         return '<b>' + this.series.name + '</b><br/>' +
-         this.point.y + ' ' + this.point.name.toLowerCase();
-         }
-         }
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                        Math.round(this.point.y) + '% ' + this.point.name.toLowerCase();
+            }
+        }
     });
 </script>
 
@@ -113,11 +113,11 @@
             max:100
         },
         tooltip: {
-         formatter: function () {
-         return '<b>' + this.series.name + '</b><br/>' +
-         Math.round(this.point.y) + '% ' + this.point.name.toLowerCase();
-         }
-         }
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                        Math.round(this.point.y) + '% ' + this.point.name.toLowerCase();
+            }
+        }
     });
 </script>
 
@@ -164,18 +164,18 @@
         series: [
             {% for key,dates in catTimeValues %}
             {
-            name: '{{ key }}',
+                name: '{{ key }}',
 
-            // Define the data points. All series have a dummy year
-            // of 1970/71 in order to be compared on the same x axis. Note
-            // that in JavaScript, months start at 0 for January, 1 for February etc.
-            data: [
-                {% for key2,dateElem in dates %}
-                {% set dateVal = key2|split('-') %}
-                [Date.UTC({{ dateVal[0] }}, {{ dateVal[1] -1 }}, {{ dateVal[2] }}), {{dateElem}}],
-                {% endfor %}
-            ]
-        },
+                // Define the data points. All series have a dummy year
+                // of 1970/71 in order to be compared on the same x axis. Note
+                // that in JavaScript, months start at 0 for January, 1 for February etc.
+                data: [
+                    {% for key2,dateElem in dates %}
+                    {% set dateVal = key2|split('-') %}
+                    [Date.UTC({{ dateVal[0] }}, {{ dateVal[1] -1 }}, {{ dateVal[2] }}), {{dateElem}}],
+                    {% endfor %}
+                ]
+            },
             {% endfor %}
         ]
     });
