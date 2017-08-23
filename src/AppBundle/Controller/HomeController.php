@@ -17,14 +17,15 @@ class HomeController extends Controller
     public function home()
     {
 
-//        return new Response(dump($this->getGraph2()));
+//        return new Response(dump($this->getGraph4()));
 
         $arrayToSendToTwigG1 = $this->getGraph1();
         $arrayToSendToTwigG2 = $this->getGraph2();
-        $wasteCatDateValue = [];
+        $wasteCatDateValue = $this->getGraph3();
+        $wasteCatDateValue2 = $this->getGraph4();
 
 
-        return $this->render(':agriApp:home.html.twig',['niceArray'=>$arrayToSendToTwigG1,'niceArray2'=>$arrayToSendToTwigG2,'catTimeValues'=>$wasteCatDateValue]);
+        return $this->render(':agriApp:home.html.twig',['niceArray'=>$arrayToSendToTwigG1,'niceArray2'=>$arrayToSendToTwigG2,'catTimeValues'=>$wasteCatDateValue,'catTimeValues2'=>$wasteCatDateValue2]);
     }
 
 
@@ -101,5 +102,64 @@ class HomeController extends Controller
             $graph2[$temparray[$i]["Name"]] = ["waste"=>$wasted,"purchase"=>$purchased];
         }
         return $graph2;
+    }
+
+    public function getGraph3()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("w.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then sum(w.quantity) else sum(w.quantity*c.quanInKg)/c.quan END as Quantity")
+            ->from("AppBundle:Waste", "w")
+            ->join("w.unit", "u")
+            ->join("w.waste_type_subcategory", "wts")
+            ->leftJoin("wts.conversionT", "c")
+            ->join("w.branch", "b")
+            ->join("wts.category_type", "wtc")
+            ->groupBy("Name,u.name,c.quan,w.timestamp")
+            ->orderBy('Name', 'ASC');
+
+        $query = $qb->getQuery();
+        $temparray = $query->getArrayResult();
+
+        $graph3 = array();
+
+        foreach($temparray as $tempas2)
+        {
+            $quantity = $tempas2["Quantity"];
+            $timeStamp = $tempas2["Timestamp"];
+            $graph3[$tempas2["Name"]][]= ["timeStamp"=>$timeStamp,"quantity"=>$quantity];
+        }
+        return $graph3;
+    }
+
+    public function getGraph4()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("p.timestamp as Timestamp, wtc.name as Name, case u.name when 'Kg' then sum(p.quantity) else sum(p.quantity*c.quanInKg)/c.quan END as QLower")
+            ->from("AppBundle:Purchases", "p")
+            ->join("p.unit", "u")
+            ->join("p.type", "wts")
+            ->leftJoin("wts.conversionT", "c")
+            ->join("p.branch", "b")
+            ->join("wts.category_type", "wtc")
+            ->groupBy("Name,u.name,c.quan,p.timestamp")
+            ->orderBy('Name', 'ASC');
+
+        $query = $qb->getQuery();
+        $temparray = $query->getArrayResult();
+//        return $temparray;
+
+        $graph3 = array();
+
+        foreach($temparray as $tempas2)
+        {
+            $quantity = $tempas2["QLower"];
+            $timeStamp = $tempas2["Timestamp"];
+            $graph3[$tempas2["Name"]][]= ["timeStamp"=>$timeStamp,"quantity"=>$quantity];
+        }
+        return $graph3;
     }
 }
