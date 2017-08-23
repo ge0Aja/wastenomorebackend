@@ -86,24 +86,5 @@ class WasteType
         return $this->waste_type_category;
     }
 
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Waste", mappedBy="waste_type", cascade={"persist"})
-     */
-    private $waste;
 
-    /**
-     * @return mixed
-     */
-    public function getWaste()
-    {
-        return $this->waste;
-    }
-
-    /**
-     * @param mixed $waste
-     */
-    public function setWaste($waste)
-    {
-        $this->waste = $waste;
-    }
 }

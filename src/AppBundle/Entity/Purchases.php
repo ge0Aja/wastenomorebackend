@@ -25,11 +25,6 @@ class Purchases
     private $id;
 
 
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\WasteTypeCategory",inversedBy="purchases")
-     */
-    private $category;
-
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\WasteTypeCategorySubCategory",inversedBy="purchases")

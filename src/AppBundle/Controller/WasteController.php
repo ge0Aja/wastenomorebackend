@@ -142,7 +142,7 @@ class WasteController extends Controller
                         ->join("w.waste_type_subcategory", "wts")
                         ->leftJoin("wts.conversionT", "c")
                         ->join("w.branch", "b")
-                        ->join("w.waste_type_category", "wtc")
+                        ->join("wts.category_type", "wtc")
                         ->where("b.id = :branchId and w.waste_date >= :fromDate and w.waste_date <= :toDate")
                         ->groupBy("wtc.id")
                         ->groupBy("wtc.name")
@@ -159,7 +159,7 @@ class WasteController extends Controller
                             ->leftJoin("wts.conversionT", "c")
                             ->join("w.branch", "b")
                             ->join("b.location", "l")
-                            ->join("w.waste_type_category", "wtc")
+                            ->join("wts.category_type", "wtc")
                             ->where("b.Company = :companyId and w.waste_date >= :fromDate and w.waste_date <= :toDate")
                             ->groupBy("Name, Branch, BranchCity, BranchAddress")
                             ->orderBy('Name', 'ASC')
@@ -174,7 +174,7 @@ class WasteController extends Controller
                             ->join("w.waste_type_subcategory", "wts")
                             ->leftJoin("wts.conversionT", "c")
                             ->join("w.branch", "b")
-                            ->join("w.waste_type_category", "wtc")
+                            ->join("wts.category_type", "wtc")
                             ->where("b.Company = :companyId and w.waste_date >= :fromDate and w.waste_date <= :toDate")
                             ->groupBy("Name")
                             ->orderBy('Name', 'ASC')
@@ -355,7 +355,7 @@ class WasteController extends Controller
                         ->join("w.waste_type_subcategory", "wts")
                         ->leftJoin("wts.conversionT", "c")
                         ->join("w.branch", "b")
-                        ->join("w.waste_type_category", "wtc")
+                        ->join("wts.category_type", "wtc")
                         ->where("b.id = :branchId and w.waste_date >= :fromDate and w.waste_date <= :toDate")
                         ->groupBy("wtc.id")
                         ->groupBy("wtc.name")
@@ -369,7 +369,7 @@ class WasteController extends Controller
                         ->join("p.type", "wts")
                         ->leftJoin("wts.conversionT", "c")
                         ->join("p.branch", "b")
-                        ->join("p.category", "wtc")
+                        ->join("wts.category_type", "wtc")
                         ->where("b.id = :branchId and p.date >= :fromDate and p.date <= :toDate")
                         ->groupBy("wtc.id")
                         ->groupBy("wtc.name")
@@ -387,7 +387,7 @@ class WasteController extends Controller
                             ->leftJoin("wts.conversionT", "c")
                             ->join("w.branch", "b")
                             ->join("b.location", "l")
-                            ->join("w.waste_type_category", "wtc")
+                            ->join("wts.category_type", "wtc")
                             ->where("b.Company = :companyId and w.waste_date >= :fromDate and w.waste_date <= :toDate")
                             ->groupBy("Name, Branch, BranchCity, BranchAddress")
                             ->orderBy('Name', 'ASC')
@@ -403,7 +403,7 @@ class WasteController extends Controller
                             ->leftJoin("wts.conversionT", "c")
                             ->join("p.branch", "b")
                             ->join("b.location", "l")
-                            ->join("p.category", "wtc")
+                            ->join("wts.category_type", "wtc")
                             ->where("b.Company = :companyId and p.date >= :fromDate and p.date <= :toDate")
                             ->groupBy("Name, Branch, BranchCity, BranchAddress")
                             ->orderBy('Name', 'ASC')
@@ -419,7 +419,7 @@ class WasteController extends Controller
                             ->join("w.waste_type_subcategory", "wts")
                             ->leftJoin("wts.conversionT", "c")
                             ->join("w.branch", "b")
-                            ->join("w.waste_type_category", "wtc")
+                            ->join("wts.category_type", "wtc")
                             ->where("b.Company = :companyId and w.waste_date >= :fromDate and w.waste_date <= :toDate")
                             ->groupBy("Name")
                             ->orderBy('Name', 'ASC')
@@ -434,7 +434,7 @@ class WasteController extends Controller
                             ->join("p.type", "wts")
                             ->leftJoin("wts.conversionT", "c")
                             ->join("p.branch", "b")
-                            ->join("p.category", "wtc")
+                            ->join("wts.category_type", "wtc")
                             ->where("b.Company = :companyId and p.date >= :fromDate and p.date <= :toDate")
                             ->groupBy("Name")
                             ->orderBy('Name', 'ASC')
@@ -451,16 +451,9 @@ class WasteController extends Controller
 
                 $temparray2 = $query2->getArrayResult();
 
-//                dump($temparray);
-//                dump($temparray2);
-//
-//                exit();
-
-                // $total_waste = 0.0;
                 $categories = array();
                 $data_array = array();
                 foreach ($temparray as $tempas) {
-                    //      $total_waste+= floatval($tempas["Quantity"]);
 
                     if (!in_array($tempas["Name"], $categories))
                         array_push($categories, $tempas["Name"]);

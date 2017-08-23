@@ -22,24 +22,8 @@ class WasteTypeCategory
     public function __construct()
     {
         $this->sub_category = new ArrayCollection();
-        $this->purchases = new ArrayCollection();
     }
 
-    /**
-     * @return ArrayCollection|Purchases[]
-     */
-    public function getPurchases()
-    {
-        return $this->purchases;
-    }
-
-    /**
-     * @param mixed $purchases
-     */
-    public function setPurchases($purchases)
-    {
-        $this->purchases = $purchases;
-    }
 
     /**
      * @ORM\Id
@@ -53,10 +37,6 @@ class WasteTypeCategory
      */
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Purchases",mappedBy="category",cascade={"persist"})
-     */
-    private $purchases;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\WasteTypeCategorySubCategory", mappedBy="category_type", cascade={"persist"})
@@ -125,24 +105,5 @@ class WasteTypeCategory
         $this->waste_type = $waste_type;
     }
 
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Waste", mappedBy="waste_type_category", cascade={"persist"})
-     */
-    private $waste;
 
-    /**
-     * @return mixed
-     */
-    public function getWaste()
-    {
-        return $this->waste;
-    }
-
-    /**
-     * @param mixed $waste
-     */
-    public function setWaste($waste)
-    {
-        $this->waste = $waste;
-    }
 }
