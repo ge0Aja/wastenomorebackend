@@ -16,128 +16,150 @@ class HomeController extends Controller
      */
     public function home()
     {
+
+//        return new Response(dump($this->getGraph4()));
+
+        $arrayToSendToTwigG1 = $this->getGraph1();
+        $arrayToSendToTwigG2 = $this->getGraph2();
+        $wasteCatDateValue = $this->getGraph3();
+        $wasteCatDateValue2 = $this->getGraph4();
+
+
+        return $this->render(':agriApp:home.html.twig',['niceArray'=>$arrayToSendToTwigG1,'niceArray2'=>$arrayToSendToTwigG2,'catTimeValues'=>$wasteCatDateValue,'catTimeValues2'=>$wasteCatDateValue2]);
+    }
+
+
+
+
+    public function getGraph1()
+    {
         $em = $this->getDoctrine()->getManager();
-        $categories = $em->getRepository('AppBundle:WasteTypeCategory')->findAll();
-        $kilogramUnit = $em->getRepository('AppBundle:Unit')->findOneBy(['name'=>'Kg']);
-        $arrayToSendToTwigG1 = [];
-        $arrayToSendToTwigG2 = [];
-        $wasteCatDateValue = [];
+        $qb = $em->createQueryBuilder();
 
-        $unitsArr=[];
+        $qb->select("wtc.name as Name, case u.name when 'Kg' then sum(w.quantity) else sum(w.quantity*c.quanInKg)/c.quan END as Quantity")
+            ->from("AppBundle:Waste", "w")
+            ->join("w.unit", "u")
+            ->join("w.waste_type_subcategory", "wts")
+            ->leftJoin("wts.conversionT", "c")
+            ->join("w.branch", "b")
+            ->join("wts.category_type", "wtc")
+            ->groupBy("Name,u.name,c.quan")
+            ->orderBy('Name', 'ASC');
 
-        foreach ($categories as $category)
+        $query = $qb->getQuery();
+        $temparray = $query->getArrayResult();
+        $total_waste = 0.0;
+        $categories = array();
+        $graph1 = array();
+        foreach ($temparray as $tempas)
         {
-
-            $categoryWastes = $em->getRepository('AppBundle:Waste')->findBy(['waste_type_category' => $category->getId()]);
-            $wasteCategoryTotal = 0;
-            $wasteCategoryTotalQuantity=0;
-            $i=0;
-            $len = count($categoryWastes);
-
-            $categoryWastesByDate = $em->getRepository('AppBundle:Waste')->findBy(['waste_type_category'=>$category->getId()],['waste_date'=>'ASC']);
-//            return new Response(dump($categoryWastesByDate));
-            foreach ($categoryWastesByDate as $categoryWasteByDate)
-            {
-                $wasteDate = $categoryWasteByDate->getWasteDate()->format('Y-m-d');
-//                $unitsArr[$categoryWasteByDate->getUnit()->getName()]=$categoryWasteByDate->getUnit()->getName();
-                if(array_key_exists($category->getName(),$wasteCatDateValue))
-                {
-                    if(array_key_exists($wasteDate,$wasteCatDateValue[$category->getName()]))
-                    {
-                        $previousSum = (int)$wasteCatDateValue[$category->getName()][$wasteDate];
-
-                        if($categoryWasteByDate->getUnit()->getName() == 'Kg')
-                        {
-//                            return new Response(dump($previousSum));
-                            $wasteCatDateValue[$category->getName()][$wasteDate] = (int)$previousSum + $categoryWasteByDate->getQuantity();
-//                            return new Response(dump($wasteCatDateValue));
-                        }
-                        else
-                        {
-                            $unit = $categoryWasteByDate->getUnit();
-                            $conversion = $em->getRepository('AppBundle:Conversion')->findOneBy(['unit'=>$unit->getId()]);
-                            $wasteCatDateValue[$category->getName()][$wasteDate]= (int)$previousSum+$categoryWasteByDate->getQuantity()*$conversion->getQuanInKg();
-                        }
-
-                    }
-                    else
-                    {
-                        if($categoryWasteByDate->getUnit()->getName() === 'Kg')
-                        {
-                            $wasteCatDateValue[$category->getName()][$wasteDate] = $categoryWasteByDate->getQuantity();
-//                            return new Response(dump($wasteCatDateValue));
-                        }
-                        else
-                        {
-                            $unit = $categoryWasteByDate->getUnit();
-                            $conversion = $em->getRepository('AppBundle:Conversion')->findOneBy(['unit'=>$unit->getId()]);
-                            $wasteCatDateValue[$category->getName()][$wasteDate]= $categoryWasteByDate->getQuantity()*$conversion->getQuanInKg();
-//                            return new Response(dump($conversion));
-                        }
-
-                    }
-                }
-
-                else
-                {
-                    $wasteDate = $categoryWasteByDate->getWasteDate()->format('Y-m-d');
-                    $wasteCatDateValue[$category->getName()] = [$wasteDate => (int)$categoryWasteByDate->getQuantity()];
-                }
-            }
-
-
-            foreach ($categoryWastes as $categoryWaste)
-            {
-                if($categoryWaste->getUnit() !== $kilogramUnit)
-                {
-                    $unit = $categoryWaste->getUnit();
-                    $conversion = $em->getRepository('AppBundle:Conversion')->findOneBy(['unit'=>$unit->getId()]);
-                    $wasteCategoryTotal+= ($conversion->getQuanInKg() * $categoryWaste->getQuantity());
-
-                }
-                else
-                {
-                    $wasteCategoryTotal+= ($categoryWaste->getQuantity());
-                }
-                //for graph2 normalization
-                $wasteCategoryTotalQuantity+=$categoryWaste->getQuantity();
-
-                if ($i == $len - 1)
-                {
-                    $arrayToSendToTwigG1[$category->getName()] = $wasteCategoryTotal;
-                    $catTimeValues[$category->getName()] = ['date'=>$categoryWaste->getWasteDate(),'quantityInKg'=>$wasteCategoryTotal];
-                }
-                $i++;
-            }
-
-            $purchcaseCategoryTotalQuantity = 0;
-
-            $purchases = $em->getRepository('AppBundle:Purchases')->findBy(["type" => $category->getId()]);
-            foreach ($purchases as $purchase)
-            {
-                $purchcaseCategoryTotalQuantity += $purchase->getQuantity();
-            }
-
-//            return new Response(dump(($wasteCategoryTotalQuantity/$purchcaseCategoryTotalQuantity)*100));
-//            return new Response(dump($purchcaseCategoryTotalQuantity));
-
-            if($purchcaseCategoryTotalQuantity!=0) {
-                $wastePercentage = 100 * ($wasteCategoryTotalQuantity / $purchcaseCategoryTotalQuantity);
-                $purchasePercentage = 100 - $wastePercentage;
-            }
-            else {
-                $wastePercentage = 0;
-                $purchasePercentage = 0;
-            }
-
-            $arrayToSendToTwigG2[$category->getName()]=['waste'=>$wastePercentage, 'purchase'=>$purchasePercentage];
-
+            $total_waste += floatval($tempas["Quantity"]);
         }
+        foreach ($temparray as $tempas)
+        {
+            $graph1[$tempas["Name"]] = (100*$tempas["Quantity"])/$total_waste;
+        }
+        return $graph1;
+        ////
+    }
 
-//        return new Response(dump($wasteCatDateValue));
-//        return new Response(dump($arrayToSendToTwigG1));
-//        return new Response(dump($arrayToSendToTwigG2));
-//        return new Response(dump($unitsArr));
-        return $this->render(':agriApp:home.html.twig',['niceArray'=>$arrayToSendToTwigG1,'niceArray2'=>$arrayToSendToTwigG2,'catTimeValues'=>$wasteCatDateValue]);
+    public function getGraph2()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $qb = $em->createQueryBuilder();
+        $qb2 = $em->createQueryBuilder();
+
+        $qb->select("wtc.name as Name, case u.name when 'Kg' then sum(w.quantity) else sum(w.quantity*c.quanInKg)/c.quan END as QUpper")
+            ->from("AppBundle:Waste", "w")
+            ->join("w.unit", "u")
+            ->join("w.waste_type_subcategory", "wts")
+            ->leftJoin("wts.conversionT", "c")
+            ->join("w.branch", "b")
+            ->join("wts.category_type", "wtc")
+            ->groupBy("Name,u.name,c.quan")
+            ->orderBy('Name', 'ASC');
+
+
+        $qb2->select("wtc.name as Name, case u.name when 'Kg' then sum(p.quantity) else sum(p.quantity*c.quanInKg)/c.quan END as QLower")
+            ->from("AppBundle:Purchases", "p")
+            ->join("p.unit", "u")
+            ->join("p.type", "wts")
+            ->leftJoin("wts.conversionT", "c")
+            ->join("p.branch", "b")
+            ->join("wts.category_type", "wtc")
+            ->groupBy("Name,u.name,c.quan")
+            ->orderBy('Name', 'ASC');
+        $query = $qb->getQuery();
+        $query2 = $qb2->getQuery();
+        $temparray = $query->getArrayResult();
+        $temparray2 = $query2->getArrayResult();
+        $categories = array();
+        $graph2 = array();
+        for ($i=0; $i < count($temparray);$i++)
+        {
+            $wasted = 100*($temparray[$i]["QUpper"])/$temparray2[$i]["QLower"];
+            $purchased = 100-$wasted;
+            $graph2[$temparray[$i]["Name"]] = ["waste"=>$wasted,"purchase"=>$purchased];
+        }
+        return $graph2;
+    }
+
+    public function getGraph3()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("w.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then sum(w.quantity) else sum(w.quantity*c.quanInKg)/c.quan END as Quantity")
+            ->from("AppBundle:Waste", "w")
+            ->join("w.unit", "u")
+            ->join("w.waste_type_subcategory", "wts")
+            ->leftJoin("wts.conversionT", "c")
+            ->join("w.branch", "b")
+            ->join("wts.category_type", "wtc")
+            ->groupBy("Name,u.name,c.quan,w.timestamp")
+            ->orderBy('Name', 'ASC');
+
+        $query = $qb->getQuery();
+        $temparray = $query->getArrayResult();
+
+        $graph3 = array();
+
+        foreach($temparray as $tempas2)
+        {
+            $quantity = $tempas2["Quantity"];
+            $timeStamp = $tempas2["Timestamp"];
+            $graph3[$tempas2["Name"]][]= ["timeStamp"=>$timeStamp,"quantity"=>$quantity];
+        }
+        return $graph3;
+    }
+
+    public function getGraph4()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select("p.timestamp as Timestamp, wtc.name as Name, case u.name when 'Kg' then sum(p.quantity) else sum(p.quantity*c.quanInKg)/c.quan END as QLower")
+            ->from("AppBundle:Purchases", "p")
+            ->join("p.unit", "u")
+            ->join("p.type", "wts")
+            ->leftJoin("wts.conversionT", "c")
+            ->join("p.branch", "b")
+            ->join("wts.category_type", "wtc")
+            ->groupBy("Name,u.name,c.quan,p.timestamp")
+            ->orderBy('Name', 'ASC');
+
+        $query = $qb->getQuery();
+        $temparray = $query->getArrayResult();
+//        return $temparray;
+
+        $graph3 = array();
+
+        foreach($temparray as $tempas2)
+        {
+            $quantity = $tempas2["QLower"];
+            $timeStamp = $tempas2["Timestamp"];
+            $graph3[$tempas2["Name"]][]= ["timeStamp"=>$timeStamp,"quantity"=>$quantity];
+        }
+        return $graph3;
     }
 }

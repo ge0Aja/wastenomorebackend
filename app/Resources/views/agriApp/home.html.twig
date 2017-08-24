@@ -1,4 +1,6 @@
 {{ include(':agriApp:base_head.html.twig') }}
+
+
 <div class="box-body">
 
     {#{{ dump(catTimeValues) }}#}
@@ -10,6 +12,10 @@
     </div>
 
     <div id="graph3" style="min-width: 310px; height: 400px; margin: 0 auto">
+
+    </div>
+
+    <div id="graph4" style="min-width: 310px; height: 400px; margin: 0 auto">
 
     </div>
 
@@ -50,13 +56,15 @@
 
         </tbody>
     </table>
-
 </div>
 {{ include(':agriApp:base_foot.html.twig') }}
 
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/data.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+
 <script>
     Highcharts.chart('graph1', {
         data: {
@@ -76,15 +84,15 @@
         yAxis: {
             allowDecimals: true,
             title: {
-                text: 'Normalized Weight (Kg)'
+                text: 'Normalized Waste Percentage (%)'
             }
         },
         tooltip: {
-         formatter: function () {
-         return '<b>' + this.series.name + '</b><br/>' +
-         this.point.y + ' ' + this.point.name.toLowerCase();
-         }
-         }
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                        Math.round(this.point.y) + '% ' + this.point.name.toLowerCase();
+            }
+        }
     });
 </script>
 
@@ -113,75 +121,153 @@
             max:100
         },
         tooltip: {
-         formatter: function () {
-         return '<b>' + this.series.name + '</b><br/>' +
-         Math.round(this.point.y) + '% ' + this.point.name.toLowerCase();
-         }
-         }
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                        Math.round(this.point.y) + '% ' + this.point.name.toLowerCase();
+            }
+        }
     });
 </script>
 
 <script>
-    Highcharts.chart('graph3', {
-        chart: {
-            type: 'spline'
-        },
-        title: {
-            text: 'Graph 3'
-        },
-        subtitle: {
-            text: 'Something'
-        },
-        xAxis: {
-            type: 'datetime',
-            dateTimeLabelFormats: { // don't display the dummy year
-                month: '%e. %b',
-                year: '%b'
-            },
-            title: {
-                text: 'Date'
-            }
-        },
-        yAxis: {
-            title: {
-                text: 'Normalized Weight (Kg)'
-            },
-            min: 0
-        },
-        tooltip: {
-            headerFormat: '<b>{series.name}</b><br>',
-            pointFormat: '{point.x:%e. %b}: {point.y:.2f} Kg'
-        },
+    var seriesOptions = [],
+            seriesCounter = 0,
+            names = [
+                {% for key,Value in catTimeValues%}
+                "{{ key }}",
+                {% endfor %}
+            ];
 
-        plotOptions: {
-            spline: {
-                marker: {
-                    enabled: true
+    /**
+     * Create the chart when all data is loaded
+     * @returns {undefined}
+     */
+    function createChart()
+    {
+        Highcharts.stockChart('graph3', {
+
+            rangeSelector: {
+                selected: 4
+            },
+
+            yAxis: {
+                labels: {
+                    formatter: function () {
+                        return (this.value > 0 ? ' + ' : '') + this.value + '%';
+                    }
                 }
-            }
-        },
+            },
 
-        series: [
-            {% for key,dates in catTimeValues %}
-            {
-            name: '{{ key }}',
+            plotOptions: {
+                series: {
+                    compare: 'percent',
+                    showInNavigator: true
+                }
+            },
 
-            // Define the data points. All series have a dummy year
-            // of 1970/71 in order to be compared on the same x axis. Note
-            // that in JavaScript, months start at 0 for January, 1 for February etc.
-            data: [
-                {% for key2,dateElem in dates %}
-                {% set dateVal = key2|split('-') %}
-                [Date.UTC({{ dateVal[0] }}, {{ dateVal[1] -1 }}, {{ dateVal[2] }}), {{dateElem}}],
+            tooltip: {
+                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                valueDecimals: 2,
+                split: true
+            },
+
+            series:[
+                {% for key,Value in catTimeValues %}
+                {
+                    name:'{{ key }}',
+                    data:[
+                        {% for timeValuePair in Value %}
+                        [{{ timeValuePair.timeStamp }}000,{{ timeValuePair.quantity }}],
+                        {% endfor %}
+                        [1502755200000,922.22],
+                        [1502841600000,926.96],
+                        [1502928000000,910.98],
+                        [1503014400000,910.67],
+                        [1503273600000,906.66],
+                        [1503360000000,924.69]
+                    ]
+                },
                 {% endfor %}
             ]
-        },
-            {% endfor %}
-        ]
-    });
+        });
+    }
+    createChart();
+</script>
 
-    {#{% for key,dates in catTimeValues %}
-    {{ dump(catTimeValues) }}
-    {{ dump(dates) }}
-    {% endfor %}#}
+<script>
+    var seriesOptions = [],
+            seriesCounter = 0,
+            names = [
+                {% for key,Value in catTimeValues2%}
+                "{{ key }}",
+                {% endfor %}
+            ];
+
+    /**
+     * Create the chart when all data is loaded
+     * @returns {undefined}
+     */
+    function createChart()
+    {
+        Highcharts.stockChart('graph4', {
+
+            rangeSelector: {
+                selected: 4
+            },
+
+            yAxis: {
+                labels: {
+                    formatter: function () {
+                        return (this.value > 0 ? ' + ' : '') + this.value + '%';
+                    }
+                }
+            },
+
+            plotOptions: {
+                series: {
+                    compare: 'percent',
+                    showInNavigator: true
+                }
+            },
+
+            tooltip: {
+                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                valueDecimals: 2,
+                split: true
+            },
+
+            series:[
+                {% for key,Value in catTimeValues2 %}
+                {
+                    name:'{{ key }}',
+                    data:[
+                        {% for timeValuePair in Value %}
+                        [{{ timeValuePair.timeStamp }}000,{{ timeValuePair.quantity }}],
+                        {% endfor %}
+                        [1500508800000,968.15],
+                        [1500595200000,972.92],
+                        [1500854400000,980.34],
+                        [1500940800000,950.70],
+                        [1501027200000,947.80],
+                        [1501113600000,934.09],
+                        [1501200000000,941.53],
+                        [1501459200000,930.50],
+                        /* Aug 2017 */
+                        [1501545600000,930.83],
+                        [1501632000000,930.39],
+                        [1501718400000,923.65],
+                        [1501804800000,927.96],
+                        [1502064000000,929.36],
+                        [1502150400000,926.79],
+                        [1502236800000,922.90],
+                        [1502323200000,907.24],
+                        [1502409600000,914.39],
+                        [1502668800000,922.67]
+                    ]
+                },
+                {% endfor %}
+            ]
+        });
+    }
+    createChart();
 </script>
