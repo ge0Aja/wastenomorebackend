@@ -552,6 +552,12 @@ class WasteController extends Controller
             if ($user->getAppRole()->getRole() == AppRole::COMPANY_MANAGER)
                 throw new Exception("User Error", 401);
 
+            $branch = $user->getCompanyBranch();
+
+            if (null == $branch)
+                throw  new Exception("Params Error", 666);
+
+
             $content = $request->getContent();
 
             if (null == $content)
@@ -562,11 +568,6 @@ class WasteController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             try {
-
-                $branch = $user->getCompanyBranch();
-
-                if (null == $branch)
-                    throw  new Exception("Params Error", 666);
 
                 if(!array_key_exists("item",$params) ||
                     !array_key_exists("unit",$params) ||
@@ -667,7 +668,7 @@ class WasteController extends Controller
 
                 return new JsonResponse(array("status" => "success"));
             } catch (Exception $e) {
-                throw new Exception($e->getMessage(),666);
+                throw new Exception("Params Error",666);
 
             } catch (DBALException $e) {
                 throw new Exception("DB Error",666);
@@ -681,7 +682,6 @@ class WasteController extends Controller
         }
 
     }
-
 
     private function getLoggedUser(Request $request)
     {

@@ -114,7 +114,7 @@ class WasteTypeSubCategoryController extends Controller
 
 
     /**
-     * @Route(path="api/getBranchSubCats",name="getBranchSubCats")
+     * @Route(path="api/getBranchWasteSubCats",name="getBranchWasteSubCats")
      */
     public function getSubCategoriesFromPurchases(Request $request)
     {
@@ -206,6 +206,65 @@ class WasteTypeSubCategoryController extends Controller
 
     }
 
+
+    /**
+     * @Route(path="api/getPurchSubCats", name="getPurchSubCats")
+     */
+    public function getSubCategoriesForPuchases(Request $request){
+
+        try {
+
+            $user = $this->getLoggedUser($request);
+
+            if (null === $user)
+                throw new Exception("User Error", 401);
+
+            if ($user->getAppRole()->getRole() == AppRole::COMPANY_MANAGER)
+                throw new Exception("User Error", 401);
+
+
+            $em = $this->getDoctrine()->getManager();
+
+            $branch = $user->getCompanyBranch();
+
+            if(null == $branch)
+                throw  new Exception("Params Error",666);
+
+            try{
+
+                $SubCatsRecords = $em->getRepository("AppBundle:WasteTypeCategorySubCategory")->findAll();
+
+                $subCategories = array();
+
+                foreach ($SubCatsRecords as $record){
+
+                    $units = array();
+
+                    $units_records = $em->getRepository("AppBundle:SubCategoryUnit")->findBy(["subcategory" => $record->getId()]);
+
+                    foreach ($units_records as $units_record){
+
+                        array_push($units,array("key" => $units_record->getUnit()->getId(),"label" => $units_record->getUnit()->getName()));
+
+                    }
+
+                    array_push($subCategories,array("id" => $record->getId(), "name" => $record->getName(), "units" => $units));
+                }
+
+                return new JsonResponse(array("status" => "success", "items" => $subCategories));
+
+            }catch (Exception $e){
+                throw new Exception("Params Error",666);
+            }catch (DBALException $e){
+                throw new Exception("DB Error",666);
+            }catch (\Throwable $t){
+                throw new Exception("Null Error",777);
+            }
+        }catch (Exception $e){
+            return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
+        }
+
+    }
 
     private function getLoggedUser(Request $request)
     {
