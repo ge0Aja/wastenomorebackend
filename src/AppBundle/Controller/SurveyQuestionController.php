@@ -32,9 +32,9 @@ class SurveyQuestionController extends Controller
             $entities[] = str_replace("AppBundle\Entity\\"," ",$m->getName());
         }*/
         $em = $this->getDoctrine()->getManager();
-        $MenuTypes =  $em->getRepository('AppBundle:DDlMenuType')->findAll();
+        $MenuTypes = $em->getRepository('AppBundle:DDlMenuType')->findAll();
 
-        return $this->render('agriApp/SurveyQuestion/SurveyQs.html.twig',['possibleTables' => $MenuTypes]);
+        return $this->render('agriApp/SurveyQuestion/SurveyQs.html.twig', ['possibleTables' => $MenuTypes]);
     }
 
     /**
@@ -51,7 +51,8 @@ class SurveyQuestionController extends Controller
     /**
      * @Route("/cms/deleteSurveyQ", name="deleteSurveyQ")
      */
-    public function DeleteLogAction(Request $request){
+    public function DeleteLogAction(Request $request)
+    {
         try {
             $em = $this->getDoctrine()->getManager();
             $SurveyQRecord = $em->getRepository('AppBundle:SurveyQuestion')->find($request->request->get('surveyqdelID'));
@@ -79,14 +80,14 @@ class SurveyQuestionController extends Controller
                     $surveyQRecord = new SurveyQuestion();
                     $surveyQRecord->setQuestion($request->request->get('surveyqadd'));
 
-                    if ($request->request->get('surveywithdropdownadd') == 'Yes'){
+                    if ($request->request->get('surveywithdropdownadd') == 'Yes') {
                         $ddlt = $em->getRepository('AppBundle:DDlMenuType')->find($request->request->get('surveydropdownadd'));
                         $surveyQRecord->setDropdowntable($ddlt);
                         $surveyQRecord->setQuestionwithdropdown(1);
                     }
 
 
-                    if($request->request->get('surveywithdetailsadd') == 'Yes'){
+                    if ($request->request->get('surveywithdetailsadd') == 'Yes') {
                         $surveyQRecord->setDetailshint($request->request->get('surveydetailshintadd'));
                         $surveyQRecord->setQuestionwithdetails(1);
                     }
@@ -96,7 +97,7 @@ class SurveyQuestionController extends Controller
                     $em->flush();
                     return new JsonResponse(array('status' => 'success'));
                 } catch (DBALException $e) {
-                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add Survey Question','info' => $e->getMessage()));
+                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t add Survey Question', 'info' => $e->getMessage()));
                 }
             }
         }
@@ -118,22 +119,22 @@ class SurveyQuestionController extends Controller
                     $surveyQRecord = $em->getRepository('AppBundle:SurveyQuestion')->find($request->request->get('surveyqEditID'));
                     $surveyQRecord->setQuestion($request->request->get('surveyqedit'));
 
-                    if ($request->request->get('surveywithdropdownedit') == 'Yes'){
+                    if ($request->request->get('surveywithdropdownedit') == 'Yes') {
 
                         $ddlt = $em->getRepository('AppBundle:DDlMenuType')->find($request->request->get('surveydropdownedit'));
                         $surveyQRecord->setDropdowntable($ddlt);
 
                         //$surveyQRecord->setDropdowntable($request->request->get('surveydropdownedit'));
                         $surveyQRecord->setQuestionwithdropdown(1);
-                    }else{
+                    } else {
                         $surveyQRecord->setQuestionwithdropdown(0);
                     }
 
 
-                    if($request->request->get('surveywithdetailsedit') == 'Yes'){
+                    if ($request->request->get('surveywithdetailsedit') == 'Yes') {
                         $surveyQRecord->setDetailshint($request->request->get('surveydetailshintedit'));
                         $surveyQRecord->setQuestionwithdetails(1);
-                    }else{
+                    } else {
                         $surveyQRecord->setQuestionwithdetails(0);
                     }
 
@@ -154,9 +155,10 @@ class SurveyQuestionController extends Controller
     /**
      * @Route(path="api/generateQs",name="generateQs")
      */
-    public function getSurveyQuestion(Request $request) {
+    public function getSurveyQuestion(Request $request)
+    {
 
-        try{
+        try {
 
             $user = $this->getLoggedUser($request);
 
@@ -168,156 +170,57 @@ class SurveyQuestionController extends Controller
 
             $em = $this->getDoctrine()->getManager();
 
-            try{
+            try {
 
-             $questions_records = $em->getRepository("AppBundle:SurveyQuestion")->findAll();
+                $surveyVersion = $em->getRepository("AppBundle:SurveyVersion")->findOneBy(array(),array("active" => "1"));
 
-             $questions = array();
+                if(null == $surveyVersion)
+                    throw new Exception("Error",666);
 
-             foreach ($questions_records as $record){
+                $questions_records = $em->getRepository("AppBundle:SurveyQuestion")->findAll();
 
-                 $ddl_items = array();
+                $questions = array();
 
-                 $with_detail = $record->getQuestionwithdetails() == 1;
-                 $with_ddl = $record->getQuestionwithdropdown() == 1;
+                foreach ($questions_records as $record) {
 
+                    $ddl_items = array();
 
-                 if($with_ddl && null != $record->getDropdowntable()){
-
-                     $ddl_items_records = $em->getRepository("AppBundle:DDlMenuSubType")->findBy(["type" => $record->getDropdowntable()]);
-
-                     foreach ($ddl_items_records as $ddl_item){
-                         array_push($ddl_items,array("key" => $ddl_item->getId(),"label" => $ddl_item->getName()));
-                     }
-
-                 }
-
-                 array_push($questions,array("qid" => $record->getId(),"q" => $record->getQuestion(), "detail" => $with_detail, "hint" => $record->getDetailshint() ,"ddl" => $with_ddl, "ddl_items" => $ddl_items));
-             }
-
-             return new JsonResponse(array("status" => "success", "questions" => $questions));
-
-            }catch (Exception $e){
-                Throw new Exception("Params Exception",666);
-
-            }catch (DBALException $e){
-
-                Throw new Exception("DB Error",777);
-
-            }catch (\Throwable $t){
-
-                Throw new Exception("Null Error",666);
-            }
-
-        }catch (Exception $e) {
-            return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
-        }
-
-    }
+                    $with_detail = $record->getQuestionwithdetails() == 1;
+                    $with_ddl = $record->getQuestionwithdropdown() == 1;
 
 
-    /**
-     * @Route(path="api/answerSurvey",name="answerSurvey")
-     */
-    public function submitSurveyAnswers(Request $request) {
+                    if ($with_ddl && null != $record->getDropdowntable()) {
 
-        try{
+                        $ddl_items_records = $em->getRepository("AppBundle:DDlMenuSubType")->findBy(["type" => $record->getDropdowntable()]);
 
-            $user = $this->getLoggedUser($request);
-
-            if (null === $user)
-                throw new Exception("User Error", 401);
-
-            if ($user->getAppRole()->getRole() != AppRole::COMPANY_MANAGER)
-                throw new Exception("User Error", 401);
-
-            $content = $request->getContent();
-
-            if (empty($content))
-                throw new Exception("Content Error", 666);
-
-            $params = json_decode($content, true);
-
-            $em = $this->getDoctrine()->getManager();
-
-
-            $em->getConnection()->beginTransaction();
-            try{
-
-                $company = $user->getManagedCompany();
-
-                $answer_timestamp = '';
-                $answers = array();
-                foreach($params as $param){
-
-                    $attrs = explode(":", $param);
-
-                    if($attrs[0] == "timestamp"){
-                        $answer_timestamp = $attrs[1];
-
-                    }else {
-
-                        $answer_type = substr($attrs[0], 0, 1);
-                        $question_id = substr($attrs[0], 1, 1);
-
-                        if(!array_key_exists($question_id,$answers)) {
-                            $answer = new SurveyQuestionAnswer();
-
-                            if ($answer_type == "D") {
-                                $answer->setDetails($attrs[1]);
-                            }
-
-                            if ($answer_type == "P") {
-                                $answer->setDropdownanswer($em->getRepository("AppBundle:DDlMenuSubType")->findOneBy(["id" => (int)$attrs[1]]));
-                            }
-
-                            $answer->setCompany($company);
-                            $answer->setQuestion($em->getRepository("AppBundle:SurveyQuestion")->findOneBy(["id" => $question_id]));
-                            $answer->setTimestamp($answer_timestamp);
-
-                            $answers[$question_id] = $answer;
-                        }else{
-
-                            $current_answer = $answers[$question_id];
-
-                            if ($answer_type == "D") {
-                                $current_answer->setDetails($attrs[1]);
-                            }
-
-                            if ($answer_type == "P") {
-                                $current_answer->setDropdownanswer($em->getRepository("AppBundle:DDlMenuSubType")->findOneBy(["id" => (int)$attrs[1]]));
-                            }
+                        foreach ($ddl_items_records as $ddl_item) {
+                            array_push($ddl_items, array("key" => $ddl_item->getId(), "label" => $ddl_item->getName()));
                         }
 
                     }
 
+                    array_push($questions, array("qid" => $record->getId(), "q" => $record->getQuestion(), "detail" => $with_detail, "hint" => $record->getDetailshint(), "ddl" => $with_ddl, "ddl_items" => $ddl_items));
                 }
 
-                foreach ($answers as $answerItem){
-                    $em->persist($answerItem);
-                }
-                $em->flush();
-                $em->getConnection()->commit();
-                return new JsonResponse(array("status" => "success"));
-            }catch (Exception $e){
-                $em->getConnection()->rollBack();
-                Throw new Exception("Params Error",666);
-            }
-            catch (DBALException $e){
-                $em->getConnection()->rollBack();
-                Throw new Exception("DB Error",666);
-            }
-            catch (\Throwable $t){
-                $em->getConnection()->rollBack();
-                Throw  new Exception("Null Error",777);
+                return new JsonResponse(array("status" => "success", "version" => $surveyVersion->getId() ,"questions" => $questions));
+
+            } catch (Exception $e) {
+                Throw new Exception("Params Exception", 666);
+
+            } catch (DBALException $e) {
+
+                Throw new Exception("DB Error", 777);
+
+            } catch (\Throwable $t) {
+
+                Throw new Exception("Null Error", 666);
             }
 
-        }catch (Exception $e){
+        } catch (Exception $e) {
             return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
         }
 
     }
-
 
 
     private function getLoggedUser(Request $request)

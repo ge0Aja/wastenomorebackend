@@ -1,0 +1,412 @@
+{{ include(':agriApp:base_head.html.twig') }}
+<div class="container-fluid">
+
+    <table id="surveyVersionsRecords" style="width: 100%" class="display table table-striped table-bordered">
+        <h1>Survey Versions</h1>
+        <h2>
+            <button type="button" data-toggle="modal" data-target="#addSurveyV"
+                    class="bg-purple btn btn-xs"><b><i class="fa fa-plus"></i> Add Survey Version</b></button>
+        </h2>
+        <thead>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Note</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Active</th>
+        <th></th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+</div>
+
+
+<div id="addSurveyV" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Add Survey Version</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="addSurveyVForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+
+                                <label for="surveytitleadd">Title</label>
+                                <input type="text" class="form-control" id="surveytitleadd"
+                                       name="surveytitleadd"
+                                       required>
+                                <br>
+
+                                <label for="surveynoteadd">Note</label>
+                                <input type="text" class="form-control" id="surveynoteadd"
+                                       name="surveynoteadd"
+                                       required>
+                                <div>
+                                    <label for="startDateadd">Start Date</label>
+                                    <input type="text" class="form-control datepicker" id="startDateadd"
+                                           name="startDateadd" required>
+
+                                    <label for="expiryDateadd">Expiry Date</label>
+                                    <input type="text" class="form-control datepicker" id="expiryDateadd"
+                                           name="expiryDateadd" required>
+                                    <label id="dateadd_error" style="color: red"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="editSurveyV" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Edit Survey Version</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="editSurveyVForm" role="form" action="">
+                        <div class="box-body">
+                            <div class="form-group">
+
+
+                                <label for="surveytitleedit">Title</label>
+                                <input type="text" class="form-control" id="surveytitleedit"
+                                       name="surveytitleedit"
+                                       required>
+                                <br>
+
+                                <label for="surveynoteedit">Note</label>
+                                <input type="text" class="form-control" id="surveynoteedit"
+                                       name="surveynoteedit"
+                                       required>
+
+
+                                <div>
+                                    <label for="startDateedit">Start Date</label>
+                                    <input type="text" class="form-control datepicker" id="startDateedit"
+                                           name="startDateedit" required>
+
+                                    <label for="expiryDateedit">Expiry Date</label>
+                                    <input type="text" class="form-control datepicker" id="expiryDateedit"
+                                           name="expiryDateedit" required>
+                                    <label id="dateedit_error" style="color: red"></label>
+                                </div>
+
+                                <input type="hidden" id="surveyvEditID" name="surveyvEditID">
+                            </div>
+                        </div>
+
+                        <div class="box-footer">
+                            <button id="btn" type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="delSurveyV" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-header with-border">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h3 class="box-title">Confirm Delete</h3>
+                </div>
+                <div class="modal-body">
+                    <form id="delSurveyVForm" role="form"
+                          action=""
+                          method="">
+                        <div class="box-body">
+                            <p class="text-black">Are you sure you want to delete this
+                                Instance??</p>
+                            <div class="box-footer">
+                                <button type="submit" class="pull-right btn btn-primary">Yes
+                                </button>
+                                <button type="button" class="pull-left btn btn-primary"
+                                        data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">No</span></button>
+                            </div>
+                            <input type="hidden" id="surveyvdelID" name="surveyvdelID">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        var tHead = $('#surveyVersionsRecords thead th');
+        tHead.not(":eq(0),:eq(5),:eq(6)").each(function () {
+            var title = $(this).text();
+            //console.log(title);
+            $(this).html('<input style="width:100%" type="text" placeholder=' + "\"" + title + "\"" + '>');
+        });
+
+        var table = $('#surveyVersionsRecords').DataTable({
+
+            "deferRender": true,
+
+            "ajax":
+                {
+                    "url": "{{ path('SurveyVersionsRecords') }}",
+                    "type": "GET"
+                },
+
+            "columns": [
+                {"data": "id"},
+                {"data": "title"},
+                {"data": "note"},
+                {"data" : "startDate"},
+                {"data" : "endDate"},
+                {
+                    "data": "active",
+                    render: function (data, type, row) {
+                        if (type === 'display') {
+                            return '<input type="radio" class="editor-active">';
+                        }
+                        return data;
+                    },
+                    className: "dt-body-center"
+                }
+            ],
+            order: [],
+            "pageLength": 15,
+            "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
+            columnDefs: [{
+                id: "DT_RowId",
+                "targets": [0],
+                "orderable": false,
+                "searchable": false,
+                "visible": false
+            },
+                {
+                    "targets": [1, 2, 3, 4],
+                    "orderable": false
+                },
+                {
+                    "targets": [6],
+                    "data": null,
+                    "defaultContent": '<span class="pull-right"><button type="button" data-toggle="modal" data-target="#delSurveyV" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button></span><span class="pull-left"><button type="button" data-toggle="modal" data-target="#editSurveyV" class="editBut btn-group-xs btn bg-blue-gradient"><b><i class="fa fa-pencil"></i></b></button></span>',
+                    "orderable": false
+                }
+            ],
+            rowCallback: function (row, data) {
+                // Set the checked state of the checkbox in the table
+                $('input.editor-active', row).prop('checked', data.active == 1);
+            }
+        });
+        table.columns().every(function () {
+            var that = this;
+
+            $('input', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+
+            $('select', this.header()).on('keyup change', function () {
+                if (that.search() !== this.value) {
+                    console.log(this.value);
+                    if (this.value === "") {
+                        that.search('').draw();
+                    }
+                    else that.search("^" + this.value + "$", true, false).draw();
+                }
+            });
+
+        });
+    });
+
+</script>
+
+
+<script>
+    $('.datepicker').datepicker({
+        todayHighlight : true,
+        autoclose: true,
+        format: 'dd-mm-yyyy'
+    });
+</script>
+
+
+<script>
+    $(document).on("submit", "#addSurveyVForm", function (e) {
+
+        e.preventDefault();
+
+        var data_array = $('#addSurveyVForm').serialize();
+
+        $.ajax({
+            url: '{{ path('addSurveyVersion') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if (data.status == 'success') {
+                    $("#addSurveyV").modal("hide");
+                    ////
+                    $("#surveytitleadd").val("");
+                    $("#surveynoteadd").val("");
+
+                    $("#startDateadd").val("");
+                    $("#expiryDateadd").val("");
+
+                    var table = $('#surveyVersionsRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }
+                if (data.status == 'error') {
+                    alert(data.message);
+                }
+
+            }
+        });
+    });
+</script>
+
+<script>
+
+    $('#surveyVersionsRecords tbody').on('click', '.deleteBut', function () {
+        var table = $('#surveyVersionsRecords').DataTable();
+        var data = table.row($(this).parents('tr')).data();
+        $("#surveyvdelID").val(data.id);
+    });
+
+    $(document).on("submit", "#delSurveyVForm", function (e) {
+
+        e.preventDefault();
+
+        var data_array = $('#delSurveyVForm').serialize();
+        $.ajax({
+            url: '{{ path('deleteSurveyV') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if (data.status == 'success') {
+                    $("#delSurveyV").modal("hide");
+                    $("#surveyvdelID").val("");
+                    var table = $('#surveyVersionsRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }
+                if (data.status == 'error') {
+                    //display the message
+                    alert(data.message);
+                }
+            }
+        });
+
+    });
+</script>
+
+<script>
+
+
+    $('#surveyVersionsRecords tbody').on('click', '.editBut', function () {
+        var table = $('#surveyVersionsRecords').DataTable();
+        var data = table.row($(this).parents('tr')).data();
+
+
+        editRow(data.id, $.parseHTML(data.title)[0].data, $.parseHTML(data.note)[0].data, $.parseHTML(data.startDate)[0].data, $.parseHTML(data.endDate)[0].data);
+    });
+
+    function editRow(e, f, g, h,i) {
+//        console.log(e,f,g,h,i);
+//        return;
+        $("#surveyvEditID").val(e);
+        $("#surveytitleedit").val(f);
+        $("#surveynoteedit").val(g);
+        $("#startDateedit").val(h);
+        $("#expiryDateedit").val(i);
+
+    }
+
+
+    $(document).on("submit", "#editSurveyVForm", function (e) {
+        e.preventDefault();
+
+        var data_array = $('#editSurveyVForm').serialize();
+
+        $.ajax({
+            url: '{{ path('editSurveyVersion') }}',
+            data: data_array,
+            type: "POST",
+            success: function (data) {
+                if (data.status == 'success') {
+                    $("#editSurveyV").modal("hide");
+
+                    $("#surveytitleedit").val("");
+                    $("#surveynoteedit").val("");
+                    $("#surveyveditid").val("");
+                    $("#startDateedit").val("");
+                    $("#expiryDateedit").val("");
+
+
+                    var table = $('#surveyVersionsRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }
+                if (data.status == 'error') {
+                    //display the message
+                    alert(data.message);
+                }
+
+            }
+        });
+
+    });
+
+
+</script>
+
+<script>
+    $('#surveyVersionsRecords').on( 'change', 'input.editor-active', function () {
+
+        var table = $('#surveyVersionsRecords').DataTable();
+        var data = table.row( $(this).parents('tr') ).data();
+        var isActive = $(this).prop( 'checked' ) ? 1 : 0;
+        $.ajax({
+            url: '{{ path('changeSurveyVersionStatus') }}',
+            data: {"editSurveyVID":data.id,"isActive":isActive},
+            type: "POST",
+            success: function (data) {
+                if(data.status == 'success') {
+                   // var table = $('#surveyVersionsRecords').DataTable();
+                    table.ajax.reload(null, false);
+                }if(data.status == 'error'){
+                    alert(status.message);
+                }
+            }
+        });
+
+
+    } );
+</script>
+
+
+{{ include(':agriApp:base_foot.html.twig') }}

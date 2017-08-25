@@ -1,0 +1,37 @@
+{% set surveyVersionsRecordsArrayLength = surveyVersionsRecords |length %}
+{% set counter = 0 %}
+
+
+
+{
+
+"data":[
+
+{% for surveyVersionsRecord in surveyVersionsRecords %}
+
+    {%  if counter == surveyVersionsRecordsArrayLength-1 %}
+        {
+        "id": "{{ surveyVersionsRecord.id }}",
+        "title": "{{ surveyVersionsRecord.title}}",
+        "note": "{{ surveyVersionsRecord.note }}",
+        "active": "{{ surveyVersionsRecord.active }}",
+        "startDate" : "{{ surveyVersionsRecord.getBeginDate()|date('d-m-Y') }}",
+        "endDate" : "{{ surveyVersionsRecord.getEndDate() |date('d-m-Y')}}"
+
+        }
+    {%  else %}
+        {
+        "id": "{{ surveyVersionsRecord.id }}",
+        "title": "{{ surveyVersionsRecord.title}}",
+        "note": "{{ surveyVersionsRecord.note }}",
+        "active": "{{ surveyVersionsRecord.active }}",
+        "startDate" : "{{ surveyVersionsRecord.getBeginDate() |date('d-m-Y')}}",
+        "endDate" : "{{ surveyVersionsRecord.getEndDate() |date('d-m-Y')}}"
+        },
+    {% endif %}
+
+    {% set counter = counter + 1 %}
+{% endfor %}
+
+]
+}

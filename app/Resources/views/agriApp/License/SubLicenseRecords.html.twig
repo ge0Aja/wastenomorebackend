@@ -204,7 +204,7 @@
             type: "POST",
             success: function (data) {
                 if(data.status == 'success') {
-                    var table = $('#sublicenseRecords').DataTable();
+                   // var table = $('#sublicenseRecords').DataTable();
                     table.ajax.reload(null, false);
                 }if(data.status == 'error'){
                     alert(status.message);

@@ -11,9 +11,11 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
+
 /**
  * @ORM\Entity
- * @ORM\Table(name="survey_question_answer")
+ * @ORM\Table(name="survey_question_answer",uniqueConstraints={@ORM\UniqueConstraint(name="answer_unique", columns={"question_id","company_id","survey_version_id"})})
  */
 class SurveyQuestionAnswer
 {
@@ -151,6 +153,28 @@ class SurveyQuestionAnswer
      * @ORM\Column(type="string")
      */
     private $timestamp;
+
+    /**
+     * @return mixed
+     */
+    public function getSurveyVersion()
+    {
+        return $this->surveyVersion;
+    }
+
+    /**
+     * @param mixed $surveyVersion
+     */
+    public function setSurveyVersion($surveyVersion)
+    {
+        $this->surveyVersion = $surveyVersion;
+    }
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SurveyVersion", inversedBy="answer")
+     */
+    private $surveyVersion;
 
 
 }

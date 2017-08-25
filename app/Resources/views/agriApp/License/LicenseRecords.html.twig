@@ -52,11 +52,11 @@
                                 </div>
                                 <div>
                                     <label for="startDateadd">Start Date</label>
-                                    <input type="date" class="form-control datepicker" id="startDateadd"
+                                    <input type="text" class="form-control datepicker" id="startDateadd"
                                            name="startDateadd" required>
 
                                     <label for="expiryDateadd">Expiry Date</label>
-                                    <input type="date" class="form-control datepicker" id="expiryDateadd"
+                                    <input type="text" class="form-control datepicker" id="expiryDateadd"
                                            name="expiryDateadd" required>
                                     <label id="dateadd_error" style="color: red"></label>
                                 </div>
@@ -269,8 +269,7 @@
 
     function editRow(e,f,g,h,i,j,k)
     {
-        var table = $('#licenseRecords').DataTable();
-//        editCompanyAnnualSalesForm
+
         console.log(j);
         $("#usercountedit").val(f);
         $("#editLicenseID").val(e);
