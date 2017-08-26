@@ -89,7 +89,7 @@ class CompanyController extends Controller
                 $company_type = $params["company_type"];
                 $annual_sales = $params["annual_sales"];
 
-                if(null == $company_e) {
+                if (null == $company_e) {
 
                     $Company = new Company();
 
@@ -108,7 +108,7 @@ class CompanyController extends Controller
                     $em->flush();
                     $em->getConnection()->commit();
                     return new JsonResponse(array("status" => "success"));
-                }else{
+                } else {
 
                     $company_e->setName($company_name);
 
@@ -168,7 +168,7 @@ class CompanyController extends Controller
             try {
                 $company = $user->getManagedCompany();
 
-               // $to_insert = array();
+                // $to_insert = array();
 
                 foreach ($params as $param) {
 
@@ -179,7 +179,7 @@ class CompanyController extends Controller
 
                     $check_attr_sub_attr = $em->getRepository('AppBundle:CompanyAttributesAndSubAttributes')->findOneBy(["company" => $company->getId(), "attribute" => $selected_attr->getId()]);
 
-                    if(null == $check_attr_sub_attr) {
+                    if (null == $check_attr_sub_attr) {
 
                         $attr_sub_attr = new CompanyAttributesAndSubAttributes();
                         $attr_sub_attr->setAttribute($selected_attr);
@@ -188,7 +188,7 @@ class CompanyController extends Controller
                         $attr_sub_attr->setCompany($company);
                         $em->persist($attr_sub_attr);
 
-                    }else{
+                    } else {
                         $check_attr_sub_attr->setAttribute($selected_attr);
                         $check_attr_sub_attr->setSubAttribute($selected_subattr);
                         $em->persist($check_attr_sub_attr);
@@ -205,8 +205,7 @@ class CompanyController extends Controller
             } catch (Exception $e) {
                 $em->getConnection()->rollBack();
                 throw  new Exception("Params Error", 666);
-            }
-            catch (\Throwable $t) {
+            } catch (\Throwable $t) {
                 $em->getConnection()->rollBack();
                 throw  new Exception($t->getMessage(), 666);
             }
@@ -761,7 +760,7 @@ class CompanyController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             try {
-              //  $company = $user->getManagedCompany();
+                //  $company = $user->getManagedCompany();
 
                 $attr = $params["company_type_attr"];
 
@@ -900,8 +899,7 @@ class CompanyController extends Controller
             } catch (Exception $e) {
                 throw  new Exception("Params Error", 666);
 
-            }
-            catch (\Throwable $t) {
+            } catch (\Throwable $t) {
                 throw  new Exception("Null Error", 666);
             }
 
@@ -910,6 +908,72 @@ class CompanyController extends Controller
             return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
         }
 
+    }
+
+    /**
+     * @Route(path="api/checkCompanyManager", name="checkCompanyManager")
+     */
+    public function checkCompanyManager(Request $request)
+    {
+        try {
+
+            $user = $this->getLoggedUser($request);
+
+            if (null === $user)
+                throw new Exception("User Error", 401);
+
+            if ($user->getAppRole()->getRole() != AppRole::COMPANY_MANAGER)
+                throw new Exception("User Error", 401);
+            try {
+
+                $company = $user->getManagedCompany();
+
+                if (null == $company)
+                    return new JsonResponse(array("status" => "new_company"));
+
+                $companyAttribs = $company->getCompanyAttributesAndSubattributes();
+
+                if (null == $companyAttribs)
+                    return new JsonResponse(array("status" => "new_attribs"));
+
+                foreach ($companyAttribs as $attrib) {
+                    if ($attrib->getAttribute()->getCompanyType()->getId() != $company->getType()->getId())
+                        return new JsonResponse(array("status" => "new_attribs"));
+                }
+
+                $em = $this->getDoctrine()->getManager();
+
+                $ActiveSurveyVersion = $em->getRepository("AppBundle:SurveyVersion")->findOneBy(["active" => 1]);
+
+                if (null == $ActiveSurveyVersion)
+                    return new JsonResponse(array("status" => "home"));
+
+
+                $qb = $em->createQueryBuilder();
+
+                $qb->select($qb->expr()->count('A'))
+                    ->from('AppBundle:SurveyQuestionAnswer', 'A')
+                    ->where('A.surveyVersion = ?1 and A.company = ?2')
+                    ->setParameter(1, $ActiveSurveyVersion->getId())
+                    ->setParameter(2, $company->getId());
+
+                $query = $qb->getQuery();
+
+                $answersCount = $query->getSingleScalarResult();
+
+
+                if ($answersCount == 0)
+                    return new JsonResponse(array("status" => "survey"));
+
+                return new JsonResponse(array("status" => "home"));
+
+            } catch (\Throwable $t) {
+                throw new Exception("Null Error");
+            }
+
+        } catch (Exception $e) {
+            return new JsonResponse(array("status" => "error"));
+        }
     }
 
 

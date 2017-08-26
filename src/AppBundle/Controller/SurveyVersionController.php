@@ -122,30 +122,61 @@ class SurveyVersionController extends Controller
      */
     public function changeSurveyVStatus(Request $request)
     {
-        try {
-            $em = $this->getDoctrine()->getManager();
+        if ($request->request) {
+            try {
 
-            $surveyVRecords = $em->getRepository('AppBundle:SurveyVersion')->findAll();
+                $em = $this->getDoctrine()->getManager();
 
-            foreach ($surveyVRecords as $record){
-                $record->setActive(0);
-                $em->persist($record);
+                $surveyVRecords = $em->getRepository('AppBundle:SurveyVersion')->findAll();
+
+                foreach ($surveyVRecords as $record) {
+                    $record->setActive(0);
+                    $em->persist($record);
+                }
+
+                $surveyVRecord = $em->getRepository('AppBundle:SurveyVersion')->find($request->request->get('editSurveyVID'));
+
+                if ($_POST["isActive"] == 1)
+                    $surveyVRecord->setActive(1);
+                else
+                    $surveyVRecord->setActive(0);
+                $em->persist($surveyVRecord);
+                $em->flush();
+                return new JsonResponse(array('status' => 'success'));
+
+            } catch (DBALException $e) {
+                return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t edit Survey Version Status'));
             }
-
-            $surveyVRecord = $em->getRepository('AppBundle:SurveyVersion')->find($request->request->get('editSurveyVID'));
-
-            if ($_POST["isActive"] == 1)
-                $surveyVRecord->setActive(1);
-            else
-                $surveyVRecord->setActive(0);
-            $em->persist($surveyVRecord);
-            $em->flush();
-            return new JsonResponse(array('status' => 'success'));
-        } catch (DBALException $e) {
-            return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t edit Survey Version Status'));
         }
+        return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t edit Survey Version Status'));
     }
 
+
+    /**
+     * @Route("/cms/deActivateSurveyVersions", name="deActivateSurveyVersions")
+     */
+    public function deActivateAll(Request $request)
+    {
+        if ($request->request) {
+
+            try {
+                $em = $this->getDoctrine()->getManager();
+
+                $surveyVRecords = $em->getRepository('AppBundle:SurveyVersion')->findAll();
+
+                foreach ($surveyVRecords as $record) {
+                    $record->setActive(0);
+                    $em->persist($record);
+                }
+                $em->flush();
+                return new JsonResponse(array('status' => 'success'));
+            } catch (DBALException $e) {
+                return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t DeActivate Survey Version'));
+            }
+
+        }
+        return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t DeActivate Survey Version'));
+    }
 
     /**
      * @Route("/cms/deleteSurveyV", name="deleteSurveyV")
