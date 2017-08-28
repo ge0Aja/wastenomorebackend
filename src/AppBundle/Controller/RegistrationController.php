@@ -373,12 +373,13 @@ class RegistrationController extends Controller
                     $this->get('gesdinet.jwtrefreshtoken.send_token')->attachRefreshToken($event);
                     $refresh_token = $this->get('gesdinet.jwtrefreshtoken.refresh_token_manager')->getLastFromUsername($user->getUsername());
 
+                    $appRole = $user->getAppRole()->getRole();
 
                     if ($token == null)
                         return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_TOKEN]));
 
                     // Return genereted tocken
-                    return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_GRANTED, "token" => $token, "refresh_token" => $refresh_token->getRefreshToken()]));
+                    return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_GRANTED, "token" => $token, "refresh_token" => $refresh_token->getRefreshToken(), "role" => $appRole));
                 } catch (Exception $e) {
                     return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_CONTENT]));
 
@@ -435,8 +436,9 @@ class RegistrationController extends Controller
                 $ref_token_obj->setValid($new_expiry);
                 $this->get('gesdinet.jwtrefreshtoken.refresh_token_manager')->save($ref_token_obj);
                 $token = $this->get('lexik_jwt_authentication.jwt_manager')->create($user);
+                $appRole = $user->getAppRole()->getRole();
 
-                return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_GRANTED, "token" => $token, "refresh_token" => $ref_token_obj->getRefreshToken()]));
+                return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_GRANTED, "token" => $token, "refresh_token" => $ref_token_obj->getRefreshToken(), "role" => $appRole));
             } catch (DBALException $e) {
                 return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::DENIED_REASON_DBAL));
             } catch (Exception $e) {

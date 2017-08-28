@@ -972,7 +972,7 @@ class CompanyController extends Controller
             }
 
         } catch (Exception $e) {
-            return new JsonResponse(array("status" => "error"));
+            return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
         }
     }
 
