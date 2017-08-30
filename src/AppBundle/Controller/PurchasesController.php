@@ -139,6 +139,135 @@ class PurchasesController extends Controller
     }
 
 
+    /**
+     * @Route(path="api/getPurchaseTimeSeries", name="getPurchaseTimeSeries")
+     */
+    public function getPurchaseTimeSeries(Request $request)
+    {
+        try {
+
+            $user = $this->getLoggedUser($request);
+
+            if (null === $user)
+                throw new Exception("User Error", 401);
+
+            $content = $request->getContent();
+
+            $params = json_decode($content, true);
+            $em = $this->getDoctrine()->getManager();
+
+            try {
+
+                $branch_checked_id = null;
+                $company_id = null;
+                $branches_array = array();
+                $isPremiumLicense = $user->getSubLicense()->getLicense()->getPremium();
+
+                if ($isPremiumLicense == 1) {
+                    if ($user->getAppRole()->getRole() == AppRole::COMPANY_MANAGER) {
+
+                        $branches_records = $em->getRepository("AppBundle:Branch")->findBy(["Company" => $user->getManagedCompany()->getId()]);
+
+                        array_push($branches_array, array("key" => 0, "label" => "Choose Branch"));
+
+                        foreach ($branches_records as $branch) {
+
+                            array_push($branches_array, array("key" => $branch->getId(), "label" => $branch->getLocation()->getName() . '-' . $branch->getAddress()));
+                        }
+
+                        $company_id = $user->getManagedCompany()->getId();
+
+                        if (!empty($content) && array_key_exists("branch", $params)) {
+
+                            $branch_id = (int)$params["branch"];
+
+                            $checkbranch = $em->getRepository("AppBundle:Branch")->findOneBy(["Company" => $company_id, "id" => $branch_id]);
+
+
+                            if ($checkbranch != null)
+                                $branch_checked_id = $checkbranch->getId();
+                        }
+
+                    }else{
+
+
+                        $checkbranch = $user->getCompanyBranch();
+
+                        if ($checkbranch != null)
+                            $branch_checked_id = $checkbranch->getId();
+
+                    }
+                } else {
+
+                    if ($user->getAppRole()->getRole() != AppRole::COMPANY_MANAGER) {
+                        $branch_checked_id = $user->getCompanyBranch()->getId();
+                    } else {
+                        $company_id = $user->getManagedCompany()->getId();
+                    }
+                }
+
+                $qb = $em->createQueryBuilder();
+
+                if ($branch_checked_id != null) {
+
+                    $qb->select(" p.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (p.quantity) else (p.quantity*c.quanInKg)/c.quan END as Quantity")
+                        ->from("AppBundle:Purchases", "p")
+                        ->join("p.unit", "u")
+                        ->join("p.type", "wts")
+                        ->leftJoin("wts.conversionT", "c")
+                        ->join("p.branch", "b")
+                        ->join("wts.category_type", "wtc")
+                        ->where("b.id = :branchId")
+                        ->setParameter("branchId", $branch_checked_id);
+
+                } else {
+                    $qb->select("p.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (p.quantity) else (p.quantity*c.quanInKg)/c.quan END as Quantity")
+                        ->from("AppBundle:Purchases", "p")
+                        ->join("p.unit", "u")
+                        ->join("p.type", "wts")
+                        ->leftJoin("wts.conversionT", "c")
+                        ->join("p.branch", "b")
+                        ->join("wts.category_type", "wtc")
+                        ->where("b.Company = :companyId")
+                        ->orderBy('Name', 'ASC')
+                        ->setParameter("companyId", $company_id);
+
+                }
+                $query = $qb->getQuery();
+                $temparray = $query->getArrayResult();
+
+                $graph = array();
+                $data_array = array();
+                foreach ($temparray as $tempas2) {
+                    $quantity = floatval($tempas2["Quantity"]);
+                    $timeStamp = (int)$tempas2["Timestamp"];
+                    $graph[$tempas2["Name"]][] = [ $timeStamp, $quantity];
+                }
+
+                foreach ($graph as $key => $value){
+                    array_push($data_array,array("name" => $key, "data" => $value));
+                }
+
+                if ($user->getAppRole()->getRole() == AppRole::COMPANY_MANAGER)
+                    return new JsonResponse(array("status" => "success", "data" => $data_array, "premium" => ($isPremiumLicense == 1) ? true : false, "branches" => $branches_array));
+                else
+                    return new JsonResponse(array("status" => "success", "data" => $data_array, "premium" => ($isPremiumLicense == 1) ? true : false, "branches" => []));
+
+            } catch (DBALException $e) {
+                throw new Exception("DB Error", 777);
+            } catch (Exception $e) {
+                throw  new Exception("Params Error", 666);
+            }
+            catch (\Throwable $t) {
+                throw  new Exception("Null Error", 666);
+            }
+        } catch (Exception $e) {
+            return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
+        }
+
+    }
+
+
     private function getLoggedUser(Request $request)
     {
         try {

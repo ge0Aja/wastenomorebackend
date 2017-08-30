@@ -102,10 +102,19 @@ class WasteController extends Controller
 
                             $checkbranch = $em->getRepository("AppBundle:Branch")->findOneBy(["Company" => $company_id, "id" => $branch_id]);
 
+                            //dump($checkbranch->getId());
 
                             if ($checkbranch != null)
                                 $branch_checked_id = $checkbranch->getId();
                         }
+
+                    }else{
+
+
+                        $checkbranch = $user->getCompanyBranch();
+
+                        if ($checkbranch != null)
+                            $branch_checked_id = $checkbranch->getId();
 
                     }
 
@@ -146,8 +155,7 @@ class WasteController extends Controller
                         ->join("w.branch", "b")
                         ->join("wts.category_type", "wtc")
                         ->where("b.id = :branchId and w.waste_date >= :fromDate and w.waste_date <= :toDate")
-                        ->groupBy("wtc.id")
-                        ->groupBy("wtc.name")
+                        ->groupBy("Name")
                         ->setParameter("fromDate", $fromDate)
                         ->setParameter("toDate", $toDate)
                         ->setParameter("branchId", $branch_checked_id);
@@ -191,6 +199,9 @@ class WasteController extends Controller
                 $total_waste = 0.0;
                 $categories = array();
                 $data_array = array();
+
+                //dump($temparray);
+              //  exit();
                 foreach ($temparray as $tempas) {
                     $total_waste += floatval($tempas["Quantity"]);
 
@@ -271,7 +282,6 @@ class WasteController extends Controller
      */
     public function getWasteRatioBar(Request $request)
     {
-
         try {
 
             $user = $this->getLoggedUser($request);
@@ -316,6 +326,14 @@ class WasteController extends Controller
                                 $branch_checked_id = $checkbranch->getId();
                         }
 
+                    }else{
+
+
+                        $checkbranch = $user->getCompanyBranch();
+
+                        if ($checkbranch != null)
+                            $branch_checked_id = $checkbranch->getId();
+
                     }
 
                     if (!empty($content) && array_key_exists("toDate", $params) && !empty($params["toDate"]) && !empty($params["fromDate"]))
@@ -356,8 +374,7 @@ class WasteController extends Controller
                         ->join("w.branch", "b")
                         ->join("wts.category_type", "wtc")
                         ->where("b.id = :branchId and w.waste_date >= :fromDate and w.waste_date <= :toDate")
-                        ->groupBy("wtc.id")
-                        ->groupBy("wtc.name")
+                        ->groupBy("Name")
                         ->setParameter("fromDate", $fromDate)
                         ->setParameter("toDate", $toDate)
                         ->setParameter("branchId", $branch_checked_id);
@@ -370,8 +387,7 @@ class WasteController extends Controller
                         ->join("p.branch", "b")
                         ->join("wts.category_type", "wtc")
                         ->where("b.id = :branchId and p.date >= :fromDate and p.date <= :toDate")
-                        ->groupBy("wtc.id")
-                        ->groupBy("wtc.name")
+                        ->groupBy("Name")
                         ->setParameter("fromDate", $fromDate)
                         ->setParameter("toDate", $toDate)
                         ->setParameter("branchId", $branch_checked_id);
@@ -443,6 +459,8 @@ class WasteController extends Controller
                     }
 
                 }
+
+
                 $query = $qb->getQuery();
                 $query2 = $qb2->getQuery();
 
@@ -450,12 +468,17 @@ class WasteController extends Controller
 
                 $temparray2 = $query2->getArrayResult();
 
+
                 $categories = array();
                 $data_array = array();
-                foreach ($temparray as $tempas) {
 
-                    if (!in_array($tempas["Name"], $categories))
-                        array_push($categories, $tempas["Name"]);
+                foreach ($temparray as $tempas) {
+                    foreach ($temparray2 as $tempas2){
+
+                        if (!in_array($tempas2["Name"], $categories) && $tempas2["Name"] == $tempas["Name"])
+                            array_push($categories, $tempas["Name"]);
+                    }
+
                 }
 
                 if ($isPremiumLicense == 1 && $branch_checked_id == null) {
@@ -511,7 +534,6 @@ class WasteController extends Controller
 
                             if ($item["Name"] == $item2["Name"])
                                 array_push($data_array, round((floatval($item["QUpper"] / $item2["QLower"])) * 100, 2));
-
                         }
 
                     }
@@ -524,6 +546,133 @@ class WasteController extends Controller
 
 
             } catch (DBALException $e) {
+                throw new Exception($e->getMessage(), 777);
+            } catch (Exception $e) {
+                throw  new Exception("Params Error", 666);
+            } catch (\Throwable $t) {
+                throw  new Exception("Null Error", 666);
+            }
+        } catch (Exception $e) {
+            return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
+        }
+    }
+
+
+    /**
+     * @Route(path="api/getWasteTimeSeries", name="getWasteTimeSeries")
+     */
+    public function getWasteTimeSeries(Request $request)
+    {
+        try {
+
+            $user = $this->getLoggedUser($request);
+
+            if (null === $user)
+                throw new Exception("User Error", 401);
+
+            $content = $request->getContent();
+
+            $params = json_decode($content, true);
+            $em = $this->getDoctrine()->getManager();
+
+            try {
+
+                $branch_checked_id = null;
+                $company_id = null;
+                $branches_array = array();
+                $isPremiumLicense = $user->getSubLicense()->getLicense()->getPremium();
+
+                if ($isPremiumLicense == 1) {
+                    if ($user->getAppRole()->getRole() == AppRole::COMPANY_MANAGER) {
+
+                        $branches_records = $em->getRepository("AppBundle:Branch")->findBy(["Company" => $user->getManagedCompany()->getId()]);
+
+                        array_push($branches_array, array("key" => 0, "label" => "Choose Branch"));
+
+                        foreach ($branches_records as $branch) {
+
+                            array_push($branches_array, array("key" => $branch->getId(), "label" => $branch->getLocation()->getName() . '-' . $branch->getAddress()));
+                        }
+
+                        $company_id = $user->getManagedCompany()->getId();
+
+                        if (!empty($content) && array_key_exists("branch", $params)) {
+
+                            $branch_id = (int)$params["branch"];
+
+                            $checkbranch = $em->getRepository("AppBundle:Branch")->findOneBy(["Company" => $company_id, "id" => $branch_id]);
+
+
+                            if ($checkbranch != null)
+                                $branch_checked_id = $checkbranch->getId();
+                        }
+
+                    }else{
+
+
+                        $checkbranch = $user->getCompanyBranch();
+
+                        if ($checkbranch != null)
+                            $branch_checked_id = $checkbranch->getId();
+
+                    }
+                } else {
+
+                    if ($user->getAppRole()->getRole() != AppRole::COMPANY_MANAGER) {
+                        $branch_checked_id = $user->getCompanyBranch()->getId();
+                    } else {
+                        $company_id = $user->getManagedCompany()->getId();
+                    }
+                }
+
+                $qb = $em->createQueryBuilder();
+
+                if ($branch_checked_id != null) {
+
+                    $qb->select(" w.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (w.quantity) else (w.quantity*c.quanInKg)/c.quan END as Quantity")
+                        ->from("AppBundle:Waste", "w")
+                        ->join("w.unit", "u")
+                        ->join("w.waste_type_subcategory", "wts")
+                        ->leftJoin("wts.conversionT", "c")
+                        ->join("w.branch", "b")
+                        ->join("wts.category_type", "wtc")
+                        ->where("b.id = :branchId")
+                        ->setParameter("branchId", $branch_checked_id);
+
+                } else {
+                    $qb->select("w.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (w.quantity) else (w.quantity*c.quanInKg)/c.quan END as Quantity")
+                        ->from("AppBundle:Waste", "w")
+                        ->join("w.unit", "u")
+                        ->join("w.waste_type_subcategory", "wts")
+                        ->leftJoin("wts.conversionT", "c")
+                        ->join("w.branch", "b")
+                        ->join("wts.category_type", "wtc")
+                        ->where("b.Company = :companyId")
+                        ->orderBy('Name', 'ASC')
+                        ->setParameter("companyId", $company_id);
+
+                }
+                $query = $qb->getQuery();
+                $temparray = $query->getArrayResult();
+
+                $graph3 = array();
+                $data_array = array();
+                foreach ($temparray as $tempas2) {
+                    $quantity = floatval($tempas2["Quantity"]);
+                    $timeStamp = (int) $tempas2["Timestamp"];
+                    $graph3[$tempas2["Name"]][] = [ $timeStamp, $quantity];
+                }
+
+                foreach ($graph3 as $key => $value){
+                    array_push($data_array,array("name" => $key, "data" => $value));
+                }
+
+                if ($user->getAppRole()->getRole() == AppRole::COMPANY_MANAGER)
+                    return new JsonResponse(array("status" => "success", "data" => $data_array, "premium" => ($isPremiumLicense == 1) ? true : false, "branches" => $branches_array));
+                else
+                    return new JsonResponse(array("status" => "success", "data" => $data_array, "premium" => ($isPremiumLicense == 1) ? true : false, "branches" => []));
+
+            } catch (DBALException $e) {
                 throw new Exception("DB Error", 777);
             } catch (Exception $e) {
                 throw  new Exception("Params Error", 666);
@@ -533,6 +682,7 @@ class WasteController extends Controller
         } catch (Exception $e) {
             return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
         }
+
     }
 
 
@@ -569,20 +719,20 @@ class WasteController extends Controller
 
             try {
 
-                if(!array_key_exists("item",$params) ||
-                    !array_key_exists("unit",$params) ||
-                    !array_key_exists("quantity",$params) ||
-                    !array_key_exists("reason",$params) ||
-                    !array_key_exists("company",$params) ||
-                    !array_key_exists("date",$params)){
-                    throw new Exception("Params Error",666);
+                if (!array_key_exists("item", $params) ||
+                    !array_key_exists("unit", $params) ||
+                    !array_key_exists("quantity", $params) ||
+                    !array_key_exists("reason", $params) ||
+                    !array_key_exists("company", $params) ||
+                    !array_key_exists("date", $params)) {
+                    throw new Exception("Params Error", 666);
                 }
 
                 $wasteItem = (int)$params["item"];
-                $wasteUnit = (int) $params["unit"];
+                $wasteUnit = (int)$params["unit"];
                 $wasteQuantity = floatval($params["quantity"]);
-                $wasteReason = (int) $params["reason"];
-                $wasteCompany = (int) $params["company"];
+                $wasteReason = (int)$params["reason"];
+                $wasteCompany = (int)$params["company"];
                 $wasteDate = $params["date"];
 
 
@@ -630,33 +780,33 @@ class WasteController extends Controller
                     $purchasesSum += floatval($r["Quan"]);
                 }
 
-                foreach ($res2 as $r2){
-                    $currentWasteSum+= floatval($r2["Quan"]);
+                foreach ($res2 as $r2) {
+                    $currentWasteSum += floatval($r2["Quan"]);
                 }
 
                 $wasteCalculatedQuantity = 0.0;
 
                 $wasteUnitRecord = $em->getRepository("AppBundle:Unit")->findOneBy(["id" => $wasteUnit]);
 
-                if($wasteUnitRecord->getName() == "Kg")
+                if ($wasteUnitRecord->getName() == "Kg")
                     $wasteCalculatedQuantity = $wasteQuantity;
 
-                else{
-                    $wasteConversionRecord = $em->getRepository("AppBundle:Conversion")->findOneBy(["subcategory" => $wasteItem,"unit" => $wasteUnit]);
+                else {
+                    $wasteConversionRecord = $em->getRepository("AppBundle:Conversion")->findOneBy(["subcategory" => $wasteItem, "unit" => $wasteUnit]);
 
-                    $wasteCalculatedQuantity = ($wasteQuantity * $wasteConversionRecord->getQuanInKg() ) / $wasteConversionRecord->getQuan();
+                    $wasteCalculatedQuantity = ($wasteQuantity * $wasteConversionRecord->getQuanInKg()) / $wasteConversionRecord->getQuan();
                 }
 
-                if($wasteCalculatedQuantity > ($purchasesSum - $currentWasteSum))
-                    throw new Exception("Waste Quantity Error",666);
+                if ($wasteCalculatedQuantity > ($purchasesSum - $currentWasteSum))
+                    throw new Exception("Waste Quantity Error", 666);
 
 
                 $wasteRecord = new Waste();
 
                 $wasteRecord->setBranch($branch);
                 $wasteRecord->setQuantity($wasteCalculatedQuantity);
-                $wasteRecord->setUnit($em->getRepository("AppBundle:Unit")->findOneBy(['id' =>$wasteUnitRecord]));
-                $wasteRecord->setWasteTypeSubcategory($em->getRepository("AppBundle:WasteTypeCategorySubCategory")->findOneBy(["id" =>$wasteItem]));
+                $wasteRecord->setUnit($em->getRepository("AppBundle:Unit")->findOneBy(['id' => $wasteUnitRecord]));
+                $wasteRecord->setWasteTypeSubcategory($em->getRepository("AppBundle:WasteTypeCategorySubCategory")->findOneBy(["id" => $wasteItem]));
                 $wasteRecord->setWasteDate(new \DateTime($wasteDate));
                 $wasteRecord->setTimestamp(strtotime($wasteDate));
 
@@ -668,14 +818,13 @@ class WasteController extends Controller
 
                 return new JsonResponse(array("status" => "success"));
             } catch (Exception $e) {
-                throw new Exception("Params Error",666);
+                throw new Exception("Params Error", 666);
 
             } catch (DBALException $e) {
-                throw new Exception("DB Error",666);
+                throw new Exception("DB Error", 666);
 
-            }
-            catch (\Throwable $t) {
-                throw new Exception("Null Error",777);
+            } catch (\Throwable $t) {
+                throw new Exception("Null Error", 777);
             }
         } catch (Exception $e) {
             return new JsonResponse(array("status" => "error", "reason" => $e->getMessage()));
@@ -683,7 +832,8 @@ class WasteController extends Controller
 
     }
 
-    private function getLoggedUser(Request $request)
+    private
+    function getLoggedUser(Request $request)
     {
         try {
             $token = $this->get('app.jwt_token_authenticator')->getCredentials($request);

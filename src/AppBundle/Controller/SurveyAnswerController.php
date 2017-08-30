@@ -83,7 +83,7 @@ class SurveyAnswerController extends Controller
                     if($attrs[0] == "surveyVersion"){
                         $surveyVersion = (int)$attrs[1];
                     }
-                    if($attrs[0] == "timestamp"){
+                    else if($attrs[0] == "timestamp"){
                         $answer_timestamp = $attrs[1];
 
                     }else {
@@ -105,7 +105,7 @@ class SurveyAnswerController extends Controller
                             $answer->setCompany($company);
                             $answer->setQuestion($em->getRepository("AppBundle:SurveyQuestion")->findOneBy(["id" => $question_id]));
                             $answer->setTimestamp($answer_timestamp);
-                            $answer->setSurveyVersion($surveyVersion);
+                            $answer->setSurveyVersion($em->getRepository("AppBundle:SurveyVersion")->findOneBy(["id" => $surveyVersion]));
                             $answers[$question_id] = $answer;
                         }else{
 
@@ -140,7 +140,7 @@ class SurveyAnswerController extends Controller
             }
             catch (\Throwable $t){
                 $em->getConnection()->rollBack();
-                Throw  new Exception("Null Error",777);
+                Throw  new Exception($t->getMessage(),777);
             }
 
         }catch (Exception $e){

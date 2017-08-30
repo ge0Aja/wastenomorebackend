@@ -109,15 +109,15 @@ class HomeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $qb = $em->createQueryBuilder();
 
-        $qb->select("w.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then sum(w.quantity) else sum(w.quantity*c.quanInKg)/c.quan END as Quantity")
+        $qb->select("w.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (w.quantity) else (w.quantity*c.quanInKg)/c.quan END as Quantity")
             ->from("AppBundle:Waste", "w")
             ->join("w.unit", "u")
             ->join("w.waste_type_subcategory", "wts")
             ->leftJoin("wts.conversionT", "c")
             ->join("w.branch", "b")
             ->join("wts.category_type", "wtc")
-            ->groupBy("Name,u.name,c.quan,w.timestamp")
-            ->orderBy('Name', 'ASC');
+           // ->groupBy("Name,u.name,c.quan,w.timestamp")
+            ->orderBy('Timestamp', 'ASC');
 
         $query = $qb->getQuery();
         $temparray = $query->getArrayResult();
@@ -138,14 +138,14 @@ class HomeController extends Controller
         $em = $this->getDoctrine()->getManager();
         $qb = $em->createQueryBuilder();
 
-        $qb->select("p.timestamp as Timestamp, wtc.name as Name, case u.name when 'Kg' then sum(p.quantity) else sum(p.quantity*c.quanInKg)/c.quan END as QLower")
+        $qb->select("p.timestamp as Timestamp, wtc.name as Name, case u.name when 'Kg' then (p.quantity) else (p.quantity*c.quanInKg)/c.quan END as QLower")
             ->from("AppBundle:Purchases", "p")
             ->join("p.unit", "u")
             ->join("p.type", "wts")
             ->leftJoin("wts.conversionT", "c")
             ->join("p.branch", "b")
             ->join("wts.category_type", "wtc")
-            ->groupBy("Name,u.name,c.quan,p.timestamp")
+           // ->groupBy("Name,u.name,c.quan,p.timestamp")
             ->orderBy('Name', 'ASC');
 
         $query = $qb->getQuery();

@@ -931,10 +931,12 @@ class CompanyController extends Controller
                 if (null == $company)
                     return new JsonResponse(array("status" => "new_company"));
 
-                $companyAttribs = $company->getCompanyAttributesAndSubattributes();
+                $companyAttribsCount = $company->getCompanyAttributesAndSubattributes()->count();
 
-                if (null == $companyAttribs)
+                if (0 == $companyAttribsCount)
                     return new JsonResponse(array("status" => "new_attribs"));
+
+                $companyAttribs = $company->getCompanyAttributesAndSubattributes();
 
                 foreach ($companyAttribs as $attrib) {
                     if ($attrib->getAttribute()->getCompanyType()->getId() != $company->getType()->getId())

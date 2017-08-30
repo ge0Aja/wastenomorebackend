@@ -172,7 +172,7 @@ class SurveyQuestionController extends Controller
 
             try {
 
-                $surveyVersion = $em->getRepository("AppBundle:SurveyVersion")->findOneBy(array(),array("active" => "1"));
+                $surveyVersion = $em->getRepository("AppBundle:SurveyVersion")->findOneBy(array("active" => "1"));
 
                 if(null == $surveyVersion)
                     throw new Exception("Error",666);
@@ -211,7 +211,8 @@ class SurveyQuestionController extends Controller
 
                 Throw new Exception("DB Error", 777);
 
-            } catch (\Throwable $t) {
+            }
+            catch (\Throwable $t) {
 
                 Throw new Exception("Null Error", 666);
             }
