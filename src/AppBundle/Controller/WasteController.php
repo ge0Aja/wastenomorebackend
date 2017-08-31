@@ -108,7 +108,7 @@ class WasteController extends Controller
                                 $branch_checked_id = $checkbranch->getId();
                         }
 
-                    }else{
+                    } else {
 
 
                         $checkbranch = $user->getCompanyBranch();
@@ -201,7 +201,7 @@ class WasteController extends Controller
                 $data_array = array();
 
                 //dump($temparray);
-              //  exit();
+                //  exit();
                 foreach ($temparray as $tempas) {
                     $total_waste += floatval($tempas["Quantity"]);
 
@@ -326,7 +326,7 @@ class WasteController extends Controller
                                 $branch_checked_id = $checkbranch->getId();
                         }
 
-                    }else{
+                    } else {
 
 
                         $checkbranch = $user->getCompanyBranch();
@@ -473,7 +473,7 @@ class WasteController extends Controller
                 $data_array = array();
 
                 foreach ($temparray as $tempas) {
-                    foreach ($temparray2 as $tempas2){
+                    foreach ($temparray2 as $tempas2) {
 
                         if (!in_array($tempas2["Name"], $categories) && $tempas2["Name"] == $tempas["Name"])
                             array_push($categories, $tempas["Name"]);
@@ -607,7 +607,7 @@ class WasteController extends Controller
                                 $branch_checked_id = $checkbranch->getId();
                         }
 
-                    }else{
+                    } else {
 
 
                         $checkbranch = $user->getCompanyBranch();
@@ -623,34 +623,70 @@ class WasteController extends Controller
                     } else {
                         $company_id = $user->getManagedCompany()->getId();
                     }
+
+                    $toDate = date("Y-m-d");
+                    $fromDate = date("Y-m-d", strtotime($toDate . ' -1 months'));
                 }
 
                 $qb = $em->createQueryBuilder();
 
                 if ($branch_checked_id != null) {
+                    if ($isPremiumLicense == 1) {
+                        $qb->select(" w.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (w.quantity) else (w.quantity*c.quanInKg)/c.quan END as Quantity")
+                            ->from("AppBundle:Waste", "w")
+                            ->join("w.unit", "u")
+                            ->join("w.waste_type_subcategory", "wts")
+                            ->leftJoin("wts.conversionT", "c")
+                            ->join("w.branch", "b")
+                            ->join("wts.category_type", "wtc")
+                            ->where("b.id = :branchId")
+                            ->setParameter("branchId", $branch_checked_id);
+                    } else {
 
-                    $qb->select(" w.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (w.quantity) else (w.quantity*c.quanInKg)/c.quan END as Quantity")
-                        ->from("AppBundle:Waste", "w")
-                        ->join("w.unit", "u")
-                        ->join("w.waste_type_subcategory", "wts")
-                        ->leftJoin("wts.conversionT", "c")
-                        ->join("w.branch", "b")
-                        ->join("wts.category_type", "wtc")
-                        ->where("b.id = :branchId")
-                        ->setParameter("branchId", $branch_checked_id);
+                        $qb->select(" w.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (w.quantity) else (w.quantity*c.quanInKg)/c.quan END as Quantity")
+                            ->from("AppBundle:Waste", "w")
+                            ->join("w.unit", "u")
+                            ->join("w.waste_type_subcategory", "wts")
+                            ->leftJoin("wts.conversionT", "c")
+                            ->join("w.branch", "b")
+                            ->join("wts.category_type", "wtc")
+                            ->where("b.id = :branchId  and w.waste_date >= :fromDate and w.waste_date <= :toDate")
+                            ->setParameter("fromDate", $fromDate)
+                            ->setParameter("toDate", $toDate)
+                            ->setParameter("branchId", $branch_checked_id);
+
+                    }
+
 
                 } else {
-                    $qb->select("w.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (w.quantity) else (w.quantity*c.quanInKg)/c.quan END as Quantity")
-                        ->from("AppBundle:Waste", "w")
-                        ->join("w.unit", "u")
-                        ->join("w.waste_type_subcategory", "wts")
-                        ->leftJoin("wts.conversionT", "c")
-                        ->join("w.branch", "b")
-                        ->join("wts.category_type", "wtc")
-                        ->where("b.Company = :companyId")
-                        ->orderBy('Name', 'ASC')
-                        ->setParameter("companyId", $company_id);
+                    if ($isPremiumLicense) {
 
+                        $qb->select("w.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (w.quantity) else (w.quantity*c.quanInKg)/c.quan END as Quantity")
+                            ->from("AppBundle:Waste", "w")
+                            ->join("w.unit", "u")
+                            ->join("w.waste_type_subcategory", "wts")
+                            ->leftJoin("wts.conversionT", "c")
+                            ->join("w.branch", "b")
+                            ->join("wts.category_type", "wtc")
+                            ->where("b.Company = :companyId")
+                            ->orderBy('Name', 'ASC')
+                            ->setParameter("companyId", $company_id);
+                    } else {
+
+
+                        $qb->select("w.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (w.quantity) else (w.quantity*c.quanInKg)/c.quan END as Quantity")
+                            ->from("AppBundle:Waste", "w")
+                            ->join("w.unit", "u")
+                            ->join("w.waste_type_subcategory", "wts")
+                            ->leftJoin("wts.conversionT", "c")
+                            ->join("w.branch", "b")
+                            ->join("wts.category_type", "wtc")
+                            ->where("b.Company = :companyId and w.waste_date >= :fromDate and w.waste_date <= :toDate")
+                            ->orderBy('Name', 'ASC')
+                            ->setParameter("fromDate", $fromDate)
+                            ->setParameter("toDate", $toDate)
+                            ->setParameter("companyId", $company_id);
+                    }
                 }
                 $query = $qb->getQuery();
                 $temparray = $query->getArrayResult();
@@ -659,12 +695,12 @@ class WasteController extends Controller
                 $data_array = array();
                 foreach ($temparray as $tempas2) {
                     $quantity = floatval($tempas2["Quantity"]);
-                    $timeStamp = (int) $tempas2["Timestamp"];
-                    $graph3[$tempas2["Name"]][] = [ $timeStamp, $quantity];
+                    $timeStamp = $tempas2["Timestamp"]+0;
+                    $graph3[$tempas2["Name"]][] = [$timeStamp, $quantity];
                 }
 
-                foreach ($graph3 as $key => $value){
-                    array_push($data_array,array("name" => $key, "data" => $value));
+                foreach ($graph3 as $key => $value) {
+                    array_push($data_array, array("name" => $key, "data" => $value));
                 }
 
                 if ($user->getAppRole()->getRole() == AppRole::COMPANY_MANAGER)
@@ -689,7 +725,8 @@ class WasteController extends Controller
     /**
      * @Route(path="api/addBranchWaste",name="addBranchWaste")
      */
-    public function insertWaste(Request $request)
+    public
+    function insertWaste(Request $request)
     {
 
         try {
@@ -808,7 +845,7 @@ class WasteController extends Controller
                 $wasteRecord->setUnit($em->getRepository("AppBundle:Unit")->findOneBy(['id' => $wasteUnitRecord]));
                 $wasteRecord->setWasteTypeSubcategory($em->getRepository("AppBundle:WasteTypeCategorySubCategory")->findOneBy(["id" => $wasteItem]));
                 $wasteRecord->setWasteDate(new \DateTime($wasteDate));
-                $wasteRecord->setTimestamp(strtotime($wasteDate));
+                $wasteRecord->setTimestamp(strtotime($wasteDate)."000");
 
                 $wasteRecord->setReason($em->getRepository("AppBundle:Reason")->findOneBy(["id" => $wasteReason]));
                 $wasteRecord->setCollectingCompany($em->getRepository("AppBundle:CollectingCompany")->findOneBy(["id" => $wasteCompany]));

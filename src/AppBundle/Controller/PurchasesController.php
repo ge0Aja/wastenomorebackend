@@ -111,7 +111,7 @@ class PurchasesController extends Controller
                 $purchaseRecord->setEstimateOfCost($purchaseCost);
                 $purchaseRecord->setQuantity($purchaseQuantity);
                 $purchaseRecord->setDate(new \DateTime($purchaseDate));
-                $purchaseRecord->setTimestamp(strtotime($purchaseDate));
+                $purchaseRecord->setTimestamp(strtotime($purchaseDate)."000");
 
                 $purchaseRecord->setUnit($em->getRepository("AppBundle:Unit")->findOneBy(["id" => $purchaseUnit]));
                 $purchaseRecord->setType($em->getRepository("AppBundle:WasteTypeCategorySubCategory")->findOneBy(["id" => $purchaseItem]));
@@ -204,33 +204,74 @@ class PurchasesController extends Controller
                     } else {
                         $company_id = $user->getManagedCompany()->getId();
                     }
+
+                    $toDate = date("Y-m-d");
+                    $fromDate = date("Y-m-d", strtotime($toDate . ' -1 months'));
                 }
 
                 $qb = $em->createQueryBuilder();
 
                 if ($branch_checked_id != null) {
 
-                    $qb->select(" p.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (p.quantity) else (p.quantity*c.quanInKg)/c.quan END as Quantity")
-                        ->from("AppBundle:Purchases", "p")
-                        ->join("p.unit", "u")
-                        ->join("p.type", "wts")
-                        ->leftJoin("wts.conversionT", "c")
-                        ->join("p.branch", "b")
-                        ->join("wts.category_type", "wtc")
-                        ->where("b.id = :branchId")
-                        ->setParameter("branchId", $branch_checked_id);
+                    if($isPremiumLicense){
+
+                        $qb->select(" p.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (p.quantity) else (p.quantity*c.quanInKg)/c.quan END as Quantity")
+                            ->from("AppBundle:Purchases", "p")
+                            ->join("p.unit", "u")
+                            ->join("p.type", "wts")
+                            ->leftJoin("wts.conversionT", "c")
+                            ->join("p.branch", "b")
+                            ->join("wts.category_type", "wtc")
+                            ->where("b.id = :branchId ")
+
+                            ->setParameter("branchId", $branch_checked_id);
+
+                    }else{
+
+                        $qb->select(" p.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (p.quantity) else (p.quantity*c.quanInKg)/c.quan END as Quantity")
+                            ->from("AppBundle:Purchases", "p")
+                            ->join("p.unit", "u")
+                            ->join("p.type", "wts")
+                            ->leftJoin("wts.conversionT", "c")
+                            ->join("p.branch", "b")
+                            ->join("wts.category_type", "wtc")
+                            ->where("b.id = :branchId and p.date >= :fromDate and p.date <= :toDate")
+                            ->setParameter("fromDate", $fromDate)
+                            ->setParameter("toDate", $toDate)
+                            ->setParameter("branchId", $branch_checked_id);
+
+                    }
+
+
 
                 } else {
-                    $qb->select("p.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (p.quantity) else (p.quantity*c.quanInKg)/c.quan END as Quantity")
-                        ->from("AppBundle:Purchases", "p")
-                        ->join("p.unit", "u")
-                        ->join("p.type", "wts")
-                        ->leftJoin("wts.conversionT", "c")
-                        ->join("p.branch", "b")
-                        ->join("wts.category_type", "wtc")
-                        ->where("b.Company = :companyId")
-                        ->orderBy('Name', 'ASC')
-                        ->setParameter("companyId", $company_id);
+
+                    if($isPremiumLicense){
+                        $qb->select("p.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (p.quantity) else (p.quantity*c.quanInKg)/c.quan END as Quantity")
+                            ->from("AppBundle:Purchases", "p")
+                            ->join("p.unit", "u")
+                            ->join("p.type", "wts")
+                            ->leftJoin("wts.conversionT", "c")
+                            ->join("p.branch", "b")
+                            ->join("wts.category_type", "wtc")
+                            ->where("b.Company = :companyId")
+                            ->orderBy('Name', 'ASC')
+                            ->setParameter("companyId", $company_id);
+
+                    }else{
+                        $qb->select("p.timestamp as Timestamp,wtc.name as Name,  case u.name when 'Kg' then (p.quantity) else (p.quantity*c.quanInKg)/c.quan END as Quantity")
+                            ->from("AppBundle:Purchases", "p")
+                            ->join("p.unit", "u")
+                            ->join("p.type", "wts")
+                            ->leftJoin("wts.conversionT", "c")
+                            ->join("p.branch", "b")
+                            ->join("wts.category_type", "wtc")
+                            ->where("b.Company = :companyId  and p.date >= :fromDate and p.date <= :toDate")
+                            ->orderBy('Name', 'ASC')
+                            ->setParameter("fromDate", $fromDate)
+                            ->setParameter("toDate", $toDate)
+                            ->setParameter("companyId", $company_id);
+                    }
 
                 }
                 $query = $qb->getQuery();
@@ -240,7 +281,7 @@ class PurchasesController extends Controller
                 $data_array = array();
                 foreach ($temparray as $tempas2) {
                     $quantity = floatval($tempas2["Quantity"]);
-                    $timeStamp = (int)$tempas2["Timestamp"];
+                    $timeStamp = $tempas2["Timestamp"] + 0;
                     $graph[$tempas2["Name"]][] = [ $timeStamp, $quantity];
                 }
 
