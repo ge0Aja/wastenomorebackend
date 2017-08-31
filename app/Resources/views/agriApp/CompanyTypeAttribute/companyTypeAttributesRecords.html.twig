@@ -240,9 +240,9 @@
     }
 
 
-    $("#companyType").focus(function(){
-        getCompanyTypes();
-    });
+//    $("#companyType").focus(function(){
+//        getCompanyTypes();
+//    });
 
 
     $(document).on("submit", "#addCompanyTypeAttributeForm", function (e) {
@@ -284,22 +284,22 @@
         }
     }
 
-    function getCompanyTypes() {
-        $.ajax({
-            url:'{{ path('CompanyTypeRecords') }}',
-            type:'GET',
-            dataType: 'json',
-            success: function( json ) {
-                for(var i=0;i<json.data.length;i++)
-                {
-                        $('#companyType').append($('<option>', {
-                            value: json.data[i].id,
-                            text: json.data[i].typeName
-                        }));
-                }
-            }
-        })
-    }
+    {#function getCompanyTypes() {#}
+        {#$.ajax({#}
+            {#url:'{{ path('CompanyTypeRecords') }}',#}
+            {#type:'GET',#}
+            {#dataType: 'json',#}
+            {#success: function( json ) {#}
+                {#for(var i=0;i<json.data.length;i++)#}
+                {#{#}
+                        {#$('#companyType').append($('<option>', {#}
+                            {#value: json.data[i].id,#}
+                            {#text: json.data[i].typeName#}
+                        {#}));#}
+                {#}#}
+            {#}#}
+        {#})#}
+    {#}#}
 
     $(document).on("submit", "#delAttribute", function (e){
 

@@ -17,6 +17,7 @@
         "EstablishmentDate": "{{ companyRecord.dateOfEstablishment |date('d-M-Y') }}",
 
         "mainBranchLocation": {% if companyRecord.mainBranch != null %}"{{ companyRecord.mainBranch.location.name}}" {% else %} " " {% endif %},
+        "mainBranchAddress": {% if companyRecord.mainBranch != null %}"{{ companyRecord.mainBranch.address}}" {% else %} " " {% endif %},
         "totalAnnualSales": "{{ companyRecord.totalAnnualSales.salesRange }}"
         }
     {%  else %}
@@ -26,6 +27,7 @@
         "companyType": "{{ companyRecord.type.typeName}}",
         "EstablishmentDate": "{{ companyRecord.dateOfEstablishment |date('d-M-Y') }}",
         "mainBranchLocation": {% if companyRecord.mainBranch != null %}"{{ companyRecord.mainBranch.location.name}}" {% else %} " " {% endif %},
+        "mainBranchAddress": {% if companyRecord.mainBranch != null %}"{{ companyRecord.mainBranch.address}}" {% else %} " " {% endif %},
         "totalAnnualSales": "{{ companyRecord.totalAnnualSales.salesRange }}"
         },
     {% endif %}

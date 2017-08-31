@@ -9,8 +9,9 @@
         <th>Type</th>
         <th>Date of Establishment</th>
         <th>Main Branch Location</th>
+        <th>Main Branch Address</th>
         <th>Total Annual Sales</th>
-        <th></th>
+        {#<th></th>#}
         </thead>
        <tbody>
 
@@ -25,7 +26,7 @@
     $(document).ready(function () {
 
         var tHead = $('#companyRecords thead th');
-        tHead.not(":eq(0),:eq(6)").each(function () {
+        tHead.not(":eq(0)").each(function () { {#,:eq(6)#}
             var title = $(this).text();
             //console.log(title);
             $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
@@ -47,6 +48,7 @@
                 {"data": "companyType"},
                 {"data": "EstablishmentDate"},
                 {"data": "mainBranchLocation"},
+                {"data": "mainBranchAddress"},
                 {"data": "totalAnnualSales"}
 
             ],
@@ -61,15 +63,15 @@
                 "visible": false
             },
                 {
-                    "targets": [1, 2, 3, 4, 5],
+                    "targets": [1, 2, 3, 4, 5, 6],
                     "orderable": false
                 },
-                {
-                    "targets":[6],
-                    "data": null,
-                    "defaultContent":'', //<button type="button" data-toggle="modal" class="btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>
-                    "orderable":false
-                }
+//                {
+//                    "targets":[6],
+//                    "data": null,
+//                    "defaultContent":'', //<button type="button" data-toggle="modal" class="btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>
+//                    "orderable":false
+//                }
             ]
         });
         table.columns().every(function () {
@@ -107,22 +109,22 @@
     });
 
 
-    function deleterow(e) {
-        var table = $('#companyRecords').DataTable();
-        if (confirm('Are you sure you want to delete this?')) {
-            $.ajax({
-                url: {{ path('deleteCompany') }}+e,
-                type: 'POST',
-                success: function (data) {
-                    if(data.status == 'success') {
-                        table.ajax.reload(null, false);
-                    }if(data.status == 'error'){
-                        //display the message
-                    }
-                }
-            });
-        }
-    }
+//    function deleterow(e) {
+//        var table = $('#companyRecords').DataTable();
+//        if (confirm('Are you sure you want to delete this?')) {
+//            $.ajax({
+//                url: '/cms/deleteCompany'+e,
+//                type: 'POST',
+//                success: function (data) {
+//                    if(data.status == 'success') {
+//                        table.ajax.reload(null, false);
+//                    }if(data.status == 'error'){
+//                        //display the message
+//                    }
+//                }
+//            });
+//        }
+//    }
 
 </script>
 {{ include(':agriApp:base_foot.html.twig') }}

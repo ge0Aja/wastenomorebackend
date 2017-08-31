@@ -15,8 +15,8 @@
     {%  if counter == wasteLogArrayLength-1 %}
         {
         "id": "{{ wasteLog.id }}",
-        "wasteType": "{{ wasteLog.wasteType.name}}",
-        "wasteTypeCategory": "{{ wasteLog.wasteTypeCategory.name}}",
+        {#"wasteType": "{{ wasteLog.wasteType.name}}",#}
+        {#"wasteTypeCategory": "{{ wasteLog.wasteTypeCategory.name}}",#}
         "wasteTypeSubcategory": "{{ wasteLog.wasteTypeSubcategory.name}}",
         "unit": "{{ wasteLog.unit.name}}",
         "branch": "{{ wasteLog.branch.location.name }} - {{ wasteLog.branch.address }}",
@@ -32,8 +32,8 @@
     {%  else %}
         {
         "id": "{{ wasteLog.id }}",
-        "wasteType": "{{ wasteLog.wasteType.name}}",
-        "wasteTypeCategory": "{{ wasteLog.wasteTypeCategory.name}}",
+        {#"wasteType": "{{ wasteLog.wasteType.name}}",#}
+        {#"wasteTypeCategory": "{{ wasteLog.wasteTypeCategory.name}}",#}
         "wasteTypeSubcategory": "{{ wasteLog.wasteTypeSubcategory.name}}",
         "unit": "{{ wasteLog.unit.name}}",
         "branch": "{{ wasteLog.branch.location.name }} - {{ wasteLog.branch.address }}",

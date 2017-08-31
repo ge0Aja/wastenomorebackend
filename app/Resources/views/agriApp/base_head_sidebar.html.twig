@@ -26,7 +26,7 @@
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
 
-            <li><a href="/home"><i class="fa fa-home"></i> <span class="pull-right-container"> Home</span></a></li>
+            <li><a href="/cms/home"><i class="fa fa-home"></i> <span class="pull-right-container"> Home</span></a></li>
 
             <li class="active treeview">
                 <a href="#">
@@ -37,17 +37,18 @@
 
                     <li><a href="{{ path('annualSales') }}"><i class="fa fa-cog"></i> Annual Sales Ranges</a></li>
                     <li><a href="{{ path('CompanyTypes') }}"><i class="fa fa-cog"></i> Company Types </a></li>
-                    <li><a href="{{ path('CompanyTypeAttributes') }}"><i class="fa fa-cog"></i> Types Attributes </a></li>
-                    <li><a href="{{ path('CompanyTypeSubAttributes') }}"><i class="fa fa-cog"></i> Types SubAttributes </a></li>
-                    <li><a href="{{ path('subAttributeValues') }}"><i class="fa fa-cog"></i> Types SubAttributes Values </a></li>
+                    <li><a href="{{ path('CompanyTypeAttributes') }}"><i class="fa fa-cog"></i> Company Attributes </a></li>
+                    <li><a href="{{ path('CompanyTypeSubAttributes') }}"><i class="fa fa-cog"></i> Company SubAttribs </a></li>
+                    {#<li><a href="{{ path('subAttributeValues') }}"><i class="fa fa-cog"></i> Types SubAttributes Values </a></li>#}
                     <li><a href="{{ path('UnitsRecordsPage') }}"><i class="fa fa-cog"></i> Units</a></li>
+                    <li><a href="{{ path('Conversions') }}"><i class="fa fa-cog"></i> Units Conversion</a></li>
                     <li><a href="{{ path('ReasonsRecordsPage') }}"><i class="fa fa-cog"></i> Waste Reasons</a></li>
                     <li><a href="{{ path('GovernoratesRecordsPage') }}"><i class="fa fa-cog"></i> Governorates</a></li>
                     <li><a href="{{ path('DistrictsRecordsPage') }}"><i class="fa fa-cog"></i> Districts</a></li>
                     <li><a href="{{ path('CitiesRecordsPage') }}"><i class="fa fa-cog"></i> City/Town</a></li>
-                    {#<li><a href="{{ path('RecyclingCompanies') }}"><i class="fa fa fa-dollar"></i> Recycling Companies</a></li>
+                    <li><a href="{{ path('RecyclingCompanies') }}"><i class="fa fa fa-dollar"></i> Recycling Companies</a></li>
                     <li><a href="{{ path('CollectingCompaniesPage') }}"><i class="fa fa fa-dollar"></i> Collection Companies</a></li>
-#}
+
                     <li><a href="{{ path('WasteTypes') }}"><i class="fa fa-cog"></i>Waste Types</a></li>
                     <li><a href="{{ path('WasteTypeCategories') }}"><i class="fa fa-cog"></i>Waste Categories</a></li>
                     <li><a href="{{ path('WasteTypeSubCategories') }}"><i class="fa fa-cog"></i>Waste SubCategories</a></li>
@@ -57,8 +58,15 @@
 
                     <li><a href="{{ path('MenuTypes') }}"><i class="fa fa-cog"></i>Menu Types</a></li>
                     <li><a href="{{ path('MenuSubTypes') }}"><i class="fa fa-cog"></i>Sub-Menu Types</a></li>
-                    <li><a href="{{ path('appRoles') }}"><i class="fa fa-cog"></i>App Roles</a></li>
+                    {#<li><a href="{{ path('appRoles') }}"><i class="fa fa-cog"></i>App Roles</a></li>#}
                     <li><a href="{{ path('Licenses') }}"><i class="fa fa-cog"></i>Licenses</a></li>
+                    <li><a href="{{ path('SubLicenses') }}"><i class="fa fa-cog"></i>SubLicenses</a></li>
+
+                    <li><a href="{{ path('SurveyQuestions') }}"><i class="fa fa-cog"></i>Survey Questions</a></li>
+                    <li><a href="{{ path('SurveyVersions') }}"><i class="fa fa-cog"></i>Survey Versions</a></li>
+                    <li><a href="{{ path('SurveyAnswers') }}"><i class="fa fa-cog"></i>Survey Answers</a></li>
+
+                    <li><a href="{{ path('appUsers') }}"><i class="fa fa-cog"></i>Users</a></li>
 
 
                 </ul>
@@ -70,8 +78,8 @@
                     <span class="pull-right-container"> Company</span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ path('CompanyRecordsPage') }}"><i class="fa fa-users"></i> Companies Records</a></li>
-                    <li><a href="{{ path('Branches') }}"><i class="fa fa-users"></i> Companies' Branches</a></li>
+                    <li><a href="{{ path('CompanyRecordsPage') }}"><i class="fa fa-building"></i> Companies Records</a></li>
+                    <li><a href="{{ path('Branches') }}"><i class="fa fa-location-arrow"></i> Companies' Branches</a></li>
 
                 </ul>
             </li>
@@ -83,7 +91,7 @@
                 </a>
                 <ul class="treeview-menu">
 
-                        <li><a href="{{ path('wasteLogs') }}"><i class="fa fa-credit-card"></i> Logs </a></li>
+                        <li><a href="{{ path('wasteLogs') }}"><i class="fa fa-trash"></i> Logs </a></li>
 
                 </ul>
             </li>
