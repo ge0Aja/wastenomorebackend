@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a9583298-da92-4637-a171-fefc01a8f53c" name="Default" comment="Added Full CRUD (annual sales, units, reasons, city, district, governorate, company type ) Views">
+    <list default="true" id="a9583298-da92-4637-a171-fefc01a8f53c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/agriApp/base_head.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/agriApp/base_head.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Resources/views/agriApp/home.html.twig" afterPath="$PROJECT_DIR$/app/Resources/views/agriApp/home.html.twig" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Controller/HomeController.php" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/HomeController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Controller/PurchasesController.php" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/PurchasesController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Controller/WasteController.php" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/WasteController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AppBundle/Controller/WasteTypeSubCategoryController.php" afterPath="$PROJECT_DIR$/src/AppBundle/Controller/WasteTypeSubCategoryController.php" />
     </list>
-    <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,8 +14,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
-  <component name="ComposerSettings">
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -33,56 +31,17 @@
     <expand />
     <select />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
-  <component name="FavoritesManager">
-    <favorites_list name="AgriAppCMS" />
-  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="HomeController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/HomeController.php">
+      <file leaf-file-name="WasteTypeSubCategoryController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/WasteTypeSubCategoryController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state relative-caret-position="212">
+              <caret line="210" column="39" lean-forward="false" selection-start-line="210" selection-start-column="24" selection-end-line="210" selection-end-column="39" />
               <folding>
-                <element signature="e#40#99#0#PHP" expanded="true" />
-                <element signature="e#765#790#0#PHP" expanded="true" />
-                <element signature="e#952#2028#0#PHP" expanded="false" />
-                <element signature="e#2034#3679#0#PHP" expanded="false" />
-                <element signature="e#3685#4715#0#PHP" expanded="false" />
-                <element signature="e#4721#5762#0#PHP" expanded="false" />
+                <element signature="e#40#69#0#PHP" expanded="true" />
+                <element signature="e#9585#10401#0#PHP" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="home.html.twig" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/home.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="185" column="31" selection-start-line="185" selection-start-column="31" selection-end-line="185" selection-end-column="31" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#div#0;n#div#0;n#!!top" expanded="false" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#table#0;n#div#0;n#!!top" expanded="false" />
-                <element signature="n#table#1;n#div#0;n#!!top" expanded="false" />
-                <element signature="e#1793#2454#0#HTML" expanded="false" />
-                <element signature="n#script#6;n#!!top" expanded="false" />
-                <element signature="n#script#8;n#!!top" expanded="false" />
-                <marker date="1503526683981" expanded="true" signature="4111:4131" ph="..." />
-                <marker date="1503526683981" expanded="true" signature="5956:5976" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base_head.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/base_head.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="97" column="31" selection-start-line="97" selection-start-column="31" selection-end-line="97" selection-end-column="31" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -90,71 +49,47 @@
       <file leaf-file-name="WasteController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/WasteController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="364" column="51" selection-start-line="364" selection-start-column="51" selection-end-line="364" selection-end-column="51" />
+            <state relative-caret-position="392">
+              <caret line="539" column="38" lean-forward="false" selection-start-line="539" selection-start-column="24" selection-end-line="539" selection-end-column="38" />
               <folding>
-                <element signature="e#1023#1058#0#PHP" expanded="true" />
-                <element signature="e#1368#1409#0#PHP" expanded="true" />
                 <element signature="e#2088#11862#0#PHP" expanded="false" />
+                <element signature="e#31051#31867#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RegistrationController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/RegistrationController.php">
+      <file leaf-file-name="PurchasesController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/PurchasesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="27" column="11" selection-start-line="27" selection-start-column="11" selection-end-line="27" selection-end-column="11" />
+            <state relative-caret-position="775">
+              <caret line="122" column="30" lean-forward="false" selection-start-line="122" selection-start-column="30" selection-end-line="122" selection-end-column="30" />
               <folding>
-                <element signature="e#39#68#0#PHP" expanded="true" />
+                <element signature="e#40#69#0#PHP" expanded="true" />
+                <element signature="e#4776#5592#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SubLicenseController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/SubLicenseController.php">
+      <file leaf-file-name="CompanyController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/CompanyController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/config/config.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1404">
-              <caret line="80" column="16" selection-start-line="80" selection-start-column="16" selection-end-line="80" selection-end-column="16" />
+            <state relative-caret-position="97">
+              <caret line="371" column="44" lean-forward="false" selection-start-line="371" selection-start-column="44" selection-end-line="371" selection-end-column="68" />
               <folding>
-                <marker date="1503332169467" expanded="true" signature="27:41" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="62:74" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="95:107" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="327:329" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="602:606" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="637:641" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="908:935" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="1085:1089" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="1133:1137" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="1295:1304" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="1492:1496" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="1896:1935" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="1958:1962" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="2150:2156" ph="..." />
-                <marker date="1503332169467" expanded="true" signature="2403:2410" ph="..." />
+                <element signature="e#1228#1346#0#PHP" expanded="false" />
+                <element signature="e#1431#1912#0#PHP" expanded="false" />
+                <element signature="e#8104#9597#0#PHP" expanded="false" />
+                <element signature="e#9696#11365#0#PHP" expanded="false" />
+                <element signature="e#17363#19309#0#PHP" expanded="false" />
+                <element signature="e#19415#21296#0#PHP" expanded="false" />
+                <element signature="e#21403#22977#0#PHP" expanded="false" />
+                <element signature="e#23078#24442#0#PHP" expanded="false" />
+                <element signature="e#24549#26203#0#PHP" expanded="false" />
+                <element signature="e#29320#30841#0#PHP" expanded="false" />
+                <element signature="e#30848#31739#0#PHP" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="routing.yml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/config/routing.yml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="33" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -170,36 +105,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getUnits</find>
-      <find>checkCredentials</find>
-      <find>getUnitsUpdateDDL</find>
-      <find>getCompanyLicenses</find>
-      <find>branch</find>
-      <find>sublicense</find>
-      <find>company</find>
-      <find>construct</find>
-      <find>isActiveadd</find>
-      <find>active</find>
-      <find>used</find>
-      <find>isActiveedit</find>
-      <find>license</find>
-      <find>LicenseUser</find>
-      <find>$SubLicenseUser</find>
-      <find>user</find>
-      <find>License</find>
-      <find>SubLicenseUser</find>
-      <find>activeUser</find>
-      <find>getLicense</find>
-      <find>setRole</find>
-      <find>getCLicenses</find>
-      <find>challange</find>
-      <find>$today</find>
-      <find>role</find>
-      <find>ROLE_USER</find>
-      <find>ROLE_ADMIN</find>
-      <find>getTimestamp</find>
-      <find>reason</find>
-      <find>dbal</find>
+      <find>getCompanyBranchesDDl</find>
+      <find>getCompanyBranches</find>
+      <find>getLocations</find>
+      <find>deleteBranchApi</find>
+      <find>logger</find>
+      <find>editBranchBasicInfo</find>
+      <find>newCompanyBranch</find>
+      <find>getAnnualSalesApi</find>
+      <find>getCompanyTypesApi</find>
+      <find>newCompanyAttrSubAttr</find>
+      <find>dropdowntable</find>
+      <find>dropdownanswer</find>
+      <find>surveywithdropdownaddN</find>
+      <find>logout</find>
+      <find>getAttrSubAttrsApi</find>
+      <find>surveyQRecords</find>
+      <find>deleteWasteLog</find>
+      <find>delete</find>
+      <find>questionwithdetails</find>
+      <find>detailshint</find>
+      <find>surveyAnswerCompany</find>
+      <find>surveyAnswerBranch</find>
+      <find>register</find>
+      <find>$branch</find>
+      <find>queryb</find>
+      <find>Graph</find>
+      <find>purchases</find>
+      <find>category</find>
+      <find>date</find>
+      <find>addBranch</find>
     </findStrings>
     <replaceStrings>
       <replace>reasonsRecords</replace>
@@ -218,13 +153,15 @@
       <replace>licenseRecords</replace>
       <replace>conversionRecords</replace>
       <replace>addConversion</replace>
+      <replace>Exception</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
-        <option value="Nappa &lt;ali.nabaa@saugo360.com&gt;" />
+        <option value="geoaja &lt;gaa39@mail.aub.edu&gt;" />
         <option value="Geo &lt;gaa39@mail.aub.edu&gt;" />
+        <option value="Nappa &lt;ali.nabaa@saugo360.com&gt;" />
       </list>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -233,16 +170,34 @@
         <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
+    <option name="PUSH_TAGS">
+      <GitPushTagMode />
+    </option>
     <push-targets>
-      <push-target-info repo="$PROJECT_DIR$" source="master" target-remote="origin" target-branch="APISecurity" />
-      <push-target-info repo="$PROJECT_DIR$" source="SecurityLayerAddedForAPI" target-remote="origin" target-branch="FullClone" />
+      <push-target-info target-remote="origin" target-branch="FullClone" repo="$PROJECT_DIR$" source="SecurityLayerAddedForAPI" />
+      <push-target-info target-remote="origin" target-branch="master" repo="$PROJECT_DIR$" source="master" />
     </push-targets>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/AppBundle/Controller/WasteTypeController.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Controller/WasteTypeSubCategoryController.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/SubAttributeValuesController.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/CompanyTypeAttributeController.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/CompanyTypeSubAttributeController.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Entity/SubAttributeValues.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Entity/CompanyAttributesAndSubAttributes.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Entity/AppRole.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Entity/SubLicense.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Entity/Unit.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/SubLicenseController.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/CityController.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/BranchController.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/AnnualSalesController.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/CompanyTypeController.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/loginController.php" />
+        <option value="$PROJECT_DIR$/app/config/config.yml" />
+        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/SurveyQuestion/SurveyQsInJson.html.twig" />
+        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/District/DistrictRecordsInJson.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/agriApp/Branch/branchRecords.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/agriApp/City/citiesRecords.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/agriApp/CollectingCompany/collectingCompanies.html.twig" />
@@ -255,43 +210,28 @@
         <option value="$PROJECT_DIR$/app/Resources/views/agriApp/Governorate/governorateRecords.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/agriApp/Reason/reasonsRecords.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/agriApp/RecyclingCompany/recyclingCompanies.html.twig" />
-        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/SurveyQuestion/SurveyQs.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/agriApp/Unit/unitsRecords.html.twig" />
+        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/Waste/wasteLogsInJson.html.twig" />
         <option value="$PROJECT_DIR$/app/Resources/views/agriApp/Waste/wasteLogs.html.twig" />
-        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/WasteTypeCategory/WasteTypeCategories.html.twig" />
-        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/Conversion/ConversionRecords.html.twig" />
+        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/Purchase/purchasesRecordsInJson.html.twig" />
+        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/Purchase/purchasesRecords.html.twig" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Entity/SurveyQuestion.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Entity/Branch.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Entity/DDlMenuSubType.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Entity/Company.php" />
-        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/License/LicenseRecords.html.twig" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Controller/DefaultController.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Entity/License.php" />
-        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/License/LicenseRecordsInJson.html.twig" />
-        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/License/SubLicenseRecordsInJson.html.twig" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Controller/SubLicenseController.php" />
-        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/License/SubLicenseRecords.html.twig" />
-        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/Users/appUsersInJson.html.twig" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Security/JwtAuthenticator.php" />
-        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/Users/appUsers.html.twig" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Controller/LicenseController.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Entity/AppRole.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Form/UserType.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Entity/User.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Entity/SubLicense.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Controller/UserController.php" />
-        <option value="$PROJECT_DIR$/app/AppKernel.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Security/RefreshToken.php" />
-        <option value="$PROJECT_DIR$/app/config/config.yml" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Security/JwTRefresher.php" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Security/TokenReferesher.php" />
+        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/SurveyQuestion/SurveyQs.html.twig" />
         <option value="$PROJECT_DIR$/app/config/security.yml" />
-        <option value="$PROJECT_DIR$/app/config/routing.yml" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Controller/AnnualSalesController.php" />
-        <option value="$PROJECT_DIR$/app/config/parameters.yml" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Entity/SurveyQuestionAnswer.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/CompanyController.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/SurveyQuestionController.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Controller/RegistrationController.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Entity/Purchases.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Entity/WasteTypeCategory.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Entity/WasteType.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Entity/Waste.php" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/WasteTypeSubCategoryController.php" />
         <option value="$PROJECT_DIR$/src/AppBundle/Controller/WasteController.php" />
-        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/base_head.html.twig" />
-        <option value="$PROJECT_DIR$/src/AppBundle/Controller/HomeController.php" />
-        <option value="$PROJECT_DIR$/app/Resources/views/agriApp/home.html.twig" />
+        <option value="$PROJECT_DIR$/src/AppBundle/Controller/PurchasesController.php" />
       </list>
     </option>
   </component>
@@ -304,6 +244,7 @@
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/web/plugins/node_modules" />
   </component>
+  <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/fig/link-util" />
@@ -355,21 +296,13 @@
       <path value="$PROJECT_DIR$/vendor/gesdinet/jwt-refresh-token-bundle" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="65" />
     <option name="y" value="24" />
-    <option name="width" value="1360" />
-    <option name="height" value="744" />
+    <option name="width" value="1291" />
+    <option name="height" value="631" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <OptionsSetting value="true" id="Add" />
-    <OptionsSetting value="true" id="Remove" />
-    <OptionsSetting value="true" id="Checkout" />
-    <OptionsSetting value="true" id="Update" />
-    <OptionsSetting value="true" id="Status" />
-    <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
-    <ConfirmationsSetting value="0" id="Remove" />
-  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -385,201 +318,392 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope">
-        <subPane subId="Project Files" />
-      </pane>
       <pane id="ProjectPane">
         <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AppBundle" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AppBundle" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Controller" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="var" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Resources" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="agriApp" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AgriAppCMS" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-          </PATH>
+          <expand>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="config" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="AnnualSales" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="AppRole" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Branch" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="City" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="CollectingCompany" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Company" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="CompanySubAttributeValues" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="CompanyType" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="CompanyTypeAttribute" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="CompanyTypeSubAttribute" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Conversion" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="DDlMenuST" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="DDlMenuT" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="District" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Governorate" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="License" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Purchase" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Reason" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="RecyclingCompany" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="SubCategoryUnit" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="SurveyQuestion" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Unit" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Users" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="agriApp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Waste" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="AppBundle" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="AppBundle" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Controller" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="AppBundle" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Entity" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="AppBundle" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Form" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="AppBundle" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Security" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="tests" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="tests" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="AppBundle" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="tests" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="AppBundle" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Controller" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="agriapp_06142017" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="var" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="agriapp_06142017" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="bcb0276e:PhpExternalLibrariesNodePatcher$PatchedExternalLibrariesNode" />
+            </path>
+          </expand>
+          <select />
         </subPane>
       </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="agriapp_06142017" type="cbb8eebc:String" user="agriapp_06142017" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="agriapp_06142017" type="cbb8eebc:String" user="agriapp_06142017" />
+              <item name="app" type="cbb8eebc:String" user="app" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="agriapp_06142017" type="cbb8eebc:String" user="agriapp_06142017" />
+              <item name="bin" type="cbb8eebc:String" user="bin" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="agriapp_06142017" type="cbb8eebc:String" user="agriapp_06142017" />
+              <item name="bin" type="cbb8eebc:String" user="bin" />
+              <item name="vendor" type="cbb8eebc:String" user="vendor" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="agriapp_06142017" type="cbb8eebc:String" user="agriapp_06142017" />
+              <item name="bin" type="cbb8eebc:String" user="bin" />
+              <item name="vendor" type="cbb8eebc:String" user="vendor" />
+              <item name="gesdinet" type="cbb8eebc:String" user="gesdinet" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="agriapp_06142017" type="cbb8eebc:String" user="agriapp_06142017" />
+              <item name="bin" type="cbb8eebc:String" user="bin" />
+              <item name="vendor" type="cbb8eebc:String" user="vendor" />
+              <item name="gesdinet" type="cbb8eebc:String" user="gesdinet" />
+              <item name="jwt-refresh-token-bundle" type="cbb8eebc:String" user="jwt-refresh-token-bundle" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../GEORGY APP/wastenomore" />
-    <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/Resources/views/agriApp" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/Resources/views/agriApp" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/var" />
       <recent name="$PROJECT_DIR$/web" />
       <recent name="$PROJECT_DIR$/app/Resources/views/agriApp" />
       <recent name="$PROJECT_DIR$/src/AppBundle/Controller" />
       <recent name="$PROJECT_DIR$/src/AppBundle/Entity" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/Resources/views/agriApp" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -595,6 +719,31 @@
     </option>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+    </configuration>
+    <configuration default="true" type="CodeceptionConfigurationType" factoryName="Codeception">
+      <PhpTestRunnerSettings />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerJest" factoryName="Jest">
+      <node-interpreter value="project" />
+      <working-dir value="" />
+      <envs />
+      <scope-kind value="ALL" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
       <method />
     </configuration>
@@ -612,17 +761,12 @@
     <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
       <method />
     </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
+    <configuration default="true" type="PhpSpecConfigurationType" factoryName="PHPSpec">
+      <PhpTestRunnerSettings />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
-      <command value="run-script" />
+      <command value="run" />
       <scripts />
       <node-interpreter value="project" />
       <envs />
@@ -686,7 +830,32 @@
       <workItem from="1501500426301" duration="12646000" />
       <workItem from="1501581947397" duration="4262000" />
       <workItem from="1501587263177" duration="7336000" />
-      <workItem from="1503332160661" duration="20253000" />
+      <workItem from="1501925148128" duration="1532000" />
+      <workItem from="1501926770701" duration="13854000" />
+      <workItem from="1502020184985" duration="6461000" />
+      <workItem from="1502096713949" duration="281000" />
+      <workItem from="1502097030243" duration="110000" />
+      <workItem from="1502097174469" duration="599000" />
+      <workItem from="1502121299538" duration="4276000" />
+      <workItem from="1502181436498" duration="9480000" />
+      <workItem from="1502197715335" duration="4037000" />
+      <workItem from="1502362691419" duration="786000" />
+      <workItem from="1502363557988" duration="594000" />
+      <workItem from="1502365036620" duration="8703000" />
+      <workItem from="1502376501943" duration="1659000" />
+      <workItem from="1502455220573" duration="4608000" />
+      <workItem from="1502474288652" duration="8044000" />
+      <workItem from="1502523914924" duration="1777000" />
+      <workItem from="1502526164276" duration="5005000" />
+      <workItem from="1502642332400" duration="8945000" />
+      <workItem from="1503048318042" duration="19621000" />
+      <workItem from="1503136567333" duration="8509000" />
+      <workItem from="1503157863346" duration="6475000" />
+      <workItem from="1503307768734" duration="18648000" />
+      <workItem from="1503389245241" duration="2096000" />
+      <workItem from="1503392616146" duration="12209000" />
+      <workItem from="1503473983363" duration="9966000" />
+      <workItem from="1503563171918" duration="6490000" />
     </task>
     <task id="LOCAL-00001" summary="Added Users Module and Login page&#10;Enabled Doctrine Migrations">
       <created>1496833615386</created>
@@ -856,65 +1025,155 @@
       <option name="project" value="LOCAL" />
       <updated>1501599536780</updated>
     </task>
-    <task id="LOCAL-00025" summary="Fixed graphs 1 and 2, used Geo's dql&#10;pending 3 and 4">
-      <created>1503517600747</created>
+    <task id="LOCAL-00025" summary="Fixed Company Controller after stashing">
+      <created>1501925995930</created>
       <option name="number" value="00025" />
       <option name="presentableId" value="LOCAL-00025" />
       <option name="project" value="LOCAL" />
-      <updated>1503517600747</updated>
+      <updated>1501925995930</updated>
     </task>
-    <task id="LOCAL-00026" summary="Added Full CRUD (annual sales, units, reasons, city, district, governorate, company type ) Views">
-      <created>1503517673700</created>
+    <task id="LOCAL-00026" summary="Fixed Company AppRole entity after  stashing">
+      <created>1501926231395</created>
       <option name="number" value="00026" />
       <option name="presentableId" value="LOCAL-00026" />
       <option name="project" value="LOCAL" />
-      <updated>1503517673700</updated>
+      <updated>1501926231395</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Added welcome screen to / Route">
+      <created>1501932257844</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1501932257844</updated>
+    </task>
+    <task id="LOCAL-00028" summary="adding attributes and subattributes for company working from app">
+      <created>1502035723575</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1502035723575</updated>
+    </task>
+    <task id="LOCAL-00029" summary="manage braches not complete">
+      <created>1502127113389</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1502127113389</updated>
+    </task>
+    <task id="LOCAL-00030" summary="manage braches fully working">
+      <created>1502203347573</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1502203347574</updated>
+    </task>
+    <task id="LOCAL-00031" summary="added delete branch">
+      <created>1502205544679</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1502205544679</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Manage Licenses Fully Functional">
+      <created>1502378164735</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1502378164735</updated>
+    </task>
+    <task id="LOCAL-00033" summary="First Graph working (App)">
+      <created>1502657555463</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1502657555463</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Second Graph Backend + Some edits on the first graph backend (changes should be applied to the mobile app)">
+      <created>1503081210721</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1503081210722</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Applied Fixes for using the new picker on the app because it didn't work on iOS">
+      <created>1503164894231</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1503164894232</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Fixes for paths in html files on cms &#10;fixed session log out and session ttl &#10;added get survey questions on both app and backend &#10;edited the survey question and answer table">
+      <created>1503332037280</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1503332037281</updated>
+    </task>
+    <task id="LOCAL-00037" summary="completed survey&#10;&#10;add waste incomplete">
+      <created>1503415808026</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1503415808026</updated>
+    </task>
+    <task id="LOCAL-00038" summary="urgent DB modifications + edits on dql for graph1, graph2">
+      <created>1503475787349</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1503475787350</updated>
+    </task>
+    <task id="LOCAL-00039" summary="add waste working">
+      <created>1503486820308</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1503486820308</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="298413000" />
+    <option name="totallyTimeSpent" value="442925000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="24" width="1360" height="744" extended-state="6" />
-    <editor active="true" />
+    <frame x="65" y="24" width="1617" height="957" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29590288" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34671766" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="ReactNative" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38632163" sideWeight="0.4131305" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35315984" sideWeight="0.41953564" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32950923" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24539877" sideWeight="0.49719775" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20121951" sideWeight="0.49719775" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24984066" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28067484" sideWeight="0.5868695" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32317072" sideWeight="0.58046436" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.49776927" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38632163" sideWeight="0.4131305" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35315984" sideWeight="0.41953564" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972136" sideWeight="0.49719775" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3885449" sideWeight="0.5868695" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.296237" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20121951" sideWeight="0.49719775" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24390244" sideWeight="0.58046436" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26959848" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32950923" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.49776927" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24984066" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -926,33 +1185,11 @@
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.log" />
   </component>
-  <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USER_GROUPS">
-      <collection />
-    </option>
-    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-      <collection />
-    </option>
-  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Added Users Module and Login page&#10;Enabled Doctrine Migrations" />
-    <MESSAGE value="Added Full CRUD (annual sales, units, reasons, city, district, governorate, company type ) Controllers" />
-    <MESSAGE value="Added Full CRUD (Recycling company, waste type, waste type cat, waste type subcat ) Views" />
-    <MESSAGE value="Added Full CRUD (annual sales, units, reasons, city, district, governorate, company type ) Controller" />
-    <MESSAGE value="Added Menus, SubMenus, Survey Question, Survey Answers Entities" />
-    <MESSAGE value="Added MenuTypes, SMenuType, Survey Questions, Purchases Controllers&#10;&#10;edited branch, companyType controllers" />
-    <MESSAGE value="Added Menu Type, Sub Menu Types, Branches, Purchases, Survey Questions, Waste Type Sub Categories Views" />
-    <MESSAGE value="Added License, AppRole Entities and Edited user entity" />
-    <MESSAGE value="Licenses and App Roles Controllers" />
-    <MESSAGE value="Licenses and App Roles Views + edited the base side bar" />
-    <MESSAGE value="Edited License CRUD to include date and time" />
-    <MESSAGE value="Added :&#10;&#10;change password functionality for cms users&#10;crud for app users + change password + deactivate &#10;crud for license &#10;crud for survey questions&#10;crud for conversion table&#10;crud for category unit assosiation" />
-    <MESSAGE value="edited configurations to add the functionality of changing the password" />
     <MESSAGE value="fix conversion units" />
     <MESSAGE value="add Security for API methods using Json Tokens" />
     <MESSAGE value="Routes Revised for Security Layer" />
@@ -963,406 +1200,441 @@
     <MESSAGE value="Final Edits for User Authentication and Security" />
     <MESSAGE value="edits for registration controller" />
     <MESSAGE value="add for full clone" />
-    <MESSAGE value="Fixed graphs 1 and 2, used Geo's dql&#10;pending 3 and 4" />
-    <MESSAGE value="Added Full CRUD (annual sales, units, reasons, city, district, governorate, company type ) Views" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Full CRUD (annual sales, units, reasons, city, district, governorate, company type ) Views" />
+    <MESSAGE value="Fixed Company Controller after stashing" />
+    <MESSAGE value="Fixed Company AppRole entity after  stashing" />
+    <MESSAGE value="Added welcome screen to / Route" />
+    <MESSAGE value="adding attributes and subattributes for company working from app" />
+    <MESSAGE value="manage braches not complete" />
+    <MESSAGE value="manage braches fully working" />
+    <MESSAGE value="added delete branch" />
+    <MESSAGE value="Manage Licenses Fully Functional" />
+    <MESSAGE value="First Graph working (App)" />
+    <MESSAGE value="Second Graph Backend + Some edits on the first graph backend (changes should be applied to the mobile app)" />
+    <MESSAGE value="Applied Fixes for using the new picker on the app because it didn't work on iOS" />
+    <MESSAGE value="Fixes for paths in html files on cms &#10;fixed session log out and session ttl &#10;added get survey questions on both app and backend &#10;edited the survey question and answer table" />
+    <MESSAGE value="completed survey&#10;&#10;add waste incomplete" />
+    <MESSAGE value="urgent DB modifications + edits on dql for graph1, graph2" />
+    <MESSAGE value="add waste working" />
+    <option name="LAST_COMMIT_MESSAGE" value="add waste working" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="6" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/AppBundle/Controller/RegistrationController.php</url>
+          <line>3</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="16" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Waste/wasteLogs.html.twig">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/District/DistrictRecordsInJson.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="119" column="44" selection-start-line="119" selection-start-column="44" selection-end-line="119" selection-end-column="44" />
+        <state relative-caret-position="540">
+          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/WasteType/wasteTypes.html.twig">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/AppRole/appRolesRecords.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5034">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="-2160">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/WasteTypeSubCategory/WasteTypeSubCategories.html.twig">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Branch/branchRecords.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2928">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="162">
+          <caret line="75" column="56" lean-forward="false" selection-start-line="75" selection-start-column="56" selection-end-line="75" selection-end-column="56" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/ConversionController.php">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/City/citiesRecords.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="35" column="31" selection-start-line="35" selection-start-column="20" selection-end-line="35" selection-end-column="31" />
-          <folding />
+        <state relative-caret-position="126">
+          <caret line="154" column="56" lean-forward="false" selection-start-line="154" selection-start-column="56" selection-end-line="154" selection-end-column="56" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Conversion/ConversionRecords.html.twig">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/CollectingCompany/collectingCompanies.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="404" column="23" selection-start-line="404" selection-start-column="23" selection-end-line="404" selection-end-column="23" />
+        <state relative-caret-position="324">
+          <caret line="156" column="67" lean-forward="false" selection-start-line="156" selection-start-column="67" selection-end-line="156" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Company/companyRecords.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="39" column="57" lean-forward="false" selection-start-line="39" selection-start-column="57" selection-end-line="39" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/CompanySubAttributeValues/companySubAttributeValuesRecords.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="155" column="68" lean-forward="false" selection-start-line="155" selection-start-column="68" selection-end-line="155" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/CompanyType/companyTypeRecords.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="137" column="61" lean-forward="false" selection-start-line="137" selection-start-column="61" selection-end-line="137" selection-end-column="61" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/CompanyTypeAttribute/companyTypeAttributesRecords.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-786">
-          <caret line="157" column="69" selection-start-line="157" selection-start-column="69" selection-end-line="157" selection-end-column="69" />
+        <state relative-caret-position="504">
+          <caret line="157" column="71" lean-forward="false" selection-start-line="157" selection-start-column="71" selection-end-line="157" selection-end-column="71" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Users/cmsUsers.html.twig">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/CompanyTypeSubAttribute/companyTypeSubAttributeRecords.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1384">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="414">
+          <caret line="155" column="73" lean-forward="false" selection-start-line="155" selection-start-column="73" selection-end-line="155" selection-end-column="73" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/WasteTypeCategory/WasteTypeCategories.html.twig">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Conversion/ConversionRecords.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3598">
-          <caret line="158" column="65" selection-start-line="158" selection-start-column="65" selection-end-line="158" selection-end-column="65" />
+        <state relative-caret-position="-2322">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/Branch.php">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/DDlMenuST/DDlMenuSubTypes.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="69" column="56" selection-start-line="69" selection-start-column="56" selection-end-line="69" selection-end-column="56" />
-          <folding />
+        <state relative-caret-position="-2376">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/License/LicenseRecords.html.twig">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/DDlMenuT/DDlMenuTypes.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="395" column="7" selection-start-line="373" selection-start-column="2" selection-end-line="395" selection-end-column="7" />
+        <state relative-caret-position="-1998">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/loginController.php">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/District/districtRecords.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-214">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="576">
+          <caret line="158" column="59" lean-forward="false" selection-start-line="158" selection-start-column="59" selection-end-line="158" selection-end-column="59" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/CompanyController.php">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Governorate/governorateRecords.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-16">
-          <caret line="27" column="29" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="29" />
+        <state relative-caret-position="558">
+          <caret line="139" column="62" lean-forward="false" selection-start-line="139" selection-start-column="62" selection-end-line="139" selection-end-column="62" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/CollectingCompanyController.php">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Reason/reasonsRecords.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-534">
-          <caret line="21" column="44" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="44" />
+        <state relative-caret-position="576">
+          <caret line="137" column="57" lean-forward="false" selection-start-line="137" selection-start-column="57" selection-end-line="137" selection-end-column="57" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/License/SubLicenseRecords.html.twig">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/RecyclingCompany/recyclingCompanies.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1266">
-          <caret line="225" column="52" selection-start-line="225" selection-start-column="52" selection-end-line="225" selection-end-column="52" />
+        <state relative-caret-position="360">
+          <caret line="182" column="66" lean-forward="false" selection-start-line="182" selection-start-column="66" selection-end-line="182" selection-end-column="66" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/License/SubLicenseRecordsInJson.html.twig">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/SubCategoryUnit/SubCategoryUnitRecords.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="12" column="59" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="59" />
+        <state relative-caret-position="-2268">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/License/LicenseRecordsInJson.html.twig">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Unit/unitsRecords.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="14" column="48" selection-start-line="14" selection-start-column="48" selection-end-line="14" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Users/appUsersInJson.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-52">
-          <caret line="16" column="18" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/License.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="132" column="29" selection-start-line="132" selection-start-column="20" selection-end-line="132" selection-end-column="29" />
-          <folding />
+        <state relative-caret-position="648">
+          <caret line="138" column="55" lean-forward="false" selection-start-line="138" selection-start-column="55" selection-end-line="138" selection-end-column="55" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Users/appUsers.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2592">
-          <caret line="144" column="109" selection-start-line="144" selection-start-column="109" selection-end-line="144" selection-end-column="109" />
+        <state relative-caret-position="-4860">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/AppRoleController.php">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Users/cmsUsers.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="-432">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/AppRole.php">
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Waste/wasteLogsInJson.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1062">
-          <caret line="65" column="20" selection-start-line="65" selection-start-column="20" selection-end-line="65" selection-end-column="29" />
+        <state relative-caret-position="468">
+          <caret line="29" column="44" lean-forward="false" selection-start-line="29" selection-start-column="44" selection-end-line="29" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Waste/wasteLogs.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="74" column="169" lean-forward="false" selection-start-line="74" selection-start-column="169" selection-end-line="74" selection-end-column="169" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Purchase/purchasesRecordsInJson.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="18" column="99" lean-forward="false" selection-start-line="18" selection-start-column="99" selection-end-line="18" selection-end-column="99" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/Purchase/purchasesRecords.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="106" column="199" lean-forward="false" selection-start-line="106" selection-start-column="199" selection-end-line="106" selection-end-column="199" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/SurveyQuestion.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2178">
+          <caret line="127" column="20" lean-forward="false" selection-start-line="127" selection-start-column="20" selection-end-line="127" selection-end-column="36" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/DDlMenuSubType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="87" column="121" lean-forward="false" selection-start-line="87" selection-start-column="121" selection-end-line="87" selection-end-column="121" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/Company.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="83">
+          <caret line="235" column="114" lean-forward="false" selection-start-line="235" selection-start-column="114" selection-end-line="235" selection-end-column="114" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/Branch.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="195" column="0" lean-forward="false" selection-start-line="195" selection-start-column="0" selection-end-line="195" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/CompanyTypeAttributeController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-938">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/SurveyQuestion/SurveyQs.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8190">
+          <caret line="455" column="18" lean-forward="false" selection-start-line="455" selection-start-column="18" selection-end-line="455" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/AppBundle/Form/UserType.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
-          <caret line="23" column="67" selection-start-line="23" selection-start-column="67" selection-end-line="23" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/Company.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1848">
-          <caret line="77" column="69" selection-start-line="77" selection-start-column="69" selection-end-line="77" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/LicenseController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2466">
-          <caret line="143" column="24" selection-start-line="143" selection-start-column="24" selection-end-line="143" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/SubLicense.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="49" column="27" selection-start-line="49" selection-start-column="27" selection-end-line="49" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/UserController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1728">
-          <caret line="104" column="14" selection-start-line="104" selection-start-column="14" selection-end-line="104" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/vendor/gesdinet/jwt-refresh-token-bundle/README.md" />
-    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml.dist">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config_dev.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/var/jwt/public.pem">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Security/RefreshToken.php" />
-    <entry file="file://$PROJECT_DIR$/app/AppKernel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Security/JwTRefresher.php" />
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Security/TokenReferesher.php" />
-    <entry file="file://$PROJECT_DIR$/app/config/routing_dev.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Security/JwtAuthenticator.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="26" column="40" selection-start-line="26" selection-start-column="40" selection-end-line="26" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/DefaultController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="14" column="39" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/services.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/AnnualSalesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="29" column="8" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/routing.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1404">
-          <caret line="80" column="16" selection-start-line="80" selection-start-column="16" selection-end-line="80" selection-end-column="16" />
-          <folding>
-            <marker date="1503332169467" expanded="true" signature="27:41" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="62:74" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="95:107" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="327:329" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="602:606" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="637:641" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="908:935" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="1085:1089" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="1133:1137" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="1295:1304" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="1492:1496" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="1896:1935" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="1958:1962" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="2150:2156" ph="..." />
-            <marker date="1503332169467" expanded="true" signature="2403:2410" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2718">
-          <caret line="160" column="20" selection-start-line="160" selection-start-column="16" selection-end-line="160" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/RegistrationController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="27" column="11" selection-start-line="27" selection-start-column="11" selection-end-line="27" selection-end-column="11" />
-          <folding>
-            <element signature="e#39#68#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/SubLicenseController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/WasteController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="364" column="51" selection-start-line="364" selection-start-column="51" selection-end-line="364" selection-end-column="51" />
-          <folding>
-            <element signature="e#1023#1058#0#PHP" expanded="true" />
-            <element signature="e#1368#1409#0#PHP" expanded="true" />
-            <element signature="e#2088#11862#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/js/highcharts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="8" column="62" selection-start-line="8" selection-start-column="62" selection-end-line="8" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/base_head.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="97" column="31" selection-start-line="97" selection-start-column="31" selection-end-line="97" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="15" column="23" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
+          <caret line="23" column="61" lean-forward="false" selection-start-line="23" selection-start-column="61" selection-end-line="23" selection-end-column="61" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/config/security.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="52" column="13" selection-start-line="52" selection-start-column="13" selection-end-line="52" selection-end-column="13" />
+        <state relative-caret-position="230">
+          <caret line="27" column="22" lean-forward="false" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/HomeController.php">
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/SurveyQuestionController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state relative-caret-position="806">
+          <caret line="289" column="25" lean-forward="false" selection-start-line="289" selection-start-column="25" selection-end-line="289" selection-end-column="25" />
           <folding>
-            <element signature="e#40#99#0#PHP" expanded="true" />
-            <element signature="e#765#790#0#PHP" expanded="true" />
-            <element signature="e#952#2028#0#PHP" expanded="false" />
-            <element signature="e#2034#3679#0#PHP" expanded="false" />
-            <element signature="e#3685#4715#0#PHP" expanded="false" />
-            <element signature="e#4721#5762#0#PHP" expanded="false" />
+            <element signature="e#4025#5887#0#PHP" expanded="false" />
+            <element signature="e#5965#7954#0#PHP" expanded="false" />
+            <element signature="e#11490#12381#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Resources/views/agriApp/home.html.twig">
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/SurveyQuestionAnswer.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="185" column="31" selection-start-line="185" selection-start-column="31" selection-end-line="185" selection-end-column="31" />
+        <state relative-caret-position="187">
+          <caret line="137" column="16" lean-forward="false" selection-start-line="137" selection-start-column="16" selection-end-line="137" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="226" column="20" lean-forward="false" selection-start-line="226" selection-start-column="20" selection-end-line="226" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/SubCategoryUnit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="43" column="20" lean-forward="false" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/Unit.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1008">
+          <caret line="62" column="27" lean-forward="false" selection-start-line="62" selection-start-column="20" selection-end-line="62" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/RegistrationController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="229" column="148" lean-forward="false" selection-start-line="229" selection-start-column="148" selection-end-line="229" selection-end-column="148" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#div#0;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#table#0;n#div#0;n#!!top" expanded="false" />
-            <element signature="n#table#1;n#div#0;n#!!top" expanded="false" />
-            <element signature="e#1793#2454#0#HTML" expanded="false" />
-            <element signature="n#script#6;n#!!top" expanded="false" />
-            <element signature="n#script#8;n#!!top" expanded="false" />
-            <marker date="1503526683981" expanded="true" signature="4111:4131" ph="..." />
-            <marker date="1503526683981" expanded="true" signature="5956:5976" ph="..." />
+            <element signature="e#39#68#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/Reason.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1188">
+          <caret line="72" column="20" lean-forward="false" selection-start-line="72" selection-start-column="20" selection-end-line="72" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/WasteTypeCategorySubCategory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="95" column="35" lean-forward="false" selection-start-line="95" selection-start-column="22" selection-end-line="95" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/WasteType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="86" column="5" lean-forward="false" selection-start-line="86" selection-start-column="5" selection-end-line="86" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/WasteTypeCategory.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="138">
+          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/Purchases.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-575">
+          <caret line="29" column="70" lean-forward="false" selection-start-line="29" selection-start-column="62" selection-end-line="29" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/Waste.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="100" column="0" lean-forward="false" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/BranchController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="100" column="24" lean-forward="false" selection-start-line="100" selection-start-column="24" selection-end-line="100" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Entity/Conversion.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="72" column="20" lean-forward="false" selection-start-line="72" selection-start-column="20" selection-end-line="72" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/CompanyController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="97">
+          <caret line="371" column="44" lean-forward="false" selection-start-line="371" selection-start-column="44" selection-end-line="371" selection-end-column="68" />
+          <folding>
+            <element signature="e#1228#1346#0#PHP" expanded="false" />
+            <element signature="e#1431#1912#0#PHP" expanded="false" />
+            <element signature="e#8104#9597#0#PHP" expanded="false" />
+            <element signature="e#9696#11365#0#PHP" expanded="false" />
+            <element signature="e#17363#19309#0#PHP" expanded="false" />
+            <element signature="e#19415#21296#0#PHP" expanded="false" />
+            <element signature="e#21403#22977#0#PHP" expanded="false" />
+            <element signature="e#23078#24442#0#PHP" expanded="false" />
+            <element signature="e#24549#26203#0#PHP" expanded="false" />
+            <element signature="e#29320#30841#0#PHP" expanded="false" />
+            <element signature="e#30848#31739#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/WasteController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="539" column="38" lean-forward="false" selection-start-line="539" selection-start-column="24" selection-end-line="539" selection-end-column="38" />
+          <folding>
+            <element signature="e#2088#11862#0#PHP" expanded="false" />
+            <element signature="e#31051#31867#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/WasteTypeSubCategoryController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="210" column="39" lean-forward="false" selection-start-line="210" selection-start-column="24" selection-end-line="210" selection-end-column="39" />
+          <folding>
+            <element signature="e#40#69#0#PHP" expanded="true" />
+            <element signature="e#9585#10401#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/AppBundle/Controller/PurchasesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="775">
+          <caret line="122" column="30" lean-forward="false" selection-start-line="122" selection-start-column="30" selection-end-line="122" selection-end-column="30" />
+          <folding>
+            <element signature="e#40#69#0#PHP" expanded="true" />
+            <element signature="e#4776#5592#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
