@@ -56,26 +56,30 @@ class SubLicenseController extends Controller
         }
     }
 
-
-    /**
-     * @Route("/cms/changeSubLicenseIsManager", name="changeSubLicenseIsManager")
-     */
-    public function changeSubLicenseIsManager(Request $request){
-        try{
-            $em = $this->getDoctrine()->getManager();
-            $SubLiceRecord = $em->getRepository('AppBundle:SubLicense')->find($request->request->get('editSubLicenseID'));
-
-            if($_POST["isManager"] == 1)
-                $SubLiceRecord->setIsCompanyManager(1);
-            else
-                $SubLiceRecord->setIsCompanyManager(0);
-            $em->persist($SubLiceRecord);
-            $em->flush();
-            return new JsonResponse(array('status' => 'success'));
-        }catch (DBALException $e){
-            return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t edit SubLicense'));
-        }
-    }
+//
+//    /**
+//     * @Route("/cms/changeSubLicenseIsManager", name="changeSubLicenseIsManager")
+//     */
+//    public function changeSubLicenseIsManager(Request $request){
+//        try{
+//            $em = $this->getDoctrine()->getManager();
+//            $SubLiceRecord = $em->getRepository('AppBundle:SubLicense')->find($request->request->get('editSubLicenseID'));
+//
+//            if($_POST["isManager"] == 1) {
+//                $SubLiceRecord->setIsCompanyManager(1);
+//                $SubLiceRecord->setSubLicenseAppRole($em->getRepository("AppBundle:AppRole")->findOneBy(["role" => AppRole::COMPANY_MANAGER]));
+//            }
+//            else {
+//                $SubLiceRecord->setIsCompanyManager(0);
+//                $SubLiceRecord->setSubLicenseAppRole($em->getRepository("AppBundle:AppRole")->findOneBy(["role" => AppRole::BRANCH_MANAGER]));
+//            }
+//            $em->persist($SubLiceRecord);
+//            $em->flush();
+//            return new JsonResponse(array('status' => 'success'));
+//        }catch (DBALException $e){
+//            return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t edit SubLicense'));
+//        }
+//    }
 
     /**
      * @Route("/cms/changeSubLicenseStatus", name="changeSubLicenseStatus")

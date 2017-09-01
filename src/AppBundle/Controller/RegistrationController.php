@@ -186,6 +186,14 @@ class RegistrationController extends Controller
                         $sublicense->setSubLicenseUser($user_new);
                         $sublicense->setUsed(1);
 
+                       // $companyExists = $em->getRepository("AppBundle:Company")->findOneBy(["companyLicense" => $sublicense->getLicense()->getId()]);
+
+                       // dump($companyExists);
+                      //  exit();
+//                        if(null != $companyExists) {
+//                            $user_new->setManagedCompany($companyExists);
+//                        }
+
                         $em->persist($user_new);
                         $em->persist($sublicense);
 
@@ -196,12 +204,16 @@ class RegistrationController extends Controller
                         $refresh_token = $this->get('gesdinet.jwtrefreshtoken.refresh_token_manager')->getLastFromUsername($user_new->getUsername());
 
                         $em->flush();
+
                         $em->getConnection()->commit();
 
                         $response["status"] = "success";
                         $response["token"] = $token;
                         $response["refresh_token"] = $refresh_token->getRefreshToken();
                         //$response["username"] = $user_new->getUsername();
+                       // $response["company_exists"] = ($companyExists == null)? false : true;
+                        //dump($response);
+                        //exit();
                         return new JsonResponse($response);
 
                     }

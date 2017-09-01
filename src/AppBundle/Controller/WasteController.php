@@ -102,7 +102,6 @@ class WasteController extends Controller
 
                             $checkbranch = $em->getRepository("AppBundle:Branch")->findOneBy(["Company" => $company_id, "id" => $branch_id]);
 
-                            //dump($checkbranch->getId());
 
                             if ($checkbranch != null)
                                 $branch_checked_id = $checkbranch->getId();
@@ -144,6 +143,7 @@ class WasteController extends Controller
                     throw new Exception("Date Error", 777);
 
                 $qb = $em->createQueryBuilder();
+                $qb0 = $em->createQueryBuilder();
 
                 if ($branch_checked_id != null) {
 
@@ -159,6 +159,19 @@ class WasteController extends Controller
                         ->setParameter("fromDate", $fromDate)
                         ->setParameter("toDate", $toDate)
                         ->setParameter("branchId", $branch_checked_id);
+
+                    $qb0->select("  case u.name when 'Kg' then sum(w.quantity) else sum(w.quantity*c.quanInKg)/c.quan END as Quantity")
+                        ->from("AppBundle:Waste", "w")
+                        ->join("w.unit", "u")
+                        ->join("w.waste_type_subcategory", "wts")
+                        ->leftJoin("wts.conversionT", "c")
+                        ->join("w.branch", "b")
+                        ->join("wts.category_type", "wtc")
+                        ->where("b.id = :branchId and w.waste_date >= :fromDate and w.waste_date <= :toDate")
+                        ->setParameter("fromDate", $fromDate)
+                        ->setParameter("toDate", $toDate)
+                        ->setParameter("branchId", $branch_checked_id);
+
 
                 } else {
                     if ($isPremiumLicense == 1) {
@@ -193,17 +206,34 @@ class WasteController extends Controller
                             ->setParameter("companyId", $company_id);
                     }
 
+                    $qb0->select(" case u.name when 'Kg' then sum(w.quantity) else sum(w.quantity*c.quanInKg)/c.quan END as Quantity")
+                        ->from("AppBundle:Waste", "w")
+                        ->join("w.unit", "u")
+                        ->join("w.waste_type_subcategory", "wts")
+                        ->leftJoin("wts.conversionT", "c")
+                        ->join("w.branch", "b")
+                        ->join("b.location", "l")
+                        ->join("wts.category_type", "wtc")
+                        ->where("b.Company = :companyId and w.waste_date >= :fromDate and w.waste_date <= :toDate")
+
+                        ->setParameter("fromDate", $fromDate)
+                        ->setParameter("toDate", $toDate)
+                        ->setParameter("companyId", $company_id);
+
                 }
                 $query = $qb->getQuery();
+                $query0 = $qb0->getQuery();
+
                 $temparray = $query->getArrayResult();
-                $total_waste = 0.0;
+                $temparray0 = $query0->getSingleResult();
+
+
                 $categories = array();
+                $data_array_b = array();
                 $data_array = array();
 
-                //dump($temparray);
-                //  exit();
+
                 foreach ($temparray as $tempas) {
-                    $total_waste += floatval($tempas["Quantity"]);
 
                     if (!in_array($tempas["Name"], $categories))
                         array_push($categories, $tempas["Name"]);
@@ -212,48 +242,37 @@ class WasteController extends Controller
                 if ($isPremiumLicense == 1 && $branch_checked_id == null) {
 
                     foreach ($temparray as $item) {
-                        if (count($data_array) > 0) {
-                            $found = false;
-                            foreach ($data_array as $inner_key => $inner_item) {
-                                if ($inner_item["name"] == $item["BranchCity"] . '-' . $item["BranchAddress"]) {
 
-                                    $key = array_search($item["Name"], $categories);
-                                    $data_array[$inner_key]["data"][$key] = round((floatval($item["Quantity"]) / $total_waste) * 100, 2);
+                        if (!array_key_exists($item["BranchCity"] . '-' . $item["BranchAddress"], $data_array_b)) {
 
-                                    $found = true;
-                                }
-                            }
-                            if (!$found) {
-                                $tempi = array();
-                                $tempi_d = array_fill(0, count($categories), 0);
-
-                                $key = array_search($item["Name"], $categories);
-
-                                $tempi_d[$key] = round((floatval($item["Quantity"]) / $total_waste) * 100, 2);
-
-                                $tempi["name"] = $item["BranchCity"] . '-' . $item["BranchAddress"];
-                                $tempi["data"] = $tempi_d;
-
-                                array_push($data_array, $tempi);
-                            }
-                        } else {
-                            $tempi = array();
                             $tempi_d = array_fill(0, count($categories), 0);
 
                             $key = array_search($item["Name"], $categories);
 
-                            $tempi_d[$key] = round((floatval($item["Quantity"]) / $total_waste) * 100, 2);
+                            $tempi_d[$key] = round((floatval($item["Quantity"]) / floatval($temparray0["Quantity"])) * 100, 2);
 
                             $tempi["name"] = $item["BranchCity"] . '-' . $item["BranchAddress"];
                             $tempi["data"] = $tempi_d;
 
-                            array_push($data_array, $tempi);
+                            $data_array_b[$item["BranchCity"] . '-' . $item["BranchAddress"]] = $tempi;
+
+                        } else {
+
+                            $key = array_search($item["Name"], $categories);
+
+                            $data_array_b[$item["BranchCity"] . '-' . $item["BranchAddress"]]["data"][$key] = round((floatval($item["Quantity"]) / floatval($temparray0["Quantity"])) * 100, 2);
+
                         }
                     }
 
+                    foreach ($data_array_b as $item) {
+                        array_push($data_array, $item);
+                    }
+
+
                 } else {
                     foreach ($temparray as $item) {
-                        array_push($data_array, round((floatval($item["Quantity"]) / $total_waste) * 100, 2));
+                        array_push($data_array, round((floatval($item["Quantity"]) / floatval($temparray0["Quantity"])) * 100, 2));
                     }
                 }
 
@@ -267,7 +286,8 @@ class WasteController extends Controller
                 throw new Exception("DB Error", 777);
             } catch (Exception $e) {
                 throw  new Exception("Params Error", 666);
-            } catch (\Throwable $t) {
+            }
+            catch (\Throwable $t) {
                 throw  new Exception("Null Error", 666);
             }
         } catch (Exception $e) {
@@ -426,6 +446,7 @@ class WasteController extends Controller
                             ->setParameter("toDate", $toDate)
                             ->setParameter("companyId", $company_id);
 
+
                     } else {
 
                         $qb->select("wtc.name as Name, case u.name when 'Kg' then sum(w.quantity) else sum(w.quantity*c.quanInKg)/c.quan END as QUpper")
@@ -461,11 +482,12 @@ class WasteController extends Controller
                 }
 
 
+
+
                 $query = $qb->getQuery();
                 $query2 = $qb2->getQuery();
 
                 $temparray = $query->getArrayResult();
-
                 $temparray2 = $query2->getArrayResult();
 
 
@@ -485,6 +507,10 @@ class WasteController extends Controller
 
                     foreach ($temparray as $item) {
                         foreach ($temparray2 as $item2) {
+
+                            if (!in_array($item["Name"], $categories) && $item["Name"] == $item2["Name"])
+                                array_push($categories, $item["Name"]);
+
                             if ($item["Branch"] == $item2["Branch"] && $item["Name"] == $item2["Name"]) {
                                 if (count($data_array) > 0) {
                                     $found = false;
@@ -549,7 +575,8 @@ class WasteController extends Controller
                 throw new Exception($e->getMessage(), 777);
             } catch (Exception $e) {
                 throw  new Exception("Params Error", 666);
-            } catch (\Throwable $t) {
+            }
+            catch (\Throwable $t) {
                 throw  new Exception("Null Error", 666);
             }
         } catch (Exception $e) {
@@ -695,7 +722,7 @@ class WasteController extends Controller
                 $data_array = array();
                 foreach ($temparray as $tempas2) {
                     $quantity = floatval($tempas2["Quantity"]);
-                    $timeStamp = $tempas2["Timestamp"]+0;
+                    $timeStamp = $tempas2["Timestamp"] + 0;
                     $graph3[$tempas2["Name"]][] = [$timeStamp, $quantity];
                 }
 
@@ -725,8 +752,7 @@ class WasteController extends Controller
     /**
      * @Route(path="api/addBranchWaste",name="addBranchWaste")
      */
-    public
-    function insertWaste(Request $request)
+    public function insertWaste(Request $request)
     {
 
         try {
@@ -845,7 +871,7 @@ class WasteController extends Controller
                 $wasteRecord->setUnit($em->getRepository("AppBundle:Unit")->findOneBy(['id' => $wasteUnitRecord]));
                 $wasteRecord->setWasteTypeSubcategory($em->getRepository("AppBundle:WasteTypeCategorySubCategory")->findOneBy(["id" => $wasteItem]));
                 $wasteRecord->setWasteDate(new \DateTime($wasteDate));
-                $wasteRecord->setTimestamp(strtotime($wasteDate)."000");
+                $wasteRecord->setTimestamp(strtotime($wasteDate) . "000");
 
                 $wasteRecord->setReason($em->getRepository("AppBundle:Reason")->findOneBy(["id" => $wasteReason]));
                 $wasteRecord->setCollectingCompany($em->getRepository("AppBundle:CollectingCompany")->findOneBy(["id" => $wasteCompany]));

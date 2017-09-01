@@ -557,10 +557,10 @@ class CompanyController extends Controller
                 $em->getConnection()->rollBack();
                 throw  new Exception("Params Error", 666);
             }
-//            catch (\Throwable $t) {
-//                $em->getConnection()->rollBack();
-//                throw  new Exception("Null Error", 666);
-//            }
+            catch (\Throwable $t) {
+                $em->getConnection()->rollBack();
+                throw  new Exception("Null Error", 666);
+            }
 
 
         } catch (Exception $e) {
@@ -926,6 +926,8 @@ class CompanyController extends Controller
                 throw new Exception("User Error", 401);
             try {
 
+                //$em = $this->getDoctrine()->getManager();
+
                 $company = $user->getManagedCompany();
 
                 if (null == $company)
@@ -971,6 +973,8 @@ class CompanyController extends Controller
 
             } catch (\Throwable $t) {
                 throw new Exception("Null Error");
+            } catch (DBALException $e){
+                throw new Exception("DB Error");
             }
 
         } catch (Exception $e) {

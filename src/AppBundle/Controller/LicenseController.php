@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\AppRole;
 use AppBundle\Entity\License;
 use AppBundle\Entity\SubLicense;
 use Doctrine\DBAL\DBALException;
@@ -123,11 +124,11 @@ class LicenseController extends Controller
 
                             if($i == 1) {
                                 $sublicenseRecord->setIsCompanyManager(1);
-                                $sublicenseRecord->setSubLicenseAppRole($em->getRepository("AppBundle:AppRole")->findOneBy(["role" => "COMPANY_MANAGER"]));
+                                $sublicenseRecord->setSubLicenseAppRole($em->getRepository("AppBundle:AppRole")->findOneBy(["role" => AppRole::COMPANY_MANAGER]));
                             }
                             else {
                                 $sublicenseRecord->setIsCompanyManager(0);
-                                $sublicenseRecord->setSubLicenseAppRole($em->getRepository("AppBundle:AppRole")->findOneBy(["role" => "BRANCH_MANAGER"]));
+                                $sublicenseRecord->setSubLicenseAppRole($em->getRepository("AppBundle:AppRole")->findOneBy(["role" => AppRole::BRANCH_MANAGER]));
                             }
 
                             if ($licenseRecord->getActive() == 1)
@@ -223,6 +224,8 @@ class LicenseController extends Controller
                                 $sublicenseRecord = new SubLicense();
                                 $sublicenseRecord->setUsed(0);
                                 $sublicenseRecord->setLicense($licenseRecord);
+                                $sublicenseRecord->setIsCompanyManager(0);
+                                $sublicenseRecord->setSubLicenseAppRole($em->getRepository("AppBundle:AppRole")->findOneBy(["role" => AppRole::BRANCH_MANAGER]));
                                 if ($licenseRecord->getActive() == 1)
                                     $sublicenseRecord->setActive(1);
                                 else
@@ -240,7 +243,7 @@ class LicenseController extends Controller
                     }
                 } catch (DBALException $e) {
                     $em->getConnection()->rollBack();
-                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t update License'));
+                    return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t update License')); //
                 }
             }
         }
