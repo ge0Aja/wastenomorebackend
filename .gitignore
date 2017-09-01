@@ -15,4 +15,5 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-/app/DoctrineMigrations -
+/app/DoctrineMigrations/*
+.idea/workspace.xml
