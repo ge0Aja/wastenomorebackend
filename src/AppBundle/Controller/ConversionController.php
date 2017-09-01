@@ -152,6 +152,7 @@ class ConversionController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $subcat = $em->getRepository("AppBundle:WasteTypeCategorySubCategory")->find($id);
+
         $units = $subcat->getSubcatunit()->map(function ($sbu){
             return $sbu->getUnit();
         });
@@ -201,7 +202,7 @@ class ConversionController extends Controller
 
         $query=  $em->createQuery('SELECT sc.id, sc.name from AppBundle:WasteTypeCategorySubCategory sc 
                                   Left OUTER JOIN sc.conversionT c
-                                  WHERE c.subcategory is null');
+                                  WHERE c.subcategory is null order by sc.name');
         try{
             return $query->getResult();
         }catch(NoResultException $e) {

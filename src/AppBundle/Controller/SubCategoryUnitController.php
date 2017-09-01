@@ -37,8 +37,8 @@ class SubCategoryUnitController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $subcats = $em->getRepository("AppBundle:WasteTypeCategorySubCategory")->findAll();
-        $units = $em->getRepository("AppBundle:Unit")->findAll();
+        $subcats = $em->getRepository("AppBundle:WasteTypeCategorySubCategory")->findBy(array(),array("name" => "ASC"));
+        $units = $em->getRepository("AppBundle:Unit")->findBy(array(),array("name" => "ASC"));
 
         return $this->render("agriApp/SubCategoryUnit/SubCategoryUnitRecords.html.twig", ["SubCats" => $subcats, "Units" => $units]);
     }

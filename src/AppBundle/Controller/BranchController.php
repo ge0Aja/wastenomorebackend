@@ -41,21 +41,21 @@ class BranchController extends Controller
 
 
 
-    /**
-     * @Route("/cms/deleteBranch", name="deleteBranch")
-     */
-    public function DeleteLogAction(Request $request){
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $branchRecord = $em->getRepository('AppBundle:Branch')->find($request->request->get('barnchdelID'));
-            $em->remove($branchRecord);
-            $em->flush();
-
-            return new JsonResponse(array('status' => 'success'));
-        } catch (DBALException $e) {
-            return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t delete record'));
-        }
-    }
+//    /**
+//     * @Route("/cms/deleteBranch", name="deleteBranch")
+//     */
+//    public function DeleteLogAction(Request $request){
+//        try {
+//            $em = $this->getDoctrine()->getManager();
+//            $branchRecord = $em->getRepository('AppBundle:Branch')->find($request->request->get('barnchdelID'));
+//            $em->remove($branchRecord);
+//            $em->flush();
+//
+//            return new JsonResponse(array('status' => 'success'));
+//        } catch (DBALException $e) {
+//            return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t delete record'));
+//        }
+//    }
 
 
     /**

@@ -23,7 +23,7 @@ class CompanyTypeAttributeController extends Controller
     public function CompanyTypeAttributes()
     {
         $em = $this->getDoctrine()->getManager();
-        $companyTypes = $em->getRepository('AppBundle:CompanyType')->findAll();
+        $companyTypes = $em->getRepository('AppBundle:CompanyType')->findBy(array(),array("typeName" => "ASC"));
         return $this->render('agriApp/CompanyTypeAttribute/companyTypeAttributesRecords.html.twig',['companyTypes'=>$companyTypes]);
     }
 
@@ -32,7 +32,7 @@ class CompanyTypeAttributeController extends Controller
      */
     public function getCompanyTypeAttributeRecords(){
         $em = $this->getDoctrine()->getManager();
-        $companyTypeAttributeRecords = $em->getRepository('AppBundle:CompanyTypeAttribute')->findAll();
+        $companyTypeAttributeRecords = $em->getRepository('AppBundle:CompanyTypeAttribute')->findBy(array(),array("name" => "ASC"));
         return $this->render("agriApp/CompanyTypeAttribute/companyTypeAttributeRecordsInJson.html.twig", ['companyTypeAttributeRecords' => $companyTypeAttributeRecords]);
     }
 

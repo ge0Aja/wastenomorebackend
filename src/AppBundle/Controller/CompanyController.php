@@ -39,22 +39,22 @@ class CompanyController extends Controller
         return $this->render('agriApp/Company/companyRecords.html.twig');
     }
 
-    /**
-     * @Route("/cms/deleteCompany/{id}", name="deleteCompany")
-     */
-    public function DeleteLogAction($id)
-    {
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $companyRecord = $em->getRepository('AppBundle:Company')->find($id);
-            $em->remove($companyRecord);
-            $em->flush();
-
-            return new JsonResponse(array('status' => 'success'));
-        } catch (DBALException $e) {
-            return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t delete record'));
-        }
-    }
+//    /**
+//     * @Route("/cms/deleteCompany/{id}", name="deleteCompany")
+//     */
+//    public function DeleteLogAction($id)
+//    {
+//        try {
+//            $em = $this->getDoctrine()->getManager();
+//            $companyRecord = $em->getRepository('AppBundle:Company')->find($id);
+//            $em->remove($companyRecord);
+//            $em->flush();
+//
+//            return new JsonResponse(array('status' => 'success'));
+//        } catch (DBALException $e) {
+//            return new JsonResponse(array('status' => 'error', 'message' => 'Can\'t delete record'));
+//        }
+//    }
 
 
     /**

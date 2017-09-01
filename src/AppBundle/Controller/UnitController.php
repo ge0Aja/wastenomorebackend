@@ -27,7 +27,7 @@ class UnitController extends Controller
         /* return $this->render('agriApp/companyRecords.html.twig');*/
 
         $em = $this->getDoctrine()->getManager();
-        $UnitRecords = $em->getRepository('AppBundle:Unit')->findAll();
+        $UnitRecords = $em->getRepository('AppBundle:Unit')->findBy(array(),array("name" => "asc"));
         return $this->render("agriApp/Unit/UnitRecordsInJson.html.twig", ['UnitRecords' => $UnitRecords]);
     }
 

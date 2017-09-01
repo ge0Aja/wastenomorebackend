@@ -37,7 +37,7 @@ class CollectingCompanyController extends Controller
     public function CollectingCompaniesRecords()
     {
         $em = $this->getDoctrine()->getManager();
-        $DistictRecords = $em->getRepository('AppBundle:District')->findAll();
+        $DistictRecords = $em->getRepository('AppBundle:District')->findBy(array(),array("name" => "ASC"));
         return $this->render('agriApp/CollectingCompany/collectingCompanies.html.twig',['districts' => $DistictRecords]);
     }
 

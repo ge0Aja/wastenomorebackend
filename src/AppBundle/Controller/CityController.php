@@ -39,7 +39,7 @@ class CityController extends Controller
     public function CitiesRecords()
     {
         $em = $this->getDoctrine()->getManager();
-        $DistictRecords = $em->getRepository('AppBundle:District')->findAll();
+        $DistictRecords = $em->getRepository('AppBundle:District')->findBy(array(),array("name" => "ASC"));
         return $this->render('agriApp/City/citiesRecords.html.twig',['districts' => $DistictRecords]);
     }
 

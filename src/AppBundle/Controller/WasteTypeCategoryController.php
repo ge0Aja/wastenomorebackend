@@ -34,7 +34,7 @@ class WasteTypeCategoryController extends Controller
     public function WasteTypeCatsRecords()
     {
         $em = $this->getDoctrine()->getManager();
-        $WasteTypeRecords = $em->getRepository('AppBundle:WasteType')->findAll();
+        $WasteTypeRecords = $em->getRepository('AppBundle:WasteType')->findBy(array(),array("name"=>"asc"));
         return $this->render('agriApp/WasteTypeCategory/WasteTypeCategories.html.twig',['wastetypes' => $WasteTypeRecords]);
     }
 

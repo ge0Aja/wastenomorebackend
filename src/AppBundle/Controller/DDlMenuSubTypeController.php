@@ -22,7 +22,7 @@ class DDlMenuSubTypeController extends Controller
     public function getMenuSubTypes()
     {
         $em =  $this->getDoctrine()->getManager();
-        $menuTypes = $em->getRepository('AppBundle:DDlMenuType')->findAll();
+        $menuTypes = $em->getRepository('AppBundle:DDlMenuType')->findBy(array(),array("name" => "ASC"));
 
         return $this->render(':agriApp/DDlMenuST:DDlMenuSubTypes.html.twig',["menuTypes" => $menuTypes]);
     }

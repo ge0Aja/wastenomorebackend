@@ -36,7 +36,7 @@ class RecyclingCompanyController extends Controller
     public function RecyclingCompaniesRecords()
     {
         $em = $this->getDoctrine()->getManager();
-        $DistictRecords = $em->getRepository('AppBundle:District')->findAll();
+        $DistictRecords = $em->getRepository('AppBundle:District')->findBy(array(),array("name" => "ASC"));
         return $this->render('agriApp/RecyclingCompany/recyclingCompanies.html.twig',['districts' => $DistictRecords]);
     }
 

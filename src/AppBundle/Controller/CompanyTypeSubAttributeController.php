@@ -25,7 +25,7 @@ class CompanyTypeSubAttributeController extends Controller
     public function CompanyTypeSubAttributes()
     {
         $em = $this->getDoctrine()->getManager();
-        $companyTypes = $em->getRepository('AppBundle:CompanyType')->findAll();
+        $companyTypes = $em->getRepository('AppBundle:CompanyType')->findBy(array(),array("typeName" => "ASC"));
         return $this->render('agriApp/CompanyTypeSubAttribute/companyTypeSubAttributeRecords.html.twig',['companyTypes'=>$companyTypes]);
     }
 

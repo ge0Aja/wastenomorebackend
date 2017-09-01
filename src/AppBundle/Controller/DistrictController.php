@@ -37,7 +37,7 @@ class DistrictController extends Controller
     public function DistrictsRecords()
     {
         $em = $this->getDoctrine()->getManager();
-        $GovernorateRecords = $em->getRepository('AppBundle:Governorate')->findAll();
+        $GovernorateRecords = $em->getRepository('AppBundle:Governorate')->findBy(array(),array("name" => "ASC"));
         return $this->render('agriApp/District/districtRecords.html.twig',['governorates' => $GovernorateRecords]);
     }
 

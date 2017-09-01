@@ -23,7 +23,7 @@ class WasteTypeSubCategoryController extends Controller
     /**
      * @Route("/cms/WasteTypeSubCategoryRecords",name="WasteTypeSubCategoryRecords")
      */
-    public function getCitiesRecords()
+    public function getWasteTypeSubCategoriesRecords()
     {
         $em = $this->getDoctrine()->getManager();
         $SubCatRecords = $em->getRepository('AppBundle:WasteTypeCategorySubCategory')->findAll();
@@ -34,10 +34,10 @@ class WasteTypeSubCategoryController extends Controller
     /**
      * @Route("/cms/WasteTypeSubCategories",name="WasteTypeSubCategories")
      */
-    public function CitiesRecords()
+    public function WasteTypeSubCategoriesRecords()
     {
         $em = $this->getDoctrine()->getManager();
-        $CatRecords = $em->getRepository('AppBundle:WasteTypeCategory')->findAll();
+        $CatRecords = $em->getRepository('AppBundle:WasteTypeCategory')->findBy(array(),array("name" => "ASC"));
         return $this->render('agriApp/WasteTypeSubCategory/WasteTypeSubCategories.html.twig', ['wasteTypeCats' => $CatRecords]);
     }
 
