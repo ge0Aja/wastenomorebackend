@@ -13,9 +13,9 @@
         "username": "{{ appUsersRecord.username}}",
         "email": "{{ appUsersRecord.email}}",
         "approle": "{{ appUsersRecord.appRole.role}}",
-        "company": {% if appUsersRecord.companyBranch != null %} "{{ appUsersRecord.companyBranch.Company.name}}" {% else %} " " {% endif %},
+        "company": {% if appUsersRecord.companyBranch != null %} "{{ appUsersRecord.companyBranch.Company.name}}" {% elseif appUsersRecord.ManagedCompany != null %} "{{ appUsersRecord.ManagedCompany.name }}" {% else %} " " {% endif %},
         "license": {% if appUsersRecord.getSubLicense() != null %} "{{ appUsersRecord.getSubLicense().subLicenseString}}" {% else %} " " {%  endif %},
-        "branch": {% if appUsersRecord.companyBranch != null %}  "{{ appUsersRecord.companyBranch.location.name}}" {% else %} " " {% endif %},
+        "branch": {% if appUsersRecord.companyBranch != null %}  "{{ appUsersRecord.companyBranch.location.name}} - {{ appUsersRecord.companyBranch.address }}" {% else %} " " {% endif %},
         "active": "{{ appUsersRecord.getActiveUser() }}"
         }
     {%  else %}
@@ -24,9 +24,9 @@
         "username": "{{ appUsersRecord.username}}",
         "email": "{{ appUsersRecord.email}}",
         "approle": "{{ appUsersRecord.appRole.role}}",
-        "company": {% if appUsersRecord.companyBranch != null %} "{{ appUsersRecord.companyBranch.Company.name}}" {% else %} " " {% endif %},
+        "company": {% if appUsersRecord.companyBranch != null %} "{{ appUsersRecord.companyBranch.Company.name}}" {% elseif appUsersRecord.ManagedCompany != null %} "{{ appUsersRecord.ManagedCompany.name }}" {% else %} " " {% endif %},
         "license": {% if appUsersRecord.getSubLicense() != null %} "{{ appUsersRecord.getSubLicense().subLicenseString}}" {% else %} " " {%  endif %},
-        "branch": {% if appUsersRecord.companyBranch != null %}  "{{ appUsersRecord.companyBranch.location.name}}" {% else %} " " {% endif %},
+        "branch": {% if appUsersRecord.companyBranch != null %}  "{{ appUsersRecord.companyBranch.location.name}} - {{ appUsersRecord.companyBranch.address }}" {% else %} " " {% endif %},
         "active": "{{ appUsersRecord.getActiveUser() }}"
         },
     {% endif %}

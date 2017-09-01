@@ -13,7 +13,7 @@
         <th>Role</th>
         <th>Company</th>
         <th>Branch</th>
-        <th>License</th>
+        <th>SubLicense</th>
         <th>Active</th>
         <th></th>
         </thead>
@@ -409,7 +409,7 @@
 
     function editRow(e,f,g,h,i,j)
     {
-        console.log(i);
+       // console.log(i);
        /* console.log(j);*/
 
         var table = $('#appUsersRecords').DataTable();
@@ -496,7 +496,7 @@
     });
 
     $(document).on("submit", "#resetAppUserForm", function (e){
-        e.defaultPrevented();
+        e.preventDefault();
 
         var data_array = $('#resetAppUserForm').serialize();
 //        console.log(data_array);
