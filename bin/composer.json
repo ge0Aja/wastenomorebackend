@@ -1,5 +1,0 @@
-{
-    "require": {
-        "gesdinet/jwt-refresh-token-bundle": "^0.2.1"
-    }
-}
