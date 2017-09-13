@@ -11,7 +11,8 @@
         <th>Type</th>
         <th>Quantity</th>
         <th>Unit</th>
-        <th>Company</th>
+        <th>Company Name</th>
+        <th>Company Type</th>
         <th>Branch</th>
         <th>Date</th>
         <th>Reason</th>
@@ -26,7 +27,7 @@
     $(document).ready(function () {
 
         var tHead = $('#wasteLogs thead th');
-        tHead.not(":eq(0),:eq(8)").each(function () {
+        tHead.not(":eq(0),:eq(9)").each(function () {
             var title = $(this).text();
             console.log(title);
             $(this).html('<input style="width:100%" type="text" placeholder=' + "\"" + title + "\"" + '>');
@@ -50,6 +51,7 @@
                 {"data": "quantity"},
                 {"data": "unit"},
                 {"data": "company"},
+                {"data": "companyType"},
                 {"data": "branch"},
                 {"data": "wasteDate"},
                 {"data": "reason"}
@@ -66,13 +68,13 @@
                 "visible": false
             },
                 {
-                    "targets": [1, 2, 3, 4, 5, 6, 7],
+                    "targets": [1, 2, 3, 4, 5, 6, 7,8],
                     "orderable": false
                 },
                 {
-                    "targets":[8],
+                    "targets":[9],
                     "data": null,
-                    "defaultContent":'<button type="button" data-toggle="modal" class="btn-group-xs btn bg-danger pull-right"><b><i class="fa fa-times"></i></b></button>', //
+                    "defaultContent":'<button type="button" data-toggle="modal" class="btn-group-xs btn bg-red-active pull-right"><b><i class="fa fa-times"></i></b></button>', //
                     "orderable":false
                 }
                 ]

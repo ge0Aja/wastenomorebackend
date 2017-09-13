@@ -9,7 +9,8 @@
         <th>Quantity</th>
         <th>Unit</th>
         <th>Estimated Cost ($)</th>
-        <th>Company</th>
+        <th>Company Name</th>
+        <th>Company Type</th>
         <th>Branch</th>
         <th>Date</th>
         <th></th>
@@ -62,7 +63,7 @@
     $(document).ready(function () {
 
         var tHead = $('#purchaseRecords thead th');
-        tHead.not(":eq(0),:eq(8)").each(function () {
+        tHead.not(":eq(0),:eq(9)").each(function () {
             var title = $(this).text();
             //console.log(title);
             $(this).html('<input style="width:100%" type="text" placeholder='+ "\"" + title + "\"" +  '>');
@@ -85,6 +86,7 @@
                 {"data" : "pUnit"},
                 {"data": "pCost"},
                 {"data": "pCompany"},
+                {"data": "pCompanyType"},
                 {"data": "pBranch"},
                 {"data": "pDate"}
 
@@ -100,11 +102,11 @@
                 "visible": false
             },
                 {
-                    "targets": [1, 2, 3, 4, 5, 6,7],
+                    "targets": [1, 2, 3, 4, 5, 6,7,8],
                     "orderable": false
                 },
                 {
-                    "targets":[8],
+                    "targets":[9],
                     "data": null,
                     "defaultContent":'<button type="button" data-toggle="modal" data-target="#delPurchase" class="deleteBut btn-group-xs btn bg-red-active"><b><i class="fa fa-times"></i></b></button>', //
                     "orderable":false

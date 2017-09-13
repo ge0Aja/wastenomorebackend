@@ -17,6 +17,7 @@
         "pUnit": "{{ PurchaseRecord.unit.name}}",
         "pCost": "{{ PurchaseRecord.estimateOfCost}}",
         "pCompany": "{{ PurchaseRecord.branch.Company.name}}",
+        "pCompanyType": "{{ PurchaseRecord.branch.Company.type.typeName}}",
         "pBranch": "{{ PurchaseRecord.branch.location.name}} -  {{ PurchaseRecord.branch.address }}",
         "pDate": "{{ PurchaseRecord.date |date('d-M-Y')}}"
         }
@@ -28,6 +29,7 @@
         "pUnit": "{{ PurchaseRecord.unit.name}}",
         "pCost": "{{ PurchaseRecord.estimateOfCost}}",
         "pCompany": "{{ PurchaseRecord.branch.Company.name}}",
+        "pCompanyType": "{{ PurchaseRecord.branch.Company.type.typeName}}",
         "pBranch": "{{ PurchaseRecord.branch.location.name}} -  {{ PurchaseRecord.branch.address }}",
         "pDate": "{{ PurchaseRecord.date |date('d-M-Y')}}"
         },

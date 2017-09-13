@@ -2,7 +2,6 @@
 {% set counter = 0 %}
 
 
-
 {
 {#"draw": 1,#}
 {#"recordsTotal": {{ wasteLogArrayLength }},#}
@@ -12,34 +11,43 @@
 
 {% for wasteLog in wasteLogs %}
 
-    {%  if counter == wasteLogArrayLength-1 %}
+    {% if counter == wasteLogArrayLength-1 %}
         {
         "id": "{{ wasteLog.id }}",
         {#"wasteType": "{{ wasteLog.wasteType.name}}",#}
         {#"wasteTypeCategory": "{{ wasteLog.wasteTypeCategory.name}}",#}
-        "wasteTypeSubcategory": "{{ wasteLog.wasteTypeSubcategory.name}}",
-        "unit": "{{ wasteLog.unit.name}}",
+        "wasteTypeSubcategory": "{{ wasteLog.wasteTypeSubcategory.name }}",
+        "unit": "{{ wasteLog.unit.name }}",
         "branch": "{{ wasteLog.branch.location.name }} - {{ wasteLog.branch.address }}",
+
         {% if wasteLog.branch is not null %}
-        "company": "{{ wasteLog.branch.Company.name }}",
+            "company": "{{ wasteLog.branch.Company.name }}",
+            "companyType" : "{{ wasteLog.branch.Company.type.typeName }}",
         {% else %}
-        "company":"",
+            "company":"",
+            "companyType" : "",
         {% endif %}
         "wasteDate": "{{ wasteLog.wasteDate|date('d-m-Y') }}",
-        "quantity": "{{ wasteLog.quantity}}",
+        "quantity": "{{ wasteLog.quantity }}",
         "reason": "{{ wasteLog.reason.reason }}"
         }
-    {%  else %}
+    {% else %}
         {
         "id": "{{ wasteLog.id }}",
         {#"wasteType": "{{ wasteLog.wasteType.name}}",#}
         {#"wasteTypeCategory": "{{ wasteLog.wasteTypeCategory.name}}",#}
-        "wasteTypeSubcategory": "{{ wasteLog.wasteTypeSubcategory.name}}",
-        "unit": "{{ wasteLog.unit.name}}",
+        "wasteTypeSubcategory": "{{ wasteLog.wasteTypeSubcategory.name }}",
+        "unit": "{{ wasteLog.unit.name }}",
         "branch": "{{ wasteLog.branch.location.name }} - {{ wasteLog.branch.address }}",
-        "company": "{{ wasteLog.branch.Company.name }}",
+        {% if wasteLog.branch is not null %}
+            "company": "{{ wasteLog.branch.Company.name }}",
+            "companyType" : "{{ wasteLog.branch.Company.type.typeName }}",
+        {% else %}
+            "company":"",
+            "companyType" : "",
+        {% endif %}
         "wasteDate": "{{ wasteLog.wasteDate|date('d-m-Y') }}",
-        "quantity": "{{ wasteLog.quantity}}",
+        "quantity": "{{ wasteLog.quantity }}",
         "reason": "{{ wasteLog.reason.reason }}"
         },
     {% endif %}
