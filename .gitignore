@@ -19,5 +19,7 @@
 /app/config/parameters.yml
 /app/config/parameters.ini
 
+/app/config/var/jwt
+
 /bin/*
 !bin/console
