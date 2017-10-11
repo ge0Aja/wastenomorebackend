@@ -28,6 +28,7 @@ class HerokuEnvironment
             putenv("database_host={$url['host']}");
             putenv("database_user={$url['user']}");
             putenv("database_password={$url['pass']}");
+            putenv("database_password=null");
 
             $db = substr($url['path'], 1);
             putenv("database_name={$db}");
