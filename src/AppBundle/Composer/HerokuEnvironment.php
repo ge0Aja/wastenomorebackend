@@ -28,7 +28,7 @@ class HerokuEnvironment
             putenv("database_host={$url['host']}");
             putenv("database_user={$url['user']}");
             putenv("database_password={$url['pass']}");
-            putenv("database_password=null");
+            putenv("database_port=null");
 
             $db = substr($url['path'], 1);
             putenv("database_name={$db}");
@@ -36,5 +36,9 @@ class HerokuEnvironment
 
         $io = $event->getIO();
         $io->write('CLEARDB_DATABASE_URL=' . getenv('CLEARDB_DATABASE_URL'));
+        $io->write('database_host=' . getenv('database_host'));
+        $io->write('database_user=' . getenv('database_user'));
+        $io->write('database_password=' . getenv('database_password'));
+        $io->write('database_port=' . getenv('database_port'));
     }
 }
