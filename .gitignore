@@ -15,7 +15,7 @@
 !var/cache/.gitkeep
 !var/logs/.gitkeep
 !var/sessions/.gitkeep
-
+/var/bootstrap.php.cache
 /app/config/parameters.yml
 /app/config/parameters.ini
 
@@ -23,3 +23,5 @@
 
 /bin/*
 !bin/console
+/bin/symfony_requirements
+.env

@@ -2,25 +2,25 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host: 127.0.0.1
-    database_port: ~
-    database_name: symfony
-    database_user: root
-    database_password: ~
+    env(database_host): 127.0.0.1
+    env(database_port): ~
+    env(database_name): symfony
+    env(database_user): root
+    env(database_password): ~
     # You should uncomment this if you want to use pdo_sqlite
     #database_path: '%kernel.project_dir%/var/data/data.sqlite'
 
-    mailer_transport: smtp
-    mailer_host: 127.0.0.1
-    mailer_user: ~
-    mailer_password: ~
+    env(mailer_transport): smtp
+    env(mailer_host): 127.0.0.1
+    env(mailer_user): ~
+    env(mailer_password): ~
 
     # A secret key that's used to generate certain security-related tokens
-    secret: ThisTokenIsNotSoSecretChangeIt
+    env(secret): ThisTokenIsNotSoSecretChangeIt
 
-    jwt_private_key_path: '%kernel.root_dir%/var/jwt/private.pem'   # ssh private key path
-    jwt_public_key_path:  '%kernel.root_dir%/var/jwt/public.pem'    # ssh public key path
-    jwt_key_pass_phrase:  'password'                                # ssh key pass phrase if present
-    jwt_token_ttl:       10000
+    env(jwt_private_key_path): '%kernel.root_dir%/var/jwt/private.pem'   # ssh private key path
+    env(jwt_public_key_path):  '%kernel.root_dir%/var/jwt/public.pem'    # ssh public key path
+    env(jwt_key_pass_phrase):  'password'                                # ssh key pass phrase if present
+    env(jwt_token_ttl):       10000
 
 
