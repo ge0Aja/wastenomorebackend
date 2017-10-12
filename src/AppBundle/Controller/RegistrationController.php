@@ -220,13 +220,13 @@ class RegistrationController extends Controller
                 } catch (DBALException $e) {
                     $em->getConnection()->rollBack();
 
-                    return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::DENIED_REASON_DBAL])); //, "what" => $e->getMessage()
+                    return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::DENIED_REASON_DBAL)); //, "what" => $e->getMessage()
                 } catch (Exception $e) {
-                    return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::DENIED_REASON_CONTENT])); //,
+                    return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::DENIED_REASON_CONTENT)); //,
                 }
             }
         }
-        return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_LICENSE]));
+        return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_LICENSE));
     }
 
     /**
