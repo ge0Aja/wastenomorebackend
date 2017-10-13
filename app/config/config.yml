@@ -63,12 +63,12 @@ doctrine:
         auto_mapping: true
 
 # Swiftmailer Configuration
-swiftmailer:
-    transport: '%env(mailer_transport)%'
-    host: '%env(mailer_host)%'
-    username: '%env(mailer_user)%'
-    password: '%env(mailer_password)%'
-    spool: { type: memory }
+#swiftmailer:
+#    transport: '%env(mailer_transport)%'
+#    host: '%env(mailer_host)%'
+#    username: '%env(mailer_user)%'
+#    password: '%env(mailer_password)%'
+#    spool: { type: memory }
 
 lexik_jwt_authentication:
     private_key_path: '%env(jwt_private_key_path)%'
