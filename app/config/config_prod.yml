@@ -1,11 +1,15 @@
 imports:
     - { resource: config.yml }
 
-#doctrine:
-#    orm:
-#        metadata_cache_driver: apcu
-#        result_cache_driver: apcu
-#        query_cache_driver: apcu
+
+doctrine:
+    dbal:
+        options:
+            MYSQL_ATTR_SSL_CA : '%env(doctrn_ca)%'
+            MYSQL_ATTR_SSL_KEY : '%env(doctrn_private_key)%'
+            MYSQL_ATTR_SSL_CERT : '%env(doctrn_certificate)%'
+
+
 
 monolog:
     handlers:
