@@ -29,9 +29,9 @@ class HerokuEnvironment
             putenv("database_user={$url['user']}");
             putenv("database_password={$url['pass']}");
             putenv("database_port=null");
-//            putenv("doctrn_ca=/app/var/doctrn/cleardb-ca.pem");
-//            putenv("doctrn_certificate=/app/var/doctrn/bfb8330e3ead61-cert.pem");
-//            putenv("doctrn_private_key=/app/var/doctrn/bfb8330e3ead61-key.pem");
+            putenv("cld_ca=/app/var/doctrn/ca.pem");
+            putenv("cld_cert=/app/var/doctrn/cert.pem");
+            putenv("cld_key=/app/var/doctrn/key.pem");
 
 
             $db = substr($url['path'], 1);
@@ -44,5 +44,8 @@ class HerokuEnvironment
         $io->write('database_user=' . getenv('database_user'));
         $io->write('database_password=' . getenv('database_password'));
         $io->write('database_port=' . getenv('database_port'));
+        $io->write('ca=' . getenv('cld_ca'));
+        $io->write('cert=' . getenv('cld_cert'));
+        $io->write('key=' . getenv('cld_key'));
     }
 }
