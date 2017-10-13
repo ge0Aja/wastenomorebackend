@@ -2,12 +2,12 @@ imports:
     - { resource: config.yml }
 
 
-doctrine:
-    dbal:
-        options:
-            MYSQL_ATTR_SSL_CA : '%env(doctrn_ca)%'
-            MYSQL_ATTR_SSL_KEY : '%env(doctrn_private_key)%'
-            MYSQL_ATTR_SSL_CERT : '%env(doctrn_certificate)%'
+#doctrine:
+#    dbal:
+#        options:
+#            MYSQL_ATTR_SSL_CA : '%env(doctrn_ca)%'
+#            MYSQL_ATTR_SSL_KEY : '%env(doctrn_private_key)%'
+#            MYSQL_ATTR_SSL_CERT : '%env(doctrn_certificate)%'
 
 
 
