@@ -71,8 +71,8 @@ swiftmailer:
     spool: { type: memory }
 
 lexik_jwt_authentication:
-    private_key: '%env(jwt_private_key)%'
-    public_key:  '%env(jwt_public_key)%'
+    private_key_path: '%env(jwt_private_key_path)%'
+    public_key_path:  '%env(jwt_public_key_path)%'
     pass_phrase:      '%env(jwt_key_pass_phrase)%'
     token_ttl:        '%env(jwt_token_ttl)%'
 
