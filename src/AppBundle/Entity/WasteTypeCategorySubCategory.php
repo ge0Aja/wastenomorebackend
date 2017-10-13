@@ -162,4 +162,11 @@ class WasteTypeCategorySubCategory
         return $this->subcatunit;
     }
 
+    public function getSubcatunitNotKg()
+    {
+        return $this->getSubcatunit()->filter(function ($u) {
+            return $u->getUnit()->getName() != "Kg";
+    });
+    }
+
 }

@@ -89,7 +89,7 @@ class WasteTypeSubCategoryController extends Controller
     /**
      * @Route("/cms/editSubCat", name="editSubCat")
      */
-    public function editCities(Request $request)
+    public function editSubCat(Request $request)
     {
         if ($request->getMethod() === 'POST') {
             if ($request->request) {

@@ -37,6 +37,8 @@ class RegistrationController extends Controller
     CONST DENIED_REASON_DBAL = "5";
     CONST DENIED_REASON_CONTENT = "6";
 
+    CONST INTERNAL_ERROR = "7";
+
     CONST ROLE_ADMIN = "ROLE_ADMIN";
 
     /**
@@ -78,31 +80,40 @@ class RegistrationController extends Controller
      */
     public function changePasswdAction(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
     {
-        $changePasswordModel = new ChangePassword();
-        $user = $this->getUser();
+        try{
 
-        $form = $this->createForm(ChangePasswordType::class, $changePasswordModel);
-        $form->handleRequest($request);
+            $changePasswordModel = new ChangePassword();
+            $user = $this->getUser();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $changePassword = $form->getData();
+            $form = $this->createForm(ChangePasswordType::class, $changePasswordModel);
+            $form->handleRequest($request);
 
-            //  var_dump($changePassword);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $changePassword = $form->getData();
 
-            $password = $passwordEncoder->encodePassword($user, $changePassword->getPlainPassword());
+                //  var_dump($changePassword);
 
-            $user->setPassword($password);
+                $password = $passwordEncoder->encodePassword($user, $changePassword->getPlainPassword());
 
-            $em->persist($user);
-            $em->flush();
+                $user->setPassword($password);
 
-            return $this->redirectToRoute('home');
+                $em->persist($user);
+                $em->flush();
+
+                return $this->redirectToRoute('home');
+            }
+
+            return $this->render(
+                ':agriApp:changePassword.html.twig',
+                array('form' => $form->createView())
+            );
+
+        }catch (Exception $e){
+            return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::INTERNAL_ERROR)); //,
+        } catch (\Throwable $t){
+            return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::INTERNAL_ERROR)); //,
         }
 
-        return $this->render(
-            ':agriApp:changePassword.html.twig',
-            array('form' => $form->createView())
-        );
     }
 
 
@@ -223,6 +234,8 @@ class RegistrationController extends Controller
                     return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::DENIED_REASON_DBAL)); //, "what" => $e->getMessage()
                 } catch (Exception $e) {
                     return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::DENIED_REASON_CONTENT)); //,
+                } catch (\Throwable $t){
+                    return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::INTERNAL_ERROR)); //,
                 }
             }
         }
@@ -316,6 +329,8 @@ class RegistrationController extends Controller
                     $response["status"] = RegistrationController::REQUEST_STATUS_DENIED;
                     $response["reason"] = RegistrationController::DENIED_REASON_DBAL;
                     return new JsonResponse($response);
+                } catch (\Throwable $t){
+                    return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::INTERNAL_ERROR)); //,
                 }
             }
         }
@@ -397,6 +412,8 @@ class RegistrationController extends Controller
 
                 } catch (DBALException $e) {
                     return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_DBAL]));
+                } catch (\Throwable $t){
+                    return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::INTERNAL_ERROR)); //,
                 }
             }
         }
@@ -455,6 +472,8 @@ class RegistrationController extends Controller
                 return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::DENIED_REASON_DBAL));
             } catch (Exception $e) {
                 return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::DENIED_REASON_LICENSE));
+            } catch (\Throwable $t){
+                return new JsonResponse(array("status" => RegistrationController::REQUEST_STATUS_ERROR, "reason" => RegistrationController::INTERNAL_ERROR)); //,
             }
         }
         return new JsonResponse(array(["status" => RegistrationController::REQUEST_STATUS_DENIED, "reason" => RegistrationController::DENIED_REASON_CONTENT]));

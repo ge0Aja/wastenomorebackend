@@ -73,23 +73,23 @@
                     <form id="editSubAttribute" role="form" action="">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="companyType">Company Type</label>
-                                <select id="companyTypeEDIT" name="companyType" class="form-control" >
+                                <label for="companyTypeEDIT">Company Type</label>
+                                <select id="companyTypeEDIT" name="companyTypeEDIT" class="form-control" >
                                     <option value="default" selected="selected">Select Type</option>
                                     {% for companyType in companyTypes %}
                                         <option value="{{ companyType.id }}">{{ companyType.typeName }}</option>
                                     {% endfor %}
                                 </select>
-                                <label for="companyTypeAttribute">Company Type Attribute</label>
-                                <select id="companyTypeAttributeEDIT" name="companyTypeAttribute" class="form-control" >
+                                <label for="companyTypeAttributeEDIT">Company Type Attribute</label>
+                                <select id="companyTypeAttributeEDIT" name="companyTypeAttributeEDIT" class="form-control" >
                                     <option value="default" selected="selected">Select Attribute</option>
                                 </select>
 
-                                <label for="subAttribute">Sub-Attribute</label>
+                                <label for="subAttributeEDIT">Sub-Attribute</label>
                                 <input type="text" class="form-control" id="subAttributeEDIT"
-                                       name="subAttribute"
+                                       name="subAttributeEDIT"
                                        placeholder="something" required>
-                                <input type="hidden" id="subAttributeIDEDIT" name="subAttributeID">
+                                <input type="hidden" id="subAttributeIDEDIT" name="subAttributeIDEDIT">
                             </div>
                         </div>
                         <div class="box-footer">
@@ -235,7 +235,7 @@
 
     function editRow(data,g,h,i)
     {
-//        console.log(e);
+        console.log(data.id);
         $("#subAttributeIDEDIT").val(data.id);
 
 //        console.log(g);
@@ -268,7 +268,8 @@
             success: function (data) {
 //                    getCompanyTypes();
                 $("#addCompanyTypeAttributeSubAttribute").modal("hide");
-//                $("#attribute").val("");
+                $("#subAttribute").val("");
+                $("#companyType").val("default");
                 $('#companyTypeAttribute')
                     .find('option')
                     .remove()
@@ -321,7 +322,12 @@
             success: function (data) {
 
                 $("#editCompanyTypeAttributeSubAttribute").modal("hide");
-//                $("#attributeEdit").val("");
+                $("#subAttributeEDIT").val("");
+                $("#companyTypeEDIT").val("default");
+                $('#companyTypeAttributeEDIT')
+                    .find('option')
+                    .remove()
+                    .end();
                 var table = $('#companyTypeSubAttributeRecords').DataTable();
                 table.ajax.reload(null, false);
 
@@ -422,4 +428,47 @@
         {% endfor %}
     }
 </script>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        jQuery.validator.addMethod("valueNotEquals", function(value, element,arg) {
+            return this.optional(element) || arg != value;
+        }, "Please specify a Company Type");
+
+
+        $('#editSubAttribute').validate({
+
+            rules:{
+                companyTypeEDIT:{
+                    required: true,
+                    valueNotEquals: "default"
+                },
+                subAttributeEDIT:{
+                    required: true
+                }
+
+            }
+
+        });
+
+        $('#addSubAttribute').validate({
+
+            rules:{
+                companyType:{
+                    required: true,
+                    valueNotEquals: "default"
+                },
+                subAttribute:{
+                    required: true
+                }
+
+            }
+
+        });
+    });
+</script>
+
 {{ include(':agriApp:base_foot.html.twig') }}

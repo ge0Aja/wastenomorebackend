@@ -153,7 +153,7 @@ class ConversionController extends Controller
         $em = $this->getDoctrine()->getManager();
         $subcat = $em->getRepository("AppBundle:WasteTypeCategorySubCategory")->find($id);
 
-        $units = $subcat->getSubcatunit()->map(function ($sbu){
+        $units = $subcat->getSubcatunitNotKg()->map(function ($sbu){
             return $sbu->getUnit();
         });
         try {

@@ -26,7 +26,7 @@ class CompanyTypeSubAttributeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $companyTypes = $em->getRepository('AppBundle:CompanyType')->findBy(array(),array("typeName" => "ASC"));
-        return $this->render('agriApp/CompanyTypeSubAttribute/companyTypeSubAttributeRecords.html.twig',['companyTypes'=>$companyTypes]);
+        return $this->render('agriApp/CompanyTypeSubAttribute/companySubAttributes.html.twig',['companyTypes'=>$companyTypes]);
     }
 
     /**
@@ -104,10 +104,11 @@ class CompanyTypeSubAttributeController extends Controller
             if ($request->request) {
                 $em=$this->getDoctrine()->getManager();
 
-                $subAttribute = $em->getRepository('AppBundle:CompanyTypeAttributeSubAttribute')->find($request->request->get('subAttributeID'));
-                $attribute = $em->getRepository('AppBundle:CompanyTypeAttribute')->find($request->request->get('companyTypeAttribute'));
+                $subAttribute = $em->getRepository('AppBundle:CompanyTypeAttributeSubAttribute')->find($request->request->get('subAttributeIDEDIT'));
+                $attribute = $em->getRepository('AppBundle:CompanyTypeAttribute')->find($request->request->get('companyTypeAttributeEDIT'));
 
                 $subAttribute->setCompanyTypeAttribute($attribute);
+                $subAttribute->setName($request->request->get("subAttributeEDIT"));
 
                 $em->persist($subAttribute);
                 $em->flush();
