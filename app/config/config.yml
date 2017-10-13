@@ -51,9 +51,9 @@ doctrine:
         password: '%env(database_password)%'
         charset: UTF8
         options:
-                MYSQL_ATTR_SSL_CA : '%env(doctrn_ca)%'
-                MYSQL_ATTR_SSL_KEY : '%env(doctrn_private_key)%'
-                MYSQL_ATTR_SSL_CERT : '%env(doctrn_certificate)%'
+                MYSQL_ATTR_SSL_CA : '%env(cld_ca)%'
+                MYSQL_ATTR_SSL_KEY : '%env(cld_key)%'
+                MYSQL_ATTR_SSL_CERT : '%env(cld_cert)%'
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.project_dir%/var/data/data.sqlite"

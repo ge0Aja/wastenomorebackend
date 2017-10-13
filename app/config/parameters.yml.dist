@@ -10,10 +10,10 @@ parameters:
     # You should uncomment this if you want to use pdo_sqlite
     #database_path: '%kernel.project_dir%/var/data/data.sqlite'
 
-    env(mailer_transport): smtp
-    env(mailer_host): 127.0.0.1
-    env(mailer_user): ~
-    env(mailer_password): ~
+    #env(mailer_transport): smtp
+    #env(mailer_host): 127.0.0.1
+    #env(mailer_user): ~
+    #env(mailer_password): ~
 
     # A secret key that's used to generate certain security-related tokens
     env(secret): ThisTokenIsNotSoSecretChangeIt
@@ -22,8 +22,8 @@ parameters:
     env(jwt_public_key_path):  '---- Public key'    # ssh public key path
     env(jwt_key_pass_phrase):  'password'                                # ssh key pass phrase if present
     env(jwt_token_ttl):       10000
-    env(doctrn_ca): '---- ca path'
-    env(doctrn_private_key): '---- key path'
-    env(doctrn_certificate): '---- cert path'
+    env(cld_ca): '---- ca path'
+    env(cld_key): '---- key path'
+    env(cld_cert): '---- cert path'
 
 

@@ -29,6 +29,10 @@ class HerokuEnvironment
             putenv("database_user={$url['user']}");
             putenv("database_password={$url['pass']}");
             putenv("database_port=null");
+//            putenv("doctrn_ca=/app/var/doctrn/cleardb-ca.pem");
+//            putenv("doctrn_certificate=/app/var/doctrn/bfb8330e3ead61-cert.pem");
+//            putenv("doctrn_private_key=/app/var/doctrn/bfb8330e3ead61-key.pem");
+
 
             $db = substr($url['path'], 1);
             putenv("database_name={$db}");
